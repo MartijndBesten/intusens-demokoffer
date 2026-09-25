@@ -25,6 +25,39 @@
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="src/styles.css">
+<style>
+/* Mobiele demo: vaste boven- en onderbalk; alleen de inhoud ertussen scrollt. */
+@media (max-width:860px){
+  body.demo-mode{overflow:hidden}
+  .demo{
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr) auto;
+    height:100vh;
+    height:100dvh;
+    overflow:hidden;
+  }
+  .demo-top{
+    position:relative;
+    top:auto;
+    padding-top:max(10px,env(safe-area-inset-top));
+  }
+  .demo-body{
+    display:block;
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+  }
+  .demo-bottom{
+    position:relative;
+    bottom:auto;
+    padding-bottom:max(10px,env(safe-area-inset-bottom));
+  }
+  .demo-bottom .navb{flex-wrap:nowrap}
+  .demo-bottom .navb .btn{min-width:0}
+}
+</style>
 </head>
 <body>
 <header class="nav">
