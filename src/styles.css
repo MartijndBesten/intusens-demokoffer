@@ -43,7 +43,7 @@ p{margin:0 0 1em}
 .nav-links a.cta{background:var(--ink);color:#fff;font-weight:600;margin-left:8px}
 .nav-links a.cta:hover{background:var(--blue)}
 .nav-burger{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:var(--radius);padding:8px 10px;font-size:14px}
-@media (max-width:900px){
+@media (max-width:1100px){
   .nav-links{display:none;position:absolute;top:var(--nav-h);left:0;right:0;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;padding:8px var(--gutter) 16px;gap:0}
   .nav-links.open{display:flex}
   .nav-links a{padding:12px 8px;border-bottom:1px solid var(--surface);font-size:16px}
@@ -688,3 +688,14 @@ body.demo-mode .nav{display:none}
 .pd-img.wide:not(.dark){padding:8%}
 @media (max-width:800px){.pd-img.wide{height:auto;padding:0}.pd-img.wide:not(.dark){padding:6%}}
 .wire-noot{margin:10px 4px 0;font-size:13px;color:var(--grey);line-height:1.45}
+/* taalkeuze NL · EN · FR */
+.lang{display:inline-flex;align-items:center;gap:2px;margin-left:6px;font-size:13px;letter-spacing:.04em}
+.lang button{background:none;border:0;padding:6px 5px;color:var(--grey);font:inherit;font-size:13px;font-weight:600;letter-spacing:.06em;border-radius:3px}
+.lang button:hover{color:var(--ink)}
+.lang button.on{color:var(--ink);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px;text-decoration-color:var(--blue)}
+.lang i{font-style:normal;color:var(--grey-soft)}
+@media (max-width:1100px){.lang{margin:8px 0 0;padding-top:10px;border-top:1px solid var(--line);width:100%;justify-content:flex-start}.lang button{font-size:15px;padding:8px 10px}}
+/* langere navigatieteksten in EN/FR op desktop */
+@media (min-width:1101px){html[lang=en] .nav-links a,html[lang=fr] .nav-links a{font-size:13px;padding:8px 9px}html[lang=fr] .nav-links a.cta{padding:8px 12px}html[lang=en] .lang,html[lang=fr] .lang{margin-left:2px}}
+.nav-logo{flex:none;white-space:nowrap}
+@media (min-width:1101px) and (max-width:1180px){html[lang=fr] .nav-links a{font-size:12.5px;padding:8px 7px}html[lang=fr] .nav-links a.cta{padding:8px 10px}html[lang=fr] .lang button{padding:6px 3px}}

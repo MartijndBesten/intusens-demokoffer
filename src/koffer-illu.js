@@ -6,6 +6,7 @@
    Gebruik: KofferIllu.html({labels:true}) → HTML-string; KofferIllu.bind(rootEl, {onOpen(ref), info(ref)}). */
 (function () {
   'use strict';
+  function T(x) { return window.INTUSENS_T ? window.INTUSENS_T(x) : x; }
   var W = 720, H = 506;
   var C = {
     shell: '#171717', shellEdge: '#2e2e2e', tray: '#0c0c0c', trayEdge: '#242424',
@@ -189,7 +190,7 @@
         '<text x="523" y="421" font-size="8" text-anchor="middle" fill="#a8a8a8" font-family="Segoe UI, Arial, sans-serif">DALI-2 Broadcast</text>', which);
     }
     var parts = PARTS[which].map(function (p, i) {
-      var g = p[2](), ref = p[0], lab = p[1];
+      var g = p[2](), ref = p[0], lab = T(p[1]);
       var info = opts.info ? opts.info(ref) : null;
       var aria = (info && info.label ? info.label : lab);
       var lblFill = which === 'onderzijde' ? (ref === 'K01' ? '#555' : '#bbb') : '#c9c9c9';
@@ -197,14 +198,14 @@
       var lbl = '<text class="lbl" x="' + f(isRail ? g.lx + 10 : g.lx) + '" y="' + f(isRail ? g.ly + 3.5 : g.ly) + '" text-anchor="' + (isRail ? 'start' : 'middle') + '" fill="' + lblFill + '">' + lab + '</text>';
       return '<g class="kc" tabindex="0" role="link" data-ref="' + ref + '" data-i="' + i + '" aria-label="' + aria.replace(/"/g, '&quot;') + '"><g class="halo">' + g.halo + '</g><g class="body">' + g.body + '</g>' + lbl + '</g>';
     }).join('');
-    return '<svg class="illu-svg" viewBox="0 -10 ' + W + ' ' + (H + HX + 10) + '" role="img" aria-label="' + (which === 'deksel' ? 'Deksel van de demokoffer met alle bouwvormen' : 'Onderzijde van de demokoffer met de twee werkende sensoren') + '">' + defs + bg + parts + '</svg>';
+    return '<svg class="illu-svg" viewBox="0 -10 ' + W + ' ' + (H + HX + 10) + '" role="img" aria-label="' + (which === 'deksel' ? T('Deksel van de demokoffer met alle bouwvormen') : T('Onderzijde van de demokoffer met de twee werkende sensoren')) + '">' + defs + bg + parts + '</svg>';
   }
 
   function html(opts) {
     opts = opts || {};
     return '<div class="illu' + (opts.labels ? ' labels' : '') + (opts.compact ? ' compact' : '') + '">' +
-      '<figure class="illu-panel"><figcaption><b>Deksel</b><span>alle bouwvormen</span></figcaption>' + panel('deksel', opts) + '</figure>' +
-      '<figure class="illu-panel"><figcaption><b>Onderzijde</b><span>twee werkende sensoren</span></figcaption>' + panel('onderzijde', opts) + '</figure>' +
+      '<figure class="illu-panel"><figcaption><b>' + T('Deksel') + '</b><span>' + T('alle bouwvormen') + '</span></figcaption>' + panel('deksel', opts) + '</figure>' +
+      '<figure class="illu-panel"><figcaption><b>' + T('Onderzijde') + '</b><span>' + T('twee werkende sensoren') + '</span></figcaption>' + panel('onderzijde', opts) + '</figure>' +
       '<div class="illu-tip" role="status" aria-live="polite"></div></div>';
   }
 
@@ -264,20 +265,20 @@
   function icon(kind) {
     var st = 'fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"';
     if (kind === 'aansluiten') {
-      return '<svg class="qs-svg" viewBox="0 0 240 160" role="img" aria-label="Netsnoer achter in de koffer en in het stopcontact">' +
+      return '<svg class="qs-svg" viewBox="0 0 240 160" role="img" aria-label="' + T('Netsnoer achter in de koffer en in het stopcontact') + '">' +
         '<rect x="18" y="34" width="120" height="92" rx="14" fill="#1b1b1b"/><rect x="26" y="42" width="104" height="76" rx="9" fill="none" stroke="#333" stroke-width="1.2"/>' +
         '<rect x="66" y="74" width="24" height="18" rx="3" fill="#0d0d0d" stroke="#555" stroke-width="1.2"/><rect x="71" y="79" width="3" height="8" fill="#888"/><rect x="76.5" y="79" width="3" height="8" fill="#888"/><rect x="82" y="79" width="3" height="8" fill="#888"/>' +
         '<rect x="48" y="75" width="10" height="16" rx="2" fill="#0d0d0d" stroke="#555" stroke-width="1.2"/>' +
         '<path d="M90 83 C 130 83, 140 120, 176 120" ' + st + ' stroke="#4097DB"/>' +
         '<rect x="176" y="98" width="46" height="46" rx="10" ' + st + '/><circle cx="191" cy="121" r="3" fill="#111"/><circle cx="207" cy="121" r="3" fill="#111"/>' +
-        '<text x="78" y="146" font-size="10" text-anchor="middle" fill="#6b6b6b" font-family="Segoe UI, Arial, sans-serif">achterzijde koffer</text></svg>';
+        '<text x="78" y="146" font-size="10" text-anchor="middle" fill="#6b6b6b" font-family="Segoe UI, Arial, sans-serif">' + T('achterzijde koffer') + '</text></svg>';
     }
-    return '<svg class="qs-svg" viewBox="0 0 240 160" role="img" aria-label="Hoofdschakelaar achterop aan">' +
+    return '<svg class="qs-svg" viewBox="0 0 240 160" role="img" aria-label="' + T('Hoofdschakelaar achterop aan') + '">' +
       '<rect x="70" y="26" width="100" height="108" rx="14" fill="#1b1b1b"/><rect x="100" y="42" width="40" height="76" rx="6" fill="#0d0d0d" stroke="#555" stroke-width="1.2"/>' +
       '<path d="M104 80 L136 66 L136 112 L104 112 Z" fill="#2a2a2a" stroke="#6a6a6a" stroke-width="1"/><path d="M104 46 L136 46 L136 66 L104 80 Z" fill="#3a3a3a" stroke="#6a6a6a" stroke-width="1"/>' +
       '<text x="120" y="60" font-size="13" text-anchor="middle" fill="#4097DB" font-family="Segoe UI, Arial, sans-serif" font-weight="700">I</text>' +
       '<text x="120" y="102" font-size="11" text-anchor="middle" fill="#8a8a8a" font-family="Segoe UI, Arial, sans-serif" font-weight="700">O</text>' +
-      '<text x="120" y="152" font-size="10" text-anchor="middle" fill="#6b6b6b" font-family="Segoe UI, Arial, sans-serif">hoofdschakelaar</text></svg>';
+      '<text x="120" y="152" font-size="10" text-anchor="middle" fill="#6b6b6b" font-family="Segoe UI, Arial, sans-serif">' + T('hoofdschakelaar') + '</text></svg>';
   }
 
   window.KofferIllu = { html: html, bind: bind, sensor: sensor, part: part, icon: icon };
