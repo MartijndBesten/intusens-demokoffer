@@ -490,3 +490,36 @@ body.demo-mode .nav{display:none}
 .demo-in .annot-list span{font-size:15px}
 .pd-sec .tech-d{border-top:none;padding-top:0;margin-top:0}.pd-sec .tech-d summary{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}.pd-sec .tech-d summary::before{border-color:var(--blue)}
 .hero .brand img{height:clamp(22px,2.4vw,30px);width:auto;display:block}
+
+/* ---- mobiele demo compact (v0.6) ---- */
+@media (max-width:860px){
+  .demo{display:block;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .demo-top{position:sticky;top:0;z-index:2;background:#fff;padding:10px 16px}
+  .demo-body{display:block;overflow:visible}
+  .demo-in{padding:14px 16px 8px;gap:14px}
+  .demo-in .eyebrow{display:none}
+  .demo-in h1{font-size:26px;margin:0 0 8px}
+  .demo-in .msg{font-size:17px;max-width:none}
+  .demo-in ul{margin:10px 0 0;font-size:14px}
+  .demo-in li{margin:2px 0}
+  .demo-vis{max-height:38vh;height:38vh;width:auto;max-width:100%;aspect-ratio:1;padding:6%}
+  .demo-fam{grid-template-columns:repeat(5,1fr);gap:6px}
+  .demo-fam>div{font-size:10px;gap:3px}
+  .df-img{padding:8%}
+  .demo-in .annot{gap:10px}
+  .demo-in .annot-vis{max-width:none;height:34vh;display:flex;justify-content:center}
+  .demo-in .annot-vis svg{height:100%;width:auto;box-shadow:none}
+  .demo-in .annot-list{flex-direction:row;flex-wrap:wrap;gap:6px 14px}
+  .demo-in .annot-list li{gap:6px;align-items:center}
+  .demo-in .annot-list i{width:22px;height:22px;font-size:12px}
+  .demo-in .annot-list b{font-size:14px;margin:0}
+  .demo-in .annot-list span{display:none}
+  .demo-illu{padding:10px}
+  .demo-illu .illu{grid-template-columns:1fr 1fr;gap:8px}
+  .demo-illu .illu-panel figcaption span,.demo-illu .illu-tools{display:none}
+  .demo-illu .illu-panel figcaption{margin:0 0 4px 2px}
+  .demo-illu .illu.labels .lbl{opacity:0}
+  .demo-bottom{position:sticky;bottom:0;background:#fff;padding:10px 16px;border-top:1px solid var(--line)}
+  .demo-bottom .navb{margin-left:0;width:100%;justify-content:space-between}
+  .demo-bottom .navb .btn{flex:1}
+}

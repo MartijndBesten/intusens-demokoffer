@@ -80,7 +80,7 @@
     var hero = '<section class="hero hero-illu"><div class="hero-in">' +
       '<div class="hero-text"><div class="brand"><img src="assets/brand/trilux-logo-wit-crop.png" alt="TRILUX"></div>' +
       '<h1>IntuSens<small>Demokoffer</small></h1>' +
-      '<p class="sub">Ontdek de sensorfamilie van TRILUX: vijf bouwvormen, één bedienconcept, direct te bekijken en te bedienen.</p>' +
+      '<p class="sub">De sensorfamilie van TRILUX voor aanwezigheids- en daglichtafhankelijke lichtregeling, van kantoor tot hal.</p>' +
       '<div class="hero-actions">' +
       link('#/demo', 'btn light', 'Start demo') + link('#/koffer', 'btn outline-light', 'Bekijk de koffer') +
       link('#/familie', 'btn outline-light', 'Sensorfamilie') + link('#/snelstart', 'btn outline-light', 'Snelstart') +
@@ -91,18 +91,18 @@
     var strip = '<div class="strip">' + [
       ['PIR + daglicht', 'meet beweging en beschikbaar daglicht'],
       ['Tot 18 m', 'montagehoogtes van 2 tot 18 meter'],
-      ['Zonder app', 'instellen op de sensor: draairing en display'],
+      ['Vijf bouwvormen', 'plafond · Zhaga Book 18 · MiniR · MiniS · Rail'],
       ['Vier varianten', 'Switch · DALI-2 Broadcast · DALI-2 Input Device · Bluetooth NLC']
     ].map(function (x) { return '<div><b>' + x[0] + '</b><span>' + x[1] + '</span></div>'; }).join('') + '</div>';
     var intro = section('', '<div class="head"><div class="eyebrow">Wat is IntuSens?</div><h2>' + esc(P.familie.claim) + '</h2></div>' + strip);
     var routes = section('grey', '<div class="head"><div class="eyebrow">Verder kijken</div><h2>Waar wilt u beginnen?</h2></div><div class="grid g4">' + [
       ['#/koffer', 'De koffer', 'Wat zit waar, klikbaar per onderdeel.'],
-      ['#/familie', 'Sensorfamilie', 'Vijf bouwvormen, één bedienconcept.'],
+      ['#/familie', 'Sensorfamilie', 'Vijf bouwvormen, van plafond tot lichtlijn.'],
       ['#/bediening/switch', 'Bediening', 'Zo stelt u Switch en Broadcast in.'],
       ['#/demo', 'Demo', 'Een rondleiding in acht stappen.']
     ].map(function (x) { return '<a class="card route" href="' + x[0] + '"><div class="card-body"><b>' + x[1] + '</b><span class="sub">' + x[2] + '</span><i class="arrow">→</i></div></a>'; }).join('') + '</div>');
     var use = section('', '<div class="grid g2"><div><div class="eyebrow">Toepassingen</div><h2>Van kantoor tot magazijn</h2><p class="lead">Dezelfde sensorfamilie voor ' + P.familie.toepassingen.lijst.join(', ') + '.</p></div>' +
-      '<div class="kv"><div class="box"><h4>Lokaal regelen</h4><ul><li>Switch: schakelt de verlichting direct.</li><li>DALI-2 Broadcast: regelt alle armaturen op de lijn als één groep.</li><li>Instellen op de sensor, zonder app.</li></ul></div>' +
+      '<div class="kv"><div class="box"><h4>Lokaal regelen</h4><ul><li>Switch: schakelt de verlichting direct.</li><li>DALI-2 Broadcast: regelt alle armaturen op de lijn als één groep.</li><li>Switch en Broadcast: instellen op de sensor, zonder app.</li></ul></div>' +
       '<div class="box"><h4>Centraal lichtmanagement</h4><ul><li>DALI-2 Input Device: levert aanwezigheid en licht aan LiveLink.</li><li>Groepen, scènes en gebouwkoppeling in het systeem.</li><li>Bluetooth NLC: draadloze variant binnen de familie.</li></ul></div></div></div>');
     return hero + intro + routes + use;
   }
@@ -219,7 +219,7 @@
       table = section('fade', '<div class="head"><div class="eyebrow">Alle technische gegevens</div><h2>Bouwvormen vergeleken</h2></div><div class="tbl-wrap cmp-tbl"><table><thead><tr><th></th>' + V2.kolommen.map(function (id) { return '<th>' + esc(bouwvorm(id).naam.replace('IntuSens ', '')) + '</th>'; }).join('') + '</tr></thead><tbody>' +
         V2.rijen.map(function (r) { return '<tr><th scope="row">' + r[0] + '</th>' + r.slice(1).map(function (v) { return '<td' + (v === '—' ? ' class="dash"' : '') + '>' + esc(v) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>');
     }
-    return section('tight', '<div class="head"><div class="eyebrow">Sensorfamilie</div><h2>Eén familie. Vijf bouwvormen.</h2><p class="lead">Dezelfde detectie en dezelfde bedienfilosofie. Alleen de plek verschilt: op het plafond, op het armatuur, in het armatuur of in de lichtlijn.</p></div>' + cards + heights +
+    return section('tight', '<div class="head"><div class="eyebrow">Sensorfamilie</div><h2>Eén familie. Vijf bouwvormen.</h2><p class="lead">Eén sensorfamilie, vijf bouwvormen voor verschillende montage- en toepassingssituaties: op het plafond, op het armatuur, in het armatuur of in de lichtlijn.</p></div>' + cards + heights +
       '<div class="btn-row" style="margin-top:28px">' + link('#/familie?alles=1' + (q.bouwvorm ? '&bouwvorm=' + q.bouwvorm : ''), 'btn ghost', 'Alle technische gegevens') + link('#/varianten', 'btn ghost', 'De vier regelvarianten') + '</div>') + detail + table;
   }
 

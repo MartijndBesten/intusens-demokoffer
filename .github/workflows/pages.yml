@@ -30,3 +30,20 @@ jobs:
           path: .
       - id: deployment
         uses: actions/deploy-pages@v4
+  check:
+    # Controle na deploy: bereikbaarheid, HTTPS-certificaat en doorverwijzingen (faalt de deploy niet).
+    needs: deploy
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Controle live site
+        run: |
+          sleep 60
+          for u in http://intusens-demokoffer.nl/ https://intusens-demokoffer.nl/ http://www.intusens-demokoffer.nl/ https://www.intusens-demokoffer.nl/; do
+            printf '%-42s ' "$u"
+            curl -s -o /dev/null -w 'status=%{http_code} naar=%{redirect_url} tls=%{ssl_verify_result}\n' --max-time 20 "$u" || echo "fout (curl $?)"
+          done
+          echo '--- certificaat'
+          echo | openssl s_client -servername intusens-demokoffer.nl -connect intusens-demokoffer.nl:443 2>/dev/null | openssl x509 -noout -subject -issuer -ext subjectAltName -dates || echo 'geen geldig certificaat'
+          echo '--- DNS'
+          dig +short intusens-demokoffer.nl A; dig +short intusens-demokoffer.nl AAAA; dig +short www.intusens-demokoffer.nl CNAME; dig +short intusens-demokoffer.nl CAA
