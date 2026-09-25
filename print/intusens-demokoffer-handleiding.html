@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IntuSens Demokoffer · handleiding (print)</title>
+<style>
+  @page{size:A4;margin:16mm 16mm 18mm}
+  :root{--ink:#000;--grey:#494A48;--line:#DDDDDD;--blue:#072D78;--warn:#C80A46;--surface:#F6F6F6}
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);margin:0;line-height:1.45;font-size:11pt;background:#fff}
+  .page{max-width:190mm;margin:0 auto;padding:12mm 0}
+  h1{font-size:26pt;margin:0 0 4pt;letter-spacing:-.02em}
+  h2{font-size:15pt;margin:0 0 8pt;padding-top:6pt;border-top:2px solid var(--ink)}
+  h3{font-size:11.5pt;margin:10pt 0 4pt}
+  p{margin:0 0 6pt}
+  .eyebrow{font-size:8.5pt;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);font-weight:600}
+  .brand{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:8pt;margin-bottom:14pt}
+  .brand img{height:16pt}
+  .qrbox{display:flex;gap:10pt;align-items:center;border:1px solid var(--line);padding:6pt 8pt;margin:8pt 0 14pt}
+  .qrbox img{width:64pt;height:64pt}
+  .qrbox b{display:block}
+  .qrbox span{font-size:9pt;color:var(--grey)}
+  .brand span{font-size:9pt;color:var(--grey)}
+  section{break-inside:avoid;margin-bottom:16pt}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6pt}
+  .steps div{border:1px solid var(--line);padding:8pt;font-size:9.5pt}
+  .steps i{font-style:normal;font-weight:700;color:var(--blue);font-size:14pt;display:block}
+  table{border-collapse:collapse;width:100%;font-size:9pt}
+  th,td{text-align:left;padding:4pt 5pt;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--surface);font-size:8pt;text-transform:uppercase;letter-spacing:.06em}
+  .mono{font-family:Consolas,Menlo,monospace;font-size:8.5pt}
+  .na{color:var(--warn)}
+  .note{border-left:3px solid var(--blue);padding:6pt 8pt;background:#E9F2FB;font-size:9.5pt;margin:8pt 0}
+  .note.warn{border-color:var(--warn);background:#FBECF1}
+  ul{margin:0 0 6pt;padding-left:16pt}
+  li{margin:1pt 0}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12pt}
+  .small{font-size:9pt;color:var(--grey)}
+  .imgrow{display:grid;grid-template-columns:repeat(5,1fr);gap:6pt}
+  .imgrow div{border:1px solid var(--line);padding:4pt;text-align:center;font-size:8.5pt}
+  .imgrow img{width:100%;height:60pt;object-fit:contain;display:block;margin-bottom:3pt}
+  .fotos{display:grid;grid-template-columns:1fr 1fr;gap:8pt}
+  .fotos figure{margin:0}
+  .fotos img{width:100%;border:1px solid var(--line)}
+  .fotos figcaption{font-size:8.5pt;color:var(--grey);margin-top:2pt}
+  .print-btn{position:fixed;top:12px;right:12px;padding:8px 14px;background:#000;color:#fff;border:0;border-radius:4px;font:inherit;cursor:pointer}
+  @media print{.print-btn{display:none}.page{padding:0}}
+  .footer{font-size:8pt;color:var(--grey);border-top:1px solid var(--line);padding-top:6pt;margin-top:14pt}
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">Afdrukken / PDF</button>
+<div class="page" id="page"><p>Data laden…</p></div>
+<script src="../src/data.js"></script>
+<script>
+(function(){
+  var D=window.INTUSENS_DATA,P=D.producten,K=D.koffer,B=D.bediening,DEMO=D.demo;
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function v(f){return f&&f.waarde!=null?esc(f.waarde)+(f.status!=='bevestigd'?' <span class="na">('+esc(f.status)+(f.open?' · '+esc(f.open):'')+')</span>':''):'<span class="na">nog te verifiëren'+(f&&f.open?' ('+esc(f.open)+')':'')+'</span>';}
+  var h='';
+  h+='<div class="brand"><img src="../assets/brand/trilux-logo-kleur-zwart.png" alt="TRILUX"><span>IntuSens demokoffer · handleiding · versie '+esc(P._meta.versie)+' · '+esc(D._gebouwd)+' · intern</span></div>';
+  h+='<div class="eyebrow">TRILUX IntuSens Demokoffer</div><h1>Demokoffer — snelle handleiding</h1><p class="small">Printvriendelijke samenvatting van de Interactive Sales Guide. Waarden zonder officiële bron staan als "nog te verifiëren"; zie OPEN-PUNTEN.md.</p>';
+  h+='<div class="qrbox"><img src="../assets/qr/intusens-demokoffer.png" alt="QR-code naar de online versie"><div><b>Online versie</b><span>Scan de QR-code of ga naar intusens-demokoffer.nl (na publicatie; zie README, optie C).</span></div></div>';
+  h+='<section><h2>1. Demokoffer in 30 seconden</h2><div class="steps">'+K.snelstart.map(function(s){return '<div><i>'+s.n+'</i><b>'+esc(s.titel)+'</b><br>'+esc(s.tekst)+'</div>';}).join('')+'</div>';
+  h+='<div class="note"><b>Goed om te weten:</b> '+K.snelstart_noten.map(function(n){return esc(n.tekst);}).join(' ')+'</div>';
+  h+='<p><b>Niet nodig voor de basisdemo:</b> '+K.niet_nodig.map(function(n){return esc(n.naam);}).join(' · ')+'. '+esc(K.uitbreiding_later)+'</p></section>';
+  h+='<section><h2>1b. Wat zit waar?</h2><div class="fotos"><figure><img src="../'+esc(K.stages[0].foto)+'" alt=""><figcaption>Deksel: '+esc(K.stages[0].tekst)+'</figcaption></figure><figure><img src="../'+esc(K.stages[1].foto)+'" alt=""><figcaption>Onderzijde: '+esc(K.stages[1].tekst)+'</figcaption></figure><figure><img src="../'+esc(K.foto_achter)+'" alt=""><figcaption>Achterzijde: '+K.achterzijde_labels.map(function(l){return esc(l.label);}).join(' · ')+'</figcaption></figure><figure><img src="../'+esc(K.foto_hoesje)+'" alt=""><figcaption>Hoesje met het 230 V-netsnoer</figcaption></figure></div></section>';
+  h+='<section><h2>2. Wat is IntuSens?</h2><p>'+esc(P.familie.claim)+'</p><ul>'+P.familie.kern.map(function(k){return '<li>'+esc(k.tekst)+'</li>';}).join('')+'</ul><p class="small">Bron: trilux.com IntuSens-productpagina (A08), TRILUX klantpresentatie 18-05-2026 (B03).</p></section>';
+  h+='<section><h2>3. De vier regelvarianten</h2><table><tr><th>Variant</th><th>Kern</th><th>Wat zeg ik?</th></tr>'+P.regelvarianten.map(function(r){return '<tr><td><b>'+esc(r.naam)+'</b>'+(r.status!=='bevestigd'?'<br><span class="na">status: '+esc(r.status)+'</span>':'')+'</td><td>'+esc(r.kop)+'<ul>'+r.uitleg.map(function(u){return '<li>'+esc(u)+'</li>';}).join('')+'</ul></td><td>'+esc(r.verkoper_zegt)+'</td></tr>';}).join('')+'</table></section>';
+  h+='<section><h2>4. Één familie, vijf montagevormen</h2><div class="imgrow">'+P.bouwvormen.map(function(f){return '<div>'+(f.beelden[0]?'<img src="../'+esc(f.beelden[0])+'" alt="">':'<div style="height:60pt;background:#f3f3f3;margin-bottom:3pt;font-size:8pt;display:flex;align-items:center;justify-content:center">geen beeld</div>')+'<b>'+esc(f.naam.replace('IntuSens ',''))+'</b><br>'+esc(f.sub)+'</div>';}).join('')+'</div>';
+  h+='<table style="margin-top:8pt"><tr><th>Bouwvorm</th><th>Montage</th><th>Optiek</th><th>Interfaces</th><th>IP</th><th>Montagehoogte</th><th>Kleuren</th></tr>'+P.bouwvormen.map(function(f){return '<tr><td><b>'+esc(f.naam.replace('IntuSens ',''))+'</b></td><td>'+v(f.montage)+'</td><td>'+v(f.optiek)+'</td><td>'+v(f.interfaces)+'</td><td>'+v(f.ip)+'</td><td>'+v(f.montagehoogte)+'</td><td>'+v(f.kleuren)+'</td></tr>';}).join('')+'</table><p class="small">Detectiediameters zijn niet uit een officiële bron bevestigd en staan daarom niet in dit overzicht (OP-01).</p></section>';
+  h+='<section><h2>5. Inhoud van de koffer — artikelgegevens</h2><table><tr><th>ID</th><th>Onderdeel</th><th>Typecode</th><th>TOC</th><th>TK</th><th>Rol</th></tr>'+P.producten.map(function(p){return '<tr><td>'+p.id+'</td><td><b>'+esc(p.kort)+'</b><br><span class="small">'+esc(p.sub)+'</span></td><td class="mono">'+(p.designation?esc(p.designation)+(p.designation_status!=='bevestigd'?' <span class="na">('+esc(p.designation_status)+')</span>':''):'<span class="na">nog te bepalen</span>')+'</td><td class="mono">'+(p.toc?esc(p.toc)+' <span class="na">('+esc(p.toc_status)+')</span>':'<span class="na">te verifiëren</span>')+'</td><td>'+(p.tk?esc(p.tk):'<span class="na">TK nog te verifiëren</span>')+'</td><td>'+esc(p.kofferrol)+'</td></tr>';}).join('')+'</table><p class="small">TOC en TK zijn verschillende nummers. Geen enkel nummer in deze tabel is in deze versie tegen trilux.com of SAP gecontroleerd.</p></section>';
+  h+='<section><h2>6. Bediening Switch en DALI-2 Broadcast</h2><div class="two"><div><h3>Officieel bevestigd</h3><ul>'+B.gemeenschappelijk.bevestigd.map(function(t){return '<li>'+esc(t)+'</li>';}).join('')+'</ul><h3>Principe (schematisch)</h3><ol style="padding-left:16pt">'+B.stappen.map(function(s){return '<li><b>'+esc(s.kop)+'</b> — '+esc(s.tekst)+'</li>';}).join('')+'</ol></div><div><h3>Nog niet bekend ('+esc(B.gemeenschappelijk.onbekend_open)+')</h3><ul>'+B.gemeenschappelijk.onbekend.map(function(t){return '<li>'+esc(t)+'</li>';}).join('')+'</ul><div class="note warn">Displaycodes die bij lang drukken verschijnen (ILC/LC/UC of vergelijkbaar) zijn waargenomen, niet gedocumenteerd. Niet interpreteren in het klantgesprek (OP-16).</div></div></div>';
+  h+='<h3>Broadcast-keten</h3><p>'+B.broadcast.keten.join(' → ')+'</p><div class="note warn">'+esc(B.broadcast.grenzen)+'</div></section>';
+  h+='<section><h2>7. Klantdemo in 8 stappen (± 5 minuten)</h2><table><tr><th>#</th><th>Scherm</th><th>Boodschap</th><th>Wat zeg ik?</th></tr>'+DEMO.schermen.map(function(s){return '<tr><td>'+s.n+'</td><td><b>'+esc(s.titel)+'</b></td><td>'+esc(s.boodschap)+'</td><td>'+esc(s.zeg)+'</td></tr>';}).join('')+'</table></section>';
+  h+='<div class="footer">TRILUX IntuSens demokoffer · Interactive Sales Guide · intern hulpmiddel · bronnen: SOURCES.md · open punten: OPEN-PUNTEN.md · gegenereerd uit data/*.json</div>';
+  document.getElementById('page').innerHTML=h;
+})();
+</script>
+</body>
+</html>
