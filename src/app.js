@@ -21,6 +21,49 @@
     return '<div class="ph"><b>Foto volgt</b><span>' + esc(note || 'nog geen beeld beschikbaar') + '</span></div>';
   }
   function link(href, cls, text) { return '<a href="' + esc(href) + '" class="' + esc(cls) + '">' + text + '</a>'; }
+  function ext(l, cls) { return l ? '<a class="ext ' + (cls || '') + '" href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + '</a>' : ''; }
+  function linksRow(list, label) { list = (list || []).filter(Boolean); return list.length ? '<div class="links"><span class="lbl">' + (label || 'Meer op trilux.com') + '</span>' + list.map(function (l) { return ext(l); }).join('') + '</div>' : ''; }
+  var SVG_SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>';
+  var SVG_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5h4"/></svg>';
+  function actIcon(t) {
+    var st = 'fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+    if (t === 'hold') return '<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" ' + st + ' stroke="#4097DB"/><circle cx="22" cy="22" r="8" fill="#4097DB"/><path d="M22 3a19 19 0 0 1 19 19" ' + st + ' stroke-width="3"/></svg>';
+    if (t === 'press') return '<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" ' + st + '/><circle cx="22" cy="22" r="8" fill="#4097DB"/></svg>';
+    if (t === 'ring') return '<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" ' + st + '/><circle cx="22" cy="22" r="11" ' + st + ' stroke="#4097DB"/><path d="M8 14l-3-4M8 14l-5 1" ' + st + ' stroke="#4097DB"/><path d="M36 30l3 4M36 30l5-1" ' + st + ' stroke="#4097DB"/></svg>';
+    return '<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" ' + st + '/><path d="M22 12v10l7 4" ' + st + ' stroke="#4097DB"/></svg>';
+  }
+  function flowPanel(st) {
+    var led = function (k, svg, name) { var m = (st.leds || {})[k] || 'off'; return '<span class="led ' + k + ' ' + m + '">' + svg + name + '</span>'; };
+    var seq = st.reeks ? '<div class="fp-seq">' + st.reeks.map(function (c, i) { return (i ? ' → ' : '') + (i === st.reeks.length - 1 ? '<b>' + esc(c) + '</b>' : esc(c)); }).join('') + '</div>' : '';
+    var ring = st.actie.type === 'ring' || /draaien/.test(st.actie.sub || '') ? '<div class="fp-ring"><i>◀</i> draairing <i>▶</i></div>' : '';
+    return '<div class="fp-screen"><div class="fp-code">' + esc(st.display) + '</div><div class="fp-leds">' + led('zon', SVG_SUN, 'licht') + led('klok', SVG_CLOCK, 'beweging') + '</div></div>' + seq +
+      '<div class="fp-act">' + actIcon(st.actie.type) + '<div><b>' + esc(st.actie.label) + '</b><span>' + esc(st.actie.sub) + '</span></div></div>' + ring;
+  }
+  function flowDetail(flow, i) {
+    var st = flow[i];
+    return '<h3>' + (i + 1) + '. ' + esc(st.kop) + '</h3><ul>' + st.uitleg.map(function (u) { return '<li>' + esc(u) + '</li>'; }).join('') + '</ul>' +
+      (st.bereik ? '<div class="bereik"><span>Instelbereik</span><b>' + esc(st.bereik) + '</b></div>' : '') +
+      (st.opties ? '<div class="opts">' + st.opties.map(function (o) { return '<div><b>' + esc(o[0]) + '</b>' + esc(o[1]) + '</div>'; }).join('') + '</div>' : '') +
+      '<div class="fl-nav"><button class="btn ghost sm" data-go="-1"' + (i === 0 ? ' disabled' : '') + '>‹ Vorige</button><button class="btn sm" data-go="1"' + (i === flow.length - 1 ? ' disabled' : '') + '>Volgende ›</button></div>';
+  }
+  function flowHtml(id, flow) {
+    return '<div class="flow" id="' + id + '"><div class="fp">' + flowPanel(flow[0]) + '</div><div><ol class="fl-steps">' +
+      flow.map(function (st, i) { return '<li><button class="fl-step' + (i ? '' : ' on') + '" data-i="' + i + '"><i>' + (i + 1) + '</i><b>' + esc(st.kop) + '</b><span class="act">' + esc(st.actie.label) + '<span class="code">' + esc(st.display) + '</span></span></button></li>'; }).join('') +
+      '</ol><div class="fl-detail">' + flowDetail(flow, 0) + '</div></div></div>';
+  }
+  function bindFlow(id, flow) {
+    var root = document.getElementById(id); if (!root) return;
+    var cur = 0, panel = root.querySelector('.fp'), det = root.querySelector('.fl-detail');
+    function show(i) {
+      cur = Math.max(0, Math.min(flow.length - 1, i));
+      panel.innerHTML = flowPanel(flow[cur]); det.innerHTML = flowDetail(flow, cur);
+      root.querySelectorAll('.fl-step').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-i') === cur); });
+    }
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('.fl-step'); if (b) { show(+b.getAttribute('data-i')); return; }
+      var g = e.target.closest('[data-go]'); if (g && !g.disabled) show(cur + (+g.getAttribute('data-go')));
+    });
+  }
   function toast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove('on'); }, 1800); }
   function section(cls, inner) { return '<section class="section ' + (cls || '') + '"><div class="wrap">' + inner + '</div></section>'; }
   function salesImg(p, cls) { // productbeeld voor sales: officieel of koffer; Zhaga als illustratie
@@ -75,6 +118,20 @@
     var cb = wrap.querySelector('.illu-lbl'); if (cb) cb.addEventListener('change', function () { root.classList.toggle('labels', cb.checked); });
   }
 
+  function illuHighlight(id, ref) { // vaste markering van één onderdeel (Toon positie in de koffer)
+    var wrap = document.getElementById(id); if (!wrap) return;
+    var root = wrap.querySelector('.illu'), g = root && root.querySelector('.kc[data-ref="' + ref + '"]'); if (!g) return;
+    root.classList.add('hovering', 'labels'); g.classList.add('on');
+    var cb = wrap.querySelector('.illu-lbl'); if (cb) cb.checked = true;
+    var clear = function () { g.classList.remove('on'); root.classList.remove('hovering'); root.removeEventListener('mouseover', clear); root.removeEventListener('touchstart', clear); };
+    root.addEventListener('mouseover', clear); root.addEventListener('touchstart', clear);
+    setTimeout(function () { g.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60);
+  }
+  function kofferPositie(ref) { // 'Deksel · IntuSens MiniR (wit, HB 01)'
+    for (var i = 0; i < K.stages.length; i++) for (var j = 0; j < K.stages[i].hotspots.length; j++) { var h = K.stages[i].hotspots[j]; if (h.ref === ref) return K.stages[i].titel.split(':')[0] + ' · ' + h.label; }
+    return null;
+  }
+
   /* ---------- START ---------- */
   function viewStart() {
     var hero = '<section class="hero hero-illu"><div class="hero-in">' +
@@ -96,7 +153,7 @@
     var intro = section('', '<div class="head"><div class="eyebrow">Wat is IntuSens?</div><h2>' + esc(P.familie.claim) + '</h2></div>' + strip);
     var routes = section('grey', '<div class="head"><div class="eyebrow">Verder kijken</div><h2>Waar wilt u beginnen?</h2></div><div class="grid g5 routes">' + [
       ['#/koffer', 'De koffer', 'Wat zit waar, klikbaar per onderdeel.'],
-      ['#/familie', 'Sensorfamilie', 'Vijf bouwvormen, van plafond tot lichtlijn.'],
+      ['#/familie', 'Sensorfamilie', 'Vijf bouwvormen, van plafond tot rail.'],
       ['#/snelstart', 'Snelstart', 'In drie stappen klaar voor de demonstratie.'],
       ['#/bediening/switch', 'Bediening', 'Zo stelt u Switch en Broadcast in.'],
       ['#/demo', 'Demo', 'Een rondleiding in acht stappen.']
@@ -140,7 +197,7 @@
       section('grey', '<div class="head"><div class="eyebrow">Alle onderdelen</div><h2>Wat zit er in de koffer?</h2></div>' + grid) +
       section('tight', '<div class="head"><div class="eyebrow">In het echt</div><h2>Zo ziet de koffer eruit</h2></div>' + stagesHtml + editor) +
       section('', '<div class="head"><div class="eyebrow">Achterzijde</div><h2>Aansluitingen aan de achterzijde</h2><p class="lead">' + esc(K.uitbreiding_later) + '</p></div>');
-    setTimeout(function () { bindKoffer(edit); illuBind('illu-koffer'); }, 0);
+    setTimeout(function () { bindKoffer(edit); illuBind('illu-koffer'); if (q.hl) illuHighlight('illu-koffer', q.hl); }, 0);
     return html;
   }
   function bindKoffer(edit) {
@@ -211,7 +268,7 @@
       detail = section('grey fade', '<div class="pd-hero">' + famImg(sel, 'pd-img') + '<div class="pd-title"><div class="fam-name">Bouwvorm</div><h1>' + esc(sel.naam) + '</h1><p class="sell">' + esc(sel.sales.wat) + '</p>' +
         '<div class="lvl"><h4>Toepassing</h4><p>' + esc(sel.sales.toepassing) + '</p></div>' +
         '<details class="tech-d"><summary>Techniek</summary><dl class="spec">' + tech + '</dl></details>' +
-        '<h4 class="in-koffer">In de koffer</h4><div class="minis">' + prods + '</div></div></div>');
+        '<h4 class="in-koffer">In de koffer</h4><div class="minis">' + prods + '</div>' + linksRow(sel.sales.links || [P.familie.links[1]]) + '</div></div>');
     }
     var table = '';
     if (all) {
@@ -219,15 +276,15 @@
       table = section('fade', '<div class="head"><div class="eyebrow">Alle technische gegevens</div><h2>Bouwvormen vergeleken</h2></div><div class="tbl-wrap cmp-tbl"><table><thead><tr><th></th>' + V2.kolommen.map(function (id) { return '<th>' + esc(bouwvorm(id).naam.replace('IntuSens ', '')) + '</th>'; }).join('') + '</tr></thead><tbody>' +
         V2.rijen.map(function (r) { return '<tr><th scope="row">' + r[0] + '</th>' + r.slice(1).map(function (v) { return '<td' + (v === '—' ? ' class="dash"' : '') + '>' + esc(v) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>');
     }
-    return section('tight', '<div class="head"><div class="eyebrow">Sensorfamilie</div><h2>Eén familie. Vijf bouwvormen.</h2><p class="lead">Eén sensorfamilie, vijf bouwvormen voor verschillende montage- en toepassingssituaties: op het plafond, op het armatuur, in het armatuur of in de lichtlijn.</p></div>' + cards + heights +
-      '<div class="btn-row" style="margin-top:28px">' + link('#/familie?alles=1' + (q.bouwvorm ? '&bouwvorm=' + q.bouwvorm : ''), 'btn ghost', 'Alle technische gegevens') + link('#/varianten', 'btn ghost', 'De vier regelvarianten') + '</div>') + detail + table;
+    return section('tight', '<div class="head"><div class="eyebrow">Sensorfamilie</div><h2>Eén familie. Vijf bouwvormen.</h2><p class="lead">Eén sensorfamilie, vijf bouwvormen voor verschillende montage- en toepassingssituaties: op het plafond, op het armatuur, in het armatuur of in de 3-fase DALI-rail.</p></div>' + cards + heights +
+      '<div class="btn-row" style="margin-top:28px">' + link('#/familie?alles=1' + (q.bouwvorm ? '&bouwvorm=' + q.bouwvorm : ''), 'btn ghost', 'Alle technische gegevens') + link('#/varianten', 'btn ghost', 'De vier regelvarianten') + '</div>' + linksRow(P.familie.links)) + detail + table;
   }
 
   /* ---------- VARIANTEN ---------- */
   function viewVarianten() {
     var v = P.regelvarianten;
     var cards = '<div class="var">' + v.map(function (x) {
-      return '<div class="card"><div class="card-img' + (x.id === 'switch' || x.id === 'ipd' ? ' dark' : '') + '"><img src="' + esc(x.beeld) + '" alt="' + esc(x.naam) + '"></div><div class="card-body"><b>' + esc(x.naam) + '</b><div class="kop">' + esc(x.kop) + '</div><ul>' + x.uitleg.map(function (u) { return '<li>' + esc(u) + '</li>'; }).join('') + '</ul></div></div>';
+      return '<div class="card"><div class="card-img' + (x.id === 'switch' || x.id === 'ipd' ? ' dark' : '') + '"><img src="' + esc(x.beeld) + '" alt="' + esc(x.naam) + '"></div><div class="card-body"><b>' + esc(x.naam) + '</b><div class="kop">' + esc(x.kop) + '</div><ul>' + x.uitleg.map(function (u) { return '<li>' + esc(u) + '</li>'; }).join('') + '</ul>' + (x.link ? '<p class="small" style="margin:10px 0 0">' + ext(x.link) + '</p>' : '') + '</div></div>';
     }).join('') + '</div>';
     var rows = [
       ['Wie regelt het licht?', 'de sensor zelf', 'de sensor zelf', 'het systeem (bv. LiveLink)'],
@@ -253,12 +310,14 @@
       sa.aanwijzingen.map(function (a, i) { return '<li><i>' + (i + 1) + '</i><div><b>' + esc(a[0]) + '</b><span>' + esc(a[1]) + '</span></div></li>'; }).join('') + '</ol></div>';
   }
   function viewBediening(kind) {
-    var isSw = kind !== 'broadcast', ref = isSw ? 'K01' : 'K02', sa = B.sales[isSw ? 'switch' : 'broadcast'];
+    var isSw = kind !== 'broadcast', ref = isSw ? 'K01' : 'K02', sa = B.sales[isSw ? 'switch' : 'broadcast'], naam = isSw ? 'Switch' : 'DALI-2 Broadcast';
     var tabs = '<div class="seg">' + link('#/bediening/switch', isSw ? 'on' : '', 'Switch') + link('#/bediening/broadcast', isSw ? '' : 'on', 'DALI-2 Broadcast') + '</div>';
-    var stappen = '<div class="steps3">' + sa.stappen.map(function (st, i) { return '<div class="s3"><i>' + (i + 1) + '</i><b>' + esc(st[0]) + '</b><p>' + esc(st[1]) + '</p></div>'; }).join('') + '</div>';
-    var keten = sa.keten ? section('grey', '<div class="head"><div class="eyebrow">Zo werkt het</div><h2>Eén sensor, één lichtgroep</h2></div><div class="flowline">' + sa.keten.map(function (k, i) { return (i ? '<span class="arr">→</span>' : '') + '<div' + (i === 1 ? ' class="hi"' : '') + '>' + esc(k) + '</div>'; }).join('') + '</div>') : '';
+    var fab = '<div class="fab">' + B.sales.fabriek.filter(function (f) { return isSw ? !/Broadcast/.test(f[1]) : true; }).map(function (f) { return '<div><span>' + esc(f[0]) + '</span><b>' + esc(f[1].replace(' · alleen DALI-2 Broadcast', '')) + '</b></div>'; }).join('') + '</div>';
+    var adv = sa.geavanceerd ? '<details class="tech-d adv"><summary>Meer / geavanceerd</summary><dl>' + sa.geavanceerd.map(function (g) { return '<dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd>'; }).join('') + '</dl></details>' : '';
+    var keten = sa.keten ? section('', '<div class="head"><div class="eyebrow">Zo werkt het</div><h2>Eén sensor, één lichtgroep</h2></div><div class="flowline">' + sa.keten.map(function (k, i) { return (i ? '<span class="arr">→</span>' : '') + '<div' + (i === 1 ? ' class="hi"' : '') + '>' + esc(k) + '</div>'; }).join('') + '</div>') : '';
+    setTimeout(function () { bindFlow('flow-' + ref, sa.flow); }, 0);
     return section('tight', tabs + '<div class="head"><h2>' + esc(sa.titel) + '</h2><p class="lead">' + esc(sa.sub) + '</p></div>' + annotated(ref) + '<p class="small muted" style="margin-top:18px">' + esc(sa.koffer) + '</p>') +
-      section(isSw ? 'grey' : '', '<div class="head"><div class="eyebrow">In drie stappen</div><h2>Zo werkt de bediening</h2></div>' + stappen +
+      section('grey', '<div class="head"><div class="eyebrow">Instellen op de sensor</div><h2>Zo stelt u de ' + naam + ' in</h2><p class="lead">Fabrieksinstellingen: ' + esc(B.sales.fabriek_noot) + '</p></div>' + fab + flowHtml('flow-' + ref, sa.flow) + adv +
         '<div class="btn-row" style="margin-top:28px">' + link('#/demo', 'btn', 'Start demo') + link('#/product/' + ref, 'btn ghost', 'Productinformatie') + '</div>') + keten;
   }
 
@@ -268,16 +327,19 @@
     var f = bouwvorm(p.family), sa = p.sales;
     var schema = p.id === 'K01' ? ['230 V', 'IntuSens Switch', 'verlichting aan/uit'] : p.id === 'K02' ? ['230 V', 'IntuSens Broadcast', 'DALI-bus', 'armaturen als één groep'] : ['DALI-2-bus', esc(p.kort), 'DALI-2-controller, bijv. LiveLink', 'groepen, scènes, koppelingen'];
     var schemaHtml = '<div class="schema">' + schema.map(function (x, i) { return (i ? '<span></span>' : '') + '<div' + (i === 1 ? ' class="hi"' : '') + '>' + x + '</div>'; }).join('') + '</div>';
-    var art = sa.artikel || {};
-    var artRows = [['Typecode', art.typecode], ['TOC', art.toc], ['TK', art.tk]].filter(function (r) { return r[1]; });
-    var tech = '<dl class="spec">' + sa.techniek.map(function (t) { return '<dt>' + esc(t[0]) + '</dt><dd>' + esc(t[1]) + '</dd>'; }).join('') +
-      artRows.map(function (r) { return '<dt>' + r[0] + '</dt><dd class="mono">' + esc(r[1]) + '</dd>'; }).join('') + '</dl>';
+    var art = sa.artikel || {}, pos = kofferPositie(p.id);
+    var artRows = [['Typecode', art.typecode, 1], ['TOC', art.toc, 1], ['TK', art.tk, 1], ['Uitvoering', art.uitvoering], ['Positie in de koffer', pos]].filter(function (r) { return r[1]; });
+    var tech = '<dl class="spec">' + sa.techniek.map(function (t) { return '<dt>' + esc(t[0]) + '</dt><dd>' + esc(t[1]) + '</dd>'; }).join('') + '</dl>';
+    var artikel = '<dl class="spec">' + artRows.map(function (r) { return '<dt>' + r[0] + '</dt><dd' + (r[2] ? ' class="mono"' : '') + '>' + esc(r[1]) + '</dd>'; }).join('') + '</dl>' +
+      '<div class="kpos">' + (pos ? link('#/koffer?hl=' + p.id, 'btn ghost sm', 'Toon positie in de koffer') : '') + (art.typecode ? '' : '<span class="small muted">Typecode en artikelnummers volgen zodra ze zijn bevestigd.</span>') + '</div>';
     var nav = '<div class="btn-row" style="margin-top:22px">' + (p.id === 'K01' ? link('#/bediening/switch', 'btn', 'Bediening') : p.id === 'K02' ? link('#/bediening/broadcast', 'btn', 'Bediening') : '') + link('#/familie?bouwvorm=' + p.family, 'btn ghost', 'Bouwvorm ' + esc(f.naam.replace('IntuSens ', ''))) + link('#/koffer', 'btn ghost', 'Terug naar de koffer') + '</div>';
     return section('tight', '<div class="crumbs">' + link('#/koffer', '', 'De koffer') + ' › ' + link('#/familie?bouwvorm=' + p.family, '', esc(f.naam)) + '</div><div class="pd-hero">' + salesImg(p, 'pd-img') + '<div class="pd-title"><div class="fam-name">' + esc(f.naam) + (p.kofferrol === 'actief' ? ' · <span class="tag dark">werkend in de koffer</span>' : '') + '</div><h1>' + esc(p.kort) + '</h1><p class="pd-sub">' + esc(sa.sub) + '</p><p class="sell">' + esc(sa.wat) + '</p>' + nav + '</div></div>') +
       section('tight', '<div class="lv3">' +
         '<div class="pd-sec"><h2>Zo werkt het</h2>' + schemaHtml + '</div>' +
         '<div class="pd-sec"><h2>Toepassingen</h2><div class="chips">' + sa.waar.map(function (t) { return '<span class="chip">' + esc(t) + '</span>'; }).join('') + '</div></div>' +
-        '<div class="pd-sec"><details class="tech-d"><summary>Techniek</summary>' + tech + '</details></div></div>');
+        '<div class="pd-sec"><details class="tech-d"><summary>Techniek</summary>' + tech + '</details></div>' +
+        '<div class="pd-sec"><details class="tech-d art-d"><summary>Artikelgegevens</summary>' + artikel + '</details></div>' +
+        (sa.link ? '<div class="pd-sec">' + linksRow([sa.link]) + '</div>' : '') + '</div>');
   }
 
   /* ---------- SNELSTART ---------- */
@@ -305,6 +367,7 @@
     if (s.live) vis = annotated(s.live === 'switch' ? 'K01' : 'K02');
     else if (s.familie) vis = '<div class="demo-fam">' + P.bouwvormen.map(function (f) { return '<div>' + famImg(f, 'df-img') + '<span>' + esc(f.naam.replace('IntuSens ', '')) + '</span></div>'; }).join('') + '</div>';
     else if (s.koffer) vis = '<div class="demo-illu">' + illuHtml(true, 'illu-demo') + '</div>';
+    else if (s.compact) vis = '<div class="demo-cmp">' + s.compact_items.map(function (c) { var f = bouwvorm(c.bouwvorm); return '<div>' + famImg(f, 'df-img') + '<b>' + esc(c.kop) + '</b><span>' + esc(c.sub) + '</span><ul>' + c.feiten.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>'; }).join('') + '</div>';
     else vis = '<div class="demo-vis' + (isDarkSrc(s.beeld) ? ' dark' : '') + '">' + imgOrPh(s.beeld, s.titel) + '</div>';
     return '<div class="demo-top"><a href="#/" class="btn ghost sm" id="demo-exit">Sluiten</a><div class="prog"><i style="width:' + ((demoIdx + 1) / n * 100) + '%"></i></div><span class="n">' + (demoIdx + 1) + ' / ' + n + '</span><button class="btn ghost sm" id="demo-fs" title="Volledig scherm">⛶</button></div>' +
       '<div class="demo-body"><div class="demo-in fade' + (s.koffer ? ' wide' : '') + '"><div><div class="eyebrow">Demo · ' + (demoIdx + 1) + '</div><h1>' + esc(s.titel) + '</h1><p class="msg">' + esc(s.boodschap) + '</p><ul>' + s.punten.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></div><div>' + vis + '</div></div></div>' +
