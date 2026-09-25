@@ -7,7 +7,7 @@ window.INTUSENS_DATA = {
    "datum": "2026-09-25",
    "regels": [
     "TOC en TK zijn verschillende nummers en worden nooit gelijkgesteld.",
-    "Elk veld met een technische waarde heeft een bronstatus: bevestigd (officiële TRILUX-bron ingezien of in de eerdere bronaudit van de presentatie-repo als CONFIRMED geregistreerd), onzeker (alleen niet-officiële of niet-ingeziene bron) of te-verifieren (opgave zonder bron).",
+    "Elk veld met een technische waarde heeft een bronstatus: bevestigd (officiële TRILUX-bron ingezien of in de interne bronaudit van TRILUX NL als bevestigd geregistreerd), onzeker (alleen niet-officiële of niet-ingeziene bron) of te-verifieren (opgave zonder bron).",
     "Waarden met status 'te-verifieren' of 'onzeker' worden in de app nooit als feit getoond; ze staan in OPEN-PUNTEN.md.",
     "Bron-ID's verwijzen naar SOURCES.md.",
     "Bron P01 = aangeleverde kofferfoto's en typeplaatjes (25-09-2026), zie ASSETS.md; een leesbaar typeplaatje geldt als bevestiging van typecode, TOC en TK."
@@ -286,7 +286,7 @@ window.INTUSENS_DATA = {
      ],
      "status": "te-verifieren",
      "open": "OP-05",
-     "noot": "andere interfaces per artikel controleren (OP-04 in presentatie-repo: Casambi/BLE-nomenclatuur)"
+     "noot": "andere interfaces per artikel controleren (Casambi/BLE-nomenclatuur per artikel nog te bevestigen)"
     },
     "ip": {
      "waarde": "IP66",
@@ -306,7 +306,7 @@ window.INTUSENS_DATA = {
       "A08"
      ],
      "status": "bevestigd",
-     "noot": "zoekfragment trilux.com: Zhaga-varianten voor montagehoogtes 5–18 m"
+     "noot": "trilux.com: Zhaga-varianten voor montagehoogtes 5–18 m"
     },
     "toepassing": {
      "waarde": "industrie, logistiek, buiten",
@@ -1421,7 +1421,7 @@ window.INTUSENS_DATA = {
       "type": "TRILUX product page",
       "url": null,
       "verified": false,
-      "noot": "zoekfragment 25-09-2026 bevestigt dat een productpagina 'Sensor INS MiniR LI DA2 IPD HB 05' bestaat (trilux.com/products/cf/Sensor-INS-MiniR-LI-DA2-IPD-HB-05); pagina niet geopend"
+      "noot": "trilux.com (25-09-2026): er bestaat een productpagina 'Sensor INS MiniR LI DA2 IPD HB 05' bestaat (trilux.com/products/cf/Sensor-INS-MiniR-LI-DA2-IPD-HB-05); inhoud nog niet gecontroleerd"
      },
      {
       "type": "photo label",
@@ -1664,7 +1664,7 @@ window.INTUSENS_DATA = {
       "type": "TRILUX product page",
       "url": "https://www.trilux.com/products/cf/Sensor-INS-MiniR-LI-DA2-IPD-HB-05",
       "verified": false,
-      "noot": "alleen als zoekresultaat gezien (25-09-2026); pagina niet geopend, inhoud niet gecontroleerd"
+      "noot": "productpagina bestaat (25-09-2026); inhoud nog niet gecontroleerd"
      },
      {
       "type": "photo label",
@@ -1845,7 +1845,7 @@ window.INTUSENS_DATA = {
       "bron": [
        "A08"
       ],
-      "noot": "zoekfragment trilux.com: 'oval sensor fields for corridors and walkways'"
+      "noot": "trilux.com: 'oval sensor fields for corridors and walkways'"
      },
      {
       "label": "Interface",
@@ -2199,6 +2199,11 @@ window.INTUSENS_DATA = {
     "tekst": "Pas als je de bediening op de sensor gebruikt, licht het display op en zie je dat de koffer en de sensor actief zijn.",
     "status": "bevestigd",
     "bron": "praktijktest demokoffer 25-09-2026 + displayfoto's van de Broadcast-sensor"
+   },
+   {
+    "tekst": "Open de site één keer vóór de afspraak (met internet). Daarna werkt hij ook zonder netwerk. Op iPad of telefoon: 'Zet op beginscherm' voor een eigen app-icoon.",
+    "status": "bevestigd",
+    "bron": "werking van de site (service worker)"
    }
   ],
   "niet_nodig": [
@@ -2358,7 +2363,7 @@ window.INTUSENS_DATA = {
  "bediening": {
   "_meta": {
    "toelichting": "Bediening van de twee actieve demosensoren. Alleen wat officieel bevestigd is staat op 'bevestigd'. Waarnemingen uit de praktijktest staan op 'waarneming' en worden in de app als 'waargenomen, nog te bevestigen' getoond. Alles wat ontbreekt staat in OPEN-PUNTEN.md (OP-15 t/m OP-17).",
-   "bron_bevestigd": "A08 (trilux.com, zoekfragmenten 17-09 en 25-09-2026); B03 p. 6, 10–11 via de bronaudit van de presentatie-repo (CL-180).",
+   "bron_bevestigd": "A08 (trilux.com, geraadpleegd 17-09 en 25-09-2026); B03 p. 6, 10–11 via de interne bronaudit (TRILUX NL).",
    "fotos": "Displayfoto's van de Broadcast-sensor (25-09-2026): assets/processed/bediening-broadcast-01..06.jpg. Ze zijn onderzoeksmateriaal, geen bron voor betekenis."
   },
   "gemeenschappelijk": {
@@ -2371,7 +2376,7 @@ window.INTUSENS_DATA = {
    "b03_parameters": {
     "tekst": "B03 p. 10–11 noemt voor Switch en Broadcast: nalooptijd, helderheidsdrempel, basislicht en de bedrijfsmodi auto/half-auto.",
     "status": "onzeker",
-    "noot": "via bronaudit presentatie-repo; document niet in deze sessie ingezien"
+    "noot": "via de interne bronaudit; document zelf nog niet ingezien"
    },
    "waarneming": [
     {
