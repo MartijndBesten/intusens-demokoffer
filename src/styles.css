@@ -608,3 +608,7 @@ body.demo-mode .nav{display:none}
 .card-body b .tag{vertical-align:middle;margin-left:6px}
 .demo-noot{margin:18px 0 0;padding:12px 14px;border-left:2px solid var(--blue);font-size:15px;color:var(--grey);max-width:52ch}
 @media (max-width:860px){.demo-noot{font-size:13px;margin-top:10px;padding:8px 10px}}
+.fl-why{margin-top:16px;padding:14px 16px;background:var(--blue-pale);border-left:2px solid var(--blue);border-radius:0 var(--radius) var(--radius) 0}
+.fl-why b{display:block;font-size:14px;margin-bottom:6px}
+.fl-why p{margin:0 0 6px;font-size:14px;color:var(--ink)}.fl-why p:last-child{margin-bottom:0}
+@media (max-width:760px){.fl-why{padding:10px 12px}.fl-why p{font-size:13px}}

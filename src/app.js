@@ -42,6 +42,7 @@
   function flowDetail(flow, i) {
     var st = flow[i];
     return '<h3>' + (i + 1) + '. ' + esc(st.kop) + '</h3><ul>' + st.uitleg.map(function (u) { return '<li>' + esc(u) + '</li>'; }).join('') + '</ul>' +
+      (st.toelichting ? '<div class="fl-why"><b>' + esc(st.toelichting.kop) + '</b>' + st.toelichting.tekst.map(function (t) { return '<p>' + esc(t) + '</p>'; }).join('') + '</div>' : '') +
       (st.bereik ? '<div class="bereik"><span>Instelbereik</span><b>' + esc(st.bereik) + '</b></div>' : '') +
       (st.opties ? '<div class="opts">' + st.opties.map(function (o) { return '<div><b>' + esc(o[0]) + '</b><span><strong>' + esc(o[1]) + '</strong>' + (o[2] ? '<small>' + esc(o[2]) + '</small>' : '') + '</span></div>'; }).join('') + '</div>' : '') +
       '<div class="fl-nav"><button class="btn ghost sm" data-go="-1"' + (i === 0 ? ' disabled' : '') + '>‹ Vorige</button><button class="btn sm" data-go="1"' + (i === flow.length - 1 ? ' disabled' : '') + '>Volgende ›</button></div>';
