@@ -197,14 +197,14 @@
       var lbl = '<text class="lbl" x="' + f(isRail ? g.lx + 10 : g.lx) + '" y="' + f(isRail ? g.ly + 3.5 : g.ly) + '" text-anchor="' + (isRail ? 'start' : 'middle') + '" fill="' + lblFill + '">' + lab + '</text>';
       return '<g class="kc" tabindex="0" role="link" data-ref="' + ref + '" data-i="' + i + '" aria-label="' + aria.replace(/"/g, '&quot;') + '"><g class="halo">' + g.halo + '</g><g class="body">' + g.body + '</g>' + lbl + '</g>';
     }).join('');
-    return '<svg class="illu-svg" viewBox="0 -10 ' + W + ' ' + (H + HX + 10) + '" role="img" aria-label="' + (which === 'deksel' ? 'Deksel van de demokoffer met de toonmodellen' : 'Onderzijde van de demokoffer met de twee werkende sensoren') + '">' + defs + bg + parts + '</svg>';
+    return '<svg class="illu-svg" viewBox="0 -10 ' + W + ' ' + (H + HX + 10) + '" role="img" aria-label="' + (which === 'deksel' ? 'Deksel van de demokoffer met alle bouwvormen' : 'Onderzijde van de demokoffer met de twee werkende sensoren') + '">' + defs + bg + parts + '</svg>';
   }
 
   function html(opts) {
     opts = opts || {};
     return '<div class="illu' + (opts.labels ? ' labels' : '') + (opts.compact ? ' compact' : '') + '">' +
-      '<figure class="illu-panel"><figcaption><b>Deksel</b><span>de toonmodellen</span></figcaption>' + panel('deksel', opts) + '</figure>' +
-      '<figure class="illu-panel"><figcaption><b>Onderzijde</b><span>de twee werkende sensoren</span></figcaption>' + panel('onderzijde', opts) + '</figure>' +
+      '<figure class="illu-panel"><figcaption><b>Deksel</b><span>alle bouwvormen</span></figcaption>' + panel('deksel', opts) + '</figure>' +
+      '<figure class="illu-panel"><figcaption><b>Onderzijde</b><span>twee werkende sensoren</span></figcaption>' + panel('onderzijde', opts) + '</figure>' +
       '<div class="illu-tip" role="status" aria-live="polite"></div></div>';
   }
 

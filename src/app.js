@@ -44,7 +44,7 @@
     links.innerHTML = NAV.map(function (n) {
       var active = route === n[0].slice(2) || (n[0] === '#/bediening/switch' && route.indexOf('bediening') === 0) || (n[0] === '#/familie' && route.indexOf('product') === 0);
       return '<a href="' + n[0] + '"' + (active ? ' class="active"' : '') + '>' + n[1] + '</a>';
-    }).join('') + '<a href="#/demo" class="cta">Start klantdemo</a><a href="#" id="fs" title="Volledig scherm (F)">⛶</a>';
+    }).join('') + '<a href="#/demo" class="cta">Start demo</a><a href="#" id="fs" title="Volledig scherm (F)">⛶</a>';
     links.classList.remove('open');
     document.getElementById('fs').addEventListener('click', function (e) { e.preventDefault(); toggleFullscreen(); });
   }
@@ -60,13 +60,13 @@
   function illuInfo(ref) {
     var p = product(ref), a = acc(ref);
     if (p) return { label: p.kort, sub: p.sales.sub + (p.kofferrol === 'actief' ? ' · werkend' : ''), cta: 'Bekijk product' };
-    if (a) return { label: a.naam, sub: 'niet nodig voor de basisdemo', cta: 'Snelstart' };
+    if (a) return { label: a.naam, sub: 'voor latere uitbreiding', cta: 'Snelstart' };
     return { label: ref };
   }
   function illuOpen(ref) { location.hash = product(ref) ? '#/product/' + ref : '#/snelstart'; }
   function illuHtml(labels, id) {
     return '<div class="illu-wrap" id="' + id + '">' + window.KofferIllu.html({ labels: labels || TOUCH, info: illuInfo }) +
-      '<div class="illu-tools"><label class="toggle"><input type="checkbox" class="illu-lbl"' + (labels || TOUCH ? ' checked' : '') + '> Namen tonen</label><span>Beweeg over een sensor of tik erop voor het productdetail.</span></div></div>';
+      '<div class="illu-tools"><label class="toggle"><input type="checkbox" class="illu-lbl"' + (labels || TOUCH ? ' checked' : '') + '> Namen tonen</label><span>Beweeg over een sensor of tik erop voor meer informatie.</span></div></div>';
   }
   function illuBind(id) {
     var wrap = document.getElementById(id); if (!wrap || !window.KofferIllu) return;
@@ -79,11 +79,11 @@
   function viewStart() {
     var hero = '<section class="hero hero-illu"><div class="hero-in">' +
       '<div class="hero-text"><div class="brand"><img src="assets/brand/trilux-logo-wit-crop.png" alt="TRILUX"></div>' +
-      '<h1>IntuSens<small>Demokoffer · Interactive Sales Guide</small></h1>' +
-      '<p class="sub">Ontdek de sensor. Begrijp de toepassing. Laat hem direct zien.</p>' +
+      '<h1>IntuSens<small>Demokoffer</small></h1>' +
+      '<p class="sub">Ontdek de sensorfamilie van TRILUX: vijf bouwvormen, één bedienconcept, direct te bekijken en te bedienen.</p>' +
       '<div class="hero-actions">' +
       link('#/demo', 'btn light', 'Start demo') + link('#/koffer', 'btn outline-light', 'Bekijk de koffer') +
-      link('#/familie', 'btn outline-light', 'Sensorfamilie') + link('#/snelstart', 'btn outline-light', 'Snelle handleiding') +
+      link('#/familie', 'btn outline-light', 'Sensorfamilie') + link('#/snelstart', 'btn outline-light', 'Snelstart') +
       '</div></div>' +
       '<div class="hero-visual-illu">' + illuHtml(false, 'illu-home') + '</div>' +
       '</div></section>';
@@ -95,15 +95,15 @@
       ['Vier varianten', 'Switch · DALI-2 Broadcast · DALI-2 Input Device · Bluetooth NLC']
     ].map(function (x) { return '<div><b>' + x[0] + '</b><span>' + x[1] + '</span></div>'; }).join('') + '</div>';
     var intro = section('', '<div class="head"><div class="eyebrow">Wat is IntuSens?</div><h2>' + esc(P.familie.claim) + '</h2></div>' + strip);
-    var routes = section('grey', '<div class="head"><div class="eyebrow">Kies je route</div><h2>Wat wil je laten zien?</h2></div><div class="grid g4">' + [
+    var routes = section('grey', '<div class="head"><div class="eyebrow">Verder kijken</div><h2>Waar wilt u beginnen?</h2></div><div class="grid g4">' + [
       ['#/koffer', 'De koffer', 'Wat zit waar, klikbaar per onderdeel.'],
-      ['#/familie', 'Sensorfamilie', 'Vijf montagevormen, één bediening.'],
-      ['#/bediening/switch', 'Bediening', 'Zo laat je Switch en Broadcast zien.'],
-      ['#/demo', 'Klantdemo', 'Begeleide flow van circa 5 minuten met spreektekst.']
+      ['#/familie', 'Sensorfamilie', 'Vijf bouwvormen, één bedienconcept.'],
+      ['#/bediening/switch', 'Bediening', 'Zo stelt u Switch en Broadcast in.'],
+      ['#/demo', 'Demo', 'Een rondleiding in acht stappen.']
     ].map(function (x) { return '<a class="card route" href="' + x[0] + '"><div class="card-body"><b>' + x[1] + '</b><span class="sub">' + x[2] + '</span><i class="arrow">→</i></div></a>'; }).join('') + '</div>');
-    var use = section('', '<div class="grid g2"><div><div class="eyebrow">Waar gebruik je IntuSens?</div><h2>Van kantoor tot magazijn</h2><p class="lead">Dezelfde sensorfamilie voor ' + P.familie.toepassingen.lijst.join(', ') + '.</p></div>' +
+    var use = section('', '<div class="grid g2"><div><div class="eyebrow">Toepassingen</div><h2>Van kantoor tot magazijn</h2><p class="lead">Dezelfde sensorfamilie voor ' + P.familie.toepassingen.lijst.join(', ') + '.</p></div>' +
       '<div class="kv"><div class="box"><h4>Lokaal regelen</h4><ul><li>Switch: schakelt de verlichting direct.</li><li>DALI-2 Broadcast: regelt alle armaturen op de lijn als één groep.</li><li>Instellen op de sensor, zonder app.</li></ul></div>' +
-      '<div class="box"><h4>Centraal lichtmanagement</h4><ul><li>DALI-2 Input Device: levert aanwezigheid en licht aan LiveLink.</li><li>Groepen, scènes en gebouwkoppeling in het systeem.</li><li>Bluetooth NLC: draadloze variant, per project af te stemmen.</li></ul></div></div></div>');
+      '<div class="box"><h4>Centraal lichtmanagement</h4><ul><li>DALI-2 Input Device: levert aanwezigheid en licht aan LiveLink.</li><li>Groepen, scènes en gebouwkoppeling in het systeem.</li><li>Bluetooth NLC: draadloze variant binnen de familie.</li></ul></div></div></div>');
     return hero + intro + routes + use;
   }
 
@@ -117,7 +117,7 @@
       }).join('') + '</div></div>';
   }
   function viewKoffer(q) {
-    var edit = q.edit === '1';
+    var edit = q.edit === '1' && (location.protocol === 'file:' || location.hostname === 'localhost');
     var stages = K.stages || [];
     var stagesHtml = stages.map(function (stg, i) { return stageHtml(stg, i, edit); }).join('');
     var editor = '';
@@ -133,13 +133,13 @@
       return '<a class="card" href="#/product/' + p.id + '">' + salesImg(p, 'card-img') + '<div class="card-body"><span class="tag grey">' + esc(bouwvorm(p.family).naam.replace('IntuSens ', '')) + (p.kofferrol === 'actief' ? ' · werkend' : '') + '</span><b>' + esc(p.kort) + '</b><span class="sub">' + esc(p.sales.sub) + '</span></div></a>';
     }).join('') + '</div>';
     var actief = P.producten.filter(function (p) { return p.kofferrol === 'actief'; });
-    var html = section('dark tight', '<div class="head"><div class="eyebrow">De koffer</div><h2>Wat zit waar?</h2><p class="lead">In het deksel de toonmodellen van alle bouwvormen, in de onderzijde de twee werkende sensoren.</p></div>' + illuHtml(false, 'illu-koffer')) +
-      section('tight', '<div class="head"><div class="eyebrow">Werkend in de koffer</div><h2>Twee sensoren die je live laat zien</h2></div><div class="grid g2">' + actief.map(function (p) {
-        return '<a class="card choice" href="#/bediening/' + (p.id === 'K01' ? 'switch' : 'broadcast') + '"><div class="choice-vis">' + window.KofferIllu.sensor(p.id) + '</div><div class="card-body"><b>' + esc(p.kort) + '</b><span class="sub">' + esc(p.sales.wat) + '</span><span class="go">Zo laat je hem zien →</span></div></a>';
+    var html = section('dark tight', '<div class="head"><div class="eyebrow">De koffer</div><h2>Wat zit waar?</h2><p class="lead">In het deksel alle bouwvormen, in de onderzijde twee werkende sensoren.</p></div>' + illuHtml(false, 'illu-koffer')) +
+      section('tight', '<div class="head"><div class="eyebrow">Werkend in de koffer</div><h2>Twee werkende sensoren</h2></div><div class="grid g2">' + actief.map(function (p) {
+        return '<a class="card choice" href="#/bediening/' + (p.id === 'K01' ? 'switch' : 'broadcast') + '"><div class="choice-vis">' + window.KofferIllu.sensor(p.id) + '</div><div class="card-body"><b>' + esc(p.kort) + '</b><span class="sub">' + esc(p.sales.wat) + '</span><span class="go">Bediening bekijken →</span></div></a>';
       }).join('') + '</div>') +
       section('grey', '<div class="head"><div class="eyebrow">Alle onderdelen</div><h2>Wat zit er in de koffer?</h2></div>' + grid) +
       section('tight', '<div class="head"><div class="eyebrow">In het echt</div><h2>Zo ziet de koffer eruit</h2></div>' + stagesHtml + editor) +
-      section('', '<div class="head"><div class="eyebrow">Later uit te breiden</div><h2>Aansluitingen achterop</h2><p class="lead">' + esc(K.uitbreiding_later) + '</p></div>');
+      section('', '<div class="head"><div class="eyebrow">Achterzijde</div><h2>Aansluitingen voor later</h2><p class="lead">' + esc(K.uitbreiding_later) + '</p></div>');
     setTimeout(function () { bindKoffer(edit); illuBind('illu-koffer'); }, 0);
     return html;
   }
@@ -209,7 +209,7 @@
       var tech = V.rijen.filter(function (r) { return r[ci + 1] && r[ci + 1] !== '—'; }).map(function (r) { return '<dt>' + r[0] + '</dt><dd>' + esc(r[ci + 1]) + '</dd>'; }).join('');
       var prods = sel.in_koffer.map(function (id) { var p = product(id); return '<a class="mini" href="#/product/' + id + '">' + salesImg(p, 'mini-img') + '<span><b>' + esc(p.kort) + '</b>' + esc(p.sales.sub) + '</span></a>'; }).join('');
       detail = section('grey fade', '<div class="pd-hero">' + famImg(sel, 'pd-img') + '<div class="pd-title"><div class="fam-name">Bouwvorm</div><h1>' + esc(sel.naam) + '</h1><p class="sell">' + esc(sel.sales.wat) + '</p>' +
-        '<div class="lvl"><h4>Waar gebruik je het?</h4><p>' + esc(sel.sales.toepassing) + '</p></div>' +
+        '<div class="lvl"><h4>Toepassing</h4><p>' + esc(sel.sales.toepassing) + '</p></div>' +
         '<details class="tech-d"><summary>Techniek</summary><dl class="spec">' + tech + '</dl></details>' +
         '<h4 class="in-koffer">In de koffer</h4><div class="minis">' + prods + '</div></div></div>');
     }
@@ -219,7 +219,7 @@
       table = section('fade', '<div class="head"><div class="eyebrow">Alle technische gegevens</div><h2>Bouwvormen vergeleken</h2></div><div class="tbl-wrap cmp-tbl"><table><thead><tr><th></th>' + V2.kolommen.map(function (id) { return '<th>' + esc(bouwvorm(id).naam.replace('IntuSens ', '')) + '</th>'; }).join('') + '</tr></thead><tbody>' +
         V2.rijen.map(function (r) { return '<tr><th scope="row">' + r[0] + '</th>' + r.slice(1).map(function (v) { return '<td' + (v === '—' ? ' class="dash"' : '') + '>' + esc(v) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>');
     }
-    return section('tight', '<div class="head"><div class="eyebrow">Sensorfamilie</div><h2>Eén familie. Vijf montagevormen.</h2><p class="lead">Dezelfde detectie en dezelfde bedienfilosofie. Alleen de plek verschilt: op het plafond, op het armatuur, in het armatuur of in de lichtlijn.</p></div>' + cards + heights +
+    return section('tight', '<div class="head"><div class="eyebrow">Sensorfamilie</div><h2>Eén familie. Vijf bouwvormen.</h2><p class="lead">Dezelfde detectie en dezelfde bedienfilosofie. Alleen de plek verschilt: op het plafond, op het armatuur, in het armatuur of in de lichtlijn.</p></div>' + cards + heights +
       '<div class="btn-row" style="margin-top:28px">' + link('#/familie?alles=1' + (q.bouwvorm ? '&bouwvorm=' + q.bouwvorm : ''), 'btn ghost', 'Alle technische gegevens') + link('#/varianten', 'btn ghost', 'De vier regelvarianten') + '</div>') + detail + table;
   }
 
@@ -227,7 +227,7 @@
   function viewVarianten() {
     var v = P.regelvarianten;
     var cards = '<div class="var">' + v.map(function (x) {
-      return '<div class="card"><div class="card-img' + (x.id === 'switch' || x.id === 'ipd' ? ' dark' : '') + '"><img src="' + esc(x.beeld) + '" alt="' + esc(x.naam) + '"></div><div class="card-body"><b>' + esc(x.naam) + '</b><div class="kop">' + esc(x.kop) + '</div><ul>' + x.uitleg.map(function (u) { return '<li>' + esc(u) + '</li>'; }).join('') + '</ul><div class="zeg"><em>Wat zeg ik?</em>' + esc(x.verkoper_zegt) + '</div></div></div>';
+      return '<div class="card"><div class="card-img' + (x.id === 'switch' || x.id === 'ipd' ? ' dark' : '') + '"><img src="' + esc(x.beeld) + '" alt="' + esc(x.naam) + '"></div><div class="card-body"><b>' + esc(x.naam) + '</b><div class="kop">' + esc(x.kop) + '</div><ul>' + x.uitleg.map(function (u) { return '<li>' + esc(u) + '</li>'; }).join('') + '</ul></div></div>';
     }).join('') + '</div>';
     var rows = [
       ['Wie regelt het licht?', 'de sensor zelf', 'de sensor zelf', 'het systeem (bv. LiveLink)'],
@@ -241,8 +241,8 @@
     var cmp = '<div class="cmp"><div class="h l">&nbsp;</div><div class="h" data-col="Switch">Switch</div><div class="h" data-col="Broadcast">DALI-2 Broadcast</div><div class="h" data-col="Input Device">DALI-2 Input Device</div>' +
       rows.map(function (r) { return '<div class="l">' + r[0] + '</div><div>' + r[1] + '</div><div>' + r[2] + '</div><div>' + r[3] + '</div>'; }).join('') + '</div>';
     return section('tight', '<div class="head"><div class="eyebrow">De vier regelvarianten</div><h2>Zelfde sensor, andere rol</h2><p class="lead">Eerst bepalen wat de sensor in het systeem moet doen. Daarna pas de uitvoering kiezen.</p></div>' + cards) +
-      section('grey', '<div class="head"><div class="eyebrow">In één oogopslag</div><h2>Wat vertel je de klant?</h2></div>' + cmp +
-        '<div class="note"><b>Bluetooth NLC</b> is de draadloze variant in de familie. Beschikbaarheid en inzet stem je per project af met TRILUX.</div>' +
+      section('grey', '<div class="head"><div class="eyebrow">In één oogopslag</div><h2>De verschillen op een rij</h2></div>' + cmp +
+        '<div class="note"><b>Bluetooth NLC</b> is de draadloze variant in de familie. Neem voor beschikbaarheid contact op met TRILUX.</div>' +
         '<div class="note"><b>Van standalone naar systeem.</b> De DALI-2 Input Device bestuurt de armaturen niet zelf zoals de Broadcast-sensor. Hij levert aanwezigheid en licht aan het systeem; LiveLink bepaalt groepen, scènes en koppelingen.</div>');
   }
 
@@ -258,8 +258,8 @@
     var stappen = '<div class="steps3">' + sa.stappen.map(function (st, i) { return '<div class="s3"><i>' + (i + 1) + '</i><b>' + esc(st[0]) + '</b><p>' + esc(st[1]) + '</p></div>'; }).join('') + '</div>';
     var keten = sa.keten ? section('grey', '<div class="head"><div class="eyebrow">Zo werkt het</div><h2>Eén sensor, één lichtgroep</h2></div><div class="flowline">' + sa.keten.map(function (k, i) { return (i ? '<span class="arr">→</span>' : '') + '<div' + (i === 1 ? ' class="hi"' : '') + '>' + esc(k) + '</div>'; }).join('') + '</div>') : '';
     return section('tight', tabs + '<div class="head"><h2>' + esc(sa.titel) + '</h2><p class="lead">' + esc(sa.sub) + '</p></div>' + annotated(ref) + '<p class="small muted" style="margin-top:18px">' + esc(sa.koffer) + '</p>') +
-      section(isSw ? 'grey' : '', '<div class="head"><div class="eyebrow">Naast de klant</div><h2>Zo doe je het bij de klant</h2></div>' + stappen +
-        '<div class="btn-row" style="margin-top:28px">' + link('#/demo', 'btn', 'Start klantdemo') + link('#/product/' + ref, 'btn ghost', 'Productdetail') + '</div>') + keten;
+      section(isSw ? 'grey' : '', '<div class="head"><div class="eyebrow">In drie stappen</div><h2>Zo werkt de bediening</h2></div>' + stappen +
+        '<div class="btn-row" style="margin-top:28px">' + link('#/demo', 'btn', 'Start demo') + link('#/product/' + ref, 'btn ghost', 'Productinformatie') + '</div>') + keten;
   }
 
   /* ---------- PRODUCT ---------- */
@@ -272,11 +272,11 @@
     var artRows = [['Typecode', art.typecode], ['TOC', art.toc], ['TK', art.tk]].filter(function (r) { return r[1]; });
     var tech = '<dl class="spec">' + sa.techniek.map(function (t) { return '<dt>' + esc(t[0]) + '</dt><dd>' + esc(t[1]) + '</dd>'; }).join('') +
       artRows.map(function (r) { return '<dt>' + r[0] + '</dt><dd class="mono">' + esc(r[1]) + '</dd>'; }).join('') + '</dl>';
-    var nav = '<div class="btn-row" style="margin-top:22px">' + (p.id === 'K01' ? link('#/bediening/switch', 'btn', 'Zo laat je hem zien') : p.id === 'K02' ? link('#/bediening/broadcast', 'btn', 'Zo laat je hem zien') : '') + link('#/familie?bouwvorm=' + p.family, 'btn ghost', 'Bouwvorm ' + esc(f.naam.replace('IntuSens ', ''))) + link('#/koffer', 'btn ghost', 'Terug naar de koffer') + '</div>';
+    var nav = '<div class="btn-row" style="margin-top:22px">' + (p.id === 'K01' ? link('#/bediening/switch', 'btn', 'Bediening') : p.id === 'K02' ? link('#/bediening/broadcast', 'btn', 'Bediening') : '') + link('#/familie?bouwvorm=' + p.family, 'btn ghost', 'Bouwvorm ' + esc(f.naam.replace('IntuSens ', ''))) + link('#/koffer', 'btn ghost', 'Terug naar de koffer') + '</div>';
     return section('tight', '<div class="crumbs">' + link('#/koffer', '', 'De koffer') + ' › ' + link('#/familie?bouwvorm=' + p.family, '', esc(f.naam)) + '</div><div class="pd-hero">' + salesImg(p, 'pd-img') + '<div class="pd-title"><div class="fam-name">' + esc(f.naam) + (p.kofferrol === 'actief' ? ' · <span class="tag dark">werkend in de koffer</span>' : '') + '</div><h1>' + esc(p.kort) + '</h1><p class="pd-sub">' + esc(sa.sub) + '</p><p class="sell">' + esc(sa.wat) + '</p>' + nav + '</div></div>') +
       section('tight', '<div class="lv3">' +
         '<div class="pd-sec"><h2>Zo werkt het</h2>' + schemaHtml + '</div>' +
-        '<div class="pd-sec"><h2>Waar gebruik je het?</h2><div class="chips">' + sa.waar.map(function (t) { return '<span class="chip">' + esc(t) + '</span>'; }).join('') + '</div></div>' +
+        '<div class="pd-sec"><h2>Toepassingen</h2><div class="chips">' + sa.waar.map(function (t) { return '<span class="chip">' + esc(t) + '</span>'; }).join('') + '</div></div>' +
         '<div class="pd-sec"><details class="tech-d"><summary>Techniek</summary>' + tech + '</details></div></div>');
   }
 
@@ -288,7 +288,7 @@
     var back = K.foto_achter ? '<details class="back-d"><summary>Achterkant van de koffer bekijken</summary><img src="' + esc(K.foto_achter) + '" alt="' + esc(K.foto_achter_alt) + '"><p class="small muted">Links DA2 BCast, midden netaansluiting met hoofdschakelaar, rechts Switch.</p></details>' : '';
     return section('tight', '<div class="head"><div class="eyebrow">Snelstart</div><h2>Demokoffer in 30 seconden</h2></div>' +
       '<div class="qs3-row">' + step(1, ss.stappen[0], '<div class="qs3-vis">' + I.icon('aansluiten') + '</div>') + step(2, ss.stappen[1], '<div class="qs3-vis">' + I.icon('inschakelen') + '</div>') + step(3, ss.stappen[2], keuze) + '</div>' +
-      '<div class="qs3-foot"><a class="btn big" href="#/demo">Start klantdemo</a><p class="small muted">' + esc(ss.noot) + '<br>' + esc(ss.tip) + '</p></div>' + back);
+      '<div class="qs3-foot"><a class="btn big" href="#/demo">Start demo</a><p class="small muted">' + esc(ss.noot) + '<br>' + esc(ss.tip) + '</p></div>' + back);
   }
 
   /* ---------- DEMO (sales-modus) ---------- */
@@ -306,9 +306,9 @@
     else if (s.familie) vis = '<div class="demo-fam">' + P.bouwvormen.map(function (f) { return '<div>' + famImg(f, 'df-img') + '<span>' + esc(f.naam.replace('IntuSens ', '')) + '</span></div>'; }).join('') + '</div>';
     else if (s.koffer) vis = '<div class="demo-illu">' + illuHtml(true, 'illu-demo') + '</div>';
     else vis = '<div class="demo-vis' + (isDarkSrc(s.beeld) ? ' dark' : '') + '">' + imgOrPh(s.beeld, s.titel) + '</div>';
-    return '<div class="demo-top"><a href="#/" class="btn ghost sm" id="demo-exit">Stop demo</a><div class="prog"><i style="width:' + ((demoIdx + 1) / n * 100) + '%"></i></div><span class="n">' + (demoIdx + 1) + ' / ' + n + '</span><button class="btn ghost sm" id="demo-fs" title="Volledig scherm">⛶</button></div>' +
-      '<div class="demo-body"><div class="demo-in fade' + (s.koffer ? ' wide' : '') + '"><div><div class="eyebrow">Klantdemo · ' + (demoIdx + 1) + '</div><h1>' + esc(s.titel) + '</h1><p class="msg">' + esc(s.boodschap) + '</p><ul>' + s.punten.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></div><div>' + vis + '</div></div></div>' +
-      '<div class="demo-bottom"><details><summary>Wat zeg ik?</summary><p>' + esc(s.zeg) + '</p></details><div class="navb"><button class="btn ghost" id="demo-prev"' + (demoIdx === 0 ? ' disabled' : '') + '>‹ Vorige</button><button class="btn" id="demo-next">' + (demoIdx === n - 1 ? 'Afsluiten' : 'Volgende ›') + '</button></div></div>';
+    return '<div class="demo-top"><a href="#/" class="btn ghost sm" id="demo-exit">Sluiten</a><div class="prog"><i style="width:' + ((demoIdx + 1) / n * 100) + '%"></i></div><span class="n">' + (demoIdx + 1) + ' / ' + n + '</span><button class="btn ghost sm" id="demo-fs" title="Volledig scherm">⛶</button></div>' +
+      '<div class="demo-body"><div class="demo-in fade' + (s.koffer ? ' wide' : '') + '"><div><div class="eyebrow">Demo · ' + (demoIdx + 1) + '</div><h1>' + esc(s.titel) + '</h1><p class="msg">' + esc(s.boodschap) + '</p><ul>' + s.punten.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></div><div>' + vis + '</div></div></div>' +
+      '<div class="demo-bottom"><div class="navb"><button class="btn ghost" id="demo-prev"' + (demoIdx === 0 ? ' disabled' : '') + '>‹ Vorige</button><button class="btn" id="demo-next">' + (demoIdx === n - 1 ? 'Afsluiten' : 'Volgende ›') + '</button></div></div>';
   }
   function bindDemo() {
     var root = document.getElementById('demo'); if (!root) return;

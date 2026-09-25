@@ -1,7 +1,7 @@
 {
   "name": "TRILUX IntuSens Demokoffer",
   "short_name": "IntuSens Demokoffer",
-  "description": "Interactive Sales Guide bij de TRILUX IntuSens Demokoffer",
+  "description": "De TRILUX IntuSens-sensorfamilie aan de hand van de demokoffer",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
