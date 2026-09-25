@@ -367,9 +367,10 @@
       s += ln(270, 74, 480, 74, BL, 2) + ln(270, 92, 480, 92, BL, 2) + tx(285, 66, 'DA+', { b: 1, c: BL, s: 10 }) + tx(285, 106, 'DA−', { b: 1, c: BL, s: 10 });
       s += ln(340, 74, 340, 200, BL, 2) + ln(358, 92, 358, 200, BL, 2) + dot(340, 74) + dot(358, 92);
       s += box(290, 200, 120, 56, 'DALI-armaturen', 'Op dezelfde bus');
-      s += ln(440, 74, 440, 200, BL, 2) + ln(458, 92, 458, 200, BL, 2) + dot(440, 74) + dot(458, 92);
-      s += box(415, 200, 100, 56, 'DALI-2', 'Input Device');
-      s += tx(515, 275, 'Gevoed via DALI, geen 230 V nodig', { a: 'end', c: GR, s: 10 });
+      s += ln(440, 74, 440, 198, BL, 2) + ln(458, 92, 458, 198, BL, 2) + dot(440, 74) + dot(458, 92);
+      // extra sensor: rond sensorlichaam met lens, zoals de plafondsensor
+      s += '<circle cx="449" cy="226" r="27" fill="#1b1b1b" stroke="' + INK + '" stroke-width="1.6"/><circle cx="449" cy="226" r="19" fill="none" stroke="#4a4a4a" stroke-width="1"/><circle cx="449" cy="226" r="8" fill="#e9e9e9" stroke="#bdbdbd" stroke-width="1"/><circle cx="449" cy="226" r="3" fill="#9a9a9a"/>';
+      s += tx(449, 268, 'Extra DALI-2 sensor', { a: 'middle', b: 1, s: 11 }) + tx(449, 281, 'Input Device \u00b7 gevoed via DALI', { a: 'middle', c: GR, s: 10 });
       s += '</svg>';
     }
     return s;
@@ -381,7 +382,7 @@
   function wiringPanel(A, id) {
     var it = A.items.filter(function (x) { return x.id === id; })[0] || A.items[0];
     var budget = it.budget ? '<div class="wire-budget"><b>' + esc(it.budget.kop) + '</b><p>' + esc(it.budget.tekst) + '</p><dl>' + it.budget.waarden.map(function (w) { return '<dt>' + esc(w[0]) + '</dt><dd>' + esc(w[1]) + '</dd>'; }).join('') + '</dl></div>' : '';
-    return '<div class="wire-vis">' + wiringSvg(it.schema) + '</div><div class="wire-txt"><h3>' + esc(it.titel) + '</h3><ol>' + it.uitleg.map(function (u) { return '<li>' + esc(u) + '</li>'; }).join('') + '</ol>' + budget + '</div>';
+    return '<div class="wire-vis">' + wiringSvg(it.schema) + (it.noot ? '<p class="wire-noot">' + esc(it.noot) + '</p>' : '') + '</div><div class="wire-txt"><h3>' + esc(it.titel) + '</h3><ol>' + it.uitleg.map(function (u) { return '<li>' + esc(u) + '</li>'; }).join('') + '</ol>' + budget + '</div>';
   }
   function bindWiring(A) {
     var root = document.getElementById('wiring'); if (!root) return;
