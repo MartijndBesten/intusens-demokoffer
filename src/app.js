@@ -60,18 +60,39 @@
   }
   document.getElementById('burger').addEventListener('click', function () { document.getElementById('navlinks').classList.toggle('open'); });
 
+  /* ---------- KOFFER-ILLUSTRATIE ---------- */
+  var TOUCH = window.matchMedia && window.matchMedia('(hover: none)').matches;
+  function illuInfo(ref) {
+    var p = product(ref), a = acc(ref);
+    if (p) return { label: p.kort, sub: p.sub + (p.kofferrol === 'actief' ? ' · werkend' : ''), cta: 'Bekijk product' };
+    if (a) return { label: a.naam, sub: 'niet nodig voor de basisdemo', cta: 'Snelstart' };
+    return { label: ref };
+  }
+  function illuOpen(ref) { location.hash = product(ref) ? '#/product/' + ref : '#/snelstart'; }
+  function illuHtml(labels, id) {
+    return '<div class="illu-wrap" id="' + id + '">' + window.KofferIllu.html({ labels: labels || TOUCH, info: illuInfo }) +
+      '<div class="illu-tools"><label class="toggle"><input type="checkbox" class="illu-lbl"' + (labels || TOUCH ? ' checked' : '') + '> Namen tonen</label><span>Beweeg over een sensor of tik erop voor het productdetail.</span></div></div>';
+  }
+  function illuBind(id) {
+    var wrap = document.getElementById(id); if (!wrap || !window.KofferIllu) return;
+    var root = wrap.querySelector('.illu');
+    window.KofferIllu.bind(root, { info: illuInfo, onOpen: illuOpen });
+    var cb = wrap.querySelector('.illu-lbl'); if (cb) cb.addEventListener('change', function () { root.classList.toggle('labels', cb.checked); });
+  }
+
   /* ---------- START ---------- */
   function viewStart() {
-    var hero = '<section class="hero"><div class="hero-in"><div>' +
-      '<div class="brand">TRILUX</div>' +
+    var hero = '<section class="hero hero-illu"><div class="hero-in">' +
+      '<div class="hero-text"><div class="brand">TRILUX</div>' +
       '<h1>IntuSens<small>Demokoffer · Interactive Sales Guide</small></h1>' +
       '<p class="sub">Ontdek de sensor. Begrijp de toepassing. Laat hem direct zien.</p>' +
       '<div class="hero-actions">' +
       link('#/demo', 'btn light', 'Start demo') + link('#/koffer', 'btn outline-light', 'Bekijk de koffer') +
       link('#/familie', 'btn outline-light', 'Sensorfamilie') + link('#/snelstart', 'btn outline-light', 'Snelle handleiding') +
       '</div></div>' +
-      '<div class="hero-visual">' + (K.foto_hero ? '<img src="' + esc(K.foto_hero) + '" alt="Geopende TRILUX IntuSens-demokoffer">' : '<div class="ph"><b>Kofferfoto volgt</b><span>Plaats de overzichtsfoto van de geopende koffer in</span><span class="mono">assets/original/</span><span>en vul <span class="mono">foto_hero</span> in data/koffer.json</span></div>') + '</div>' +
+      '<div class="hero-visual-illu">' + illuHtml(false, 'illu-home') + '</div>' +
       '</div></section>';
+    setTimeout(function () { illuBind('illu-home'); }, 0);
     var kern = P.familie.kern;
     var strip = '<div class="strip">' + [
       ['PIR + daglicht', 'meet beweging en beschikbaar daglicht'],
@@ -108,7 +129,7 @@
     var stagesHtml = stages.map(function (stg, i) { return stageHtml(stg, i, edit); }).join('');
     var placed = 0, total = 0; stages.forEach(function (stg) { stg.hotspots.forEach(function (h) { total++; if (h.x != null) placed++; }); });
     var tools = '<div class="koffer-tools"><label class="toggle"><input type="checkbox" id="showhs"> Toon onderdelen</label>' +
-      '<span class="muted small">' + placed + ' van ' + total + ' hotspots geplaatst · tik op een punt voor het productdetail</span>' +
+      '<span class="muted small">tik op een punt voor het productdetail</span>' +
       '<a href="#/koffer' + (edit ? '' : '?edit=1') + '" class="btn ghost sm" style="margin-left:auto">' + (edit ? 'Editor sluiten' : 'Hotspot-editor') + '</a></div>';
     var editor = '';
     if (edit) {
@@ -124,7 +145,8 @@
       return '<a class="card" href="' + href + '">' + img + '<div class="card-body"><span class="tag grey">' + esc(h.familie) + '</span><b>' + esc(h.label) + '</b><span class="sub">' + esc(h.functie) + '</span>' + (p ? '<span class="small muted">' + esc(p.designation || 'typecode nog te bepalen') + '</span>' : '') + (h.noot ? '<span class="small muted">' + esc(h.noot) + '</span>' : '') + '</div></a>';
     }).join('') + '</div>';
     var actief = P.producten.filter(function (p) { return p.kofferrol === 'actief'; });
-    var html = section('tight', '<div class="head"><div class="eyebrow">De koffer</div><h2>Wat zit waar?</h2><p class="lead">In het deksel de toonmodellen van alle bouwvormen, in de onderzijde de twee werkende demonstratiesensoren. Tik op een punt voor het productdetail.</p></div>' + tools + stagesHtml + editor) +
+    var html = section('dark tight', '<div class="head"><div class="eyebrow">De koffer</div><h2>Wat zit waar?</h2><p class="lead">In het deksel de toonmodellen van alle bouwvormen, in de onderzijde de twee werkende demonstratiesensoren.</p></div>' + illuHtml(false, 'illu-koffer')) +
+      section('tight', '<div class="head"><div class="eyebrow">In het echt</div><h2>Zo ziet de koffer eruit</h2><p class="lead">Foto\'s van de demokoffer. Met &quot;Toon onderdelen&quot; zie je waar elk onderdeel zit.</p></div>' + tools + stagesHtml + editor) +
       section('tight', '<div class="head"><div class="eyebrow">Werkend in de koffer</div><h2>Twee sensoren die je live laat zien</h2></div><div class="grid g2">' + actief.map(function (p) {
         return '<a class="card" href="#/bediening/' + (p.id === 'K01' ? 'switch' : 'broadcast') + '"><div class="card-img wide' + (isDark(p) ? ' dark' : '') + '">' + imgOrPh(p.beeld, p.kort, p.beeld_noot, isDark(p)) + '</div><div class="card-body"><b>' + esc(p.kort) + '</b><span class="sub">' + esc(p.sub) + '</span><span class="sub">' + esc(p.verkoopzin) + '</span><span class="tag" style="margin-top:8px;align-self:flex-start">Naar de bediening</span></div></a>';
       }).join('') + '</div>') +
@@ -132,7 +154,7 @@
       section('', '<div class="head"><div class="eyebrow">Uitbreidingsmogelijkheid – later</div><h2>Aansluitingen aan de achterzijde</h2><p class="lead">' + esc(K.uitbreiding_later) + '</p></div><div class="grid g3">' + P.accessoires.filter(function (a) { return !a.nodig_basisdemo; }).map(function (a) {
         return '<div class="card"><div class="card-body"><span class="tag grey">niet nodig voor de basisdemo</span><b>' + esc(a.naam) + '</b><span class="sub">' + esc(a.functie) + '</span>' + (a.waarneming ? '<span class="small muted">' + esc(a.waarneming) + '</span>' : '') + '</div></div>';
       }).join('') + '</div><p style="margin-top:16px">' + link('#/snelstart', 'btn ghost', 'Foto van de achterzijde: Wat zit waar?') + '</p>');
-    setTimeout(function () { bindKoffer(edit); }, 0);
+    setTimeout(function () { bindKoffer(edit); illuBind('illu-koffer'); }, 0);
     return html;
   }
   function bindKoffer(edit) {
@@ -374,10 +396,10 @@
     var vis;
     if (s.live) { var p = product(s.live === 'switch' ? 'K01' : 'K02'); vis = (s.foto ? '<img src="' + esc(s.foto) + '" alt="' + esc(s.titel) + '" style="width:110px;height:110px;object-fit:cover;border-radius:50%;margin:0 auto 10px;display:block">' : '') + '<div class="sensor" id="sensor" style="max-width:360px">' + sensorSVG(p.colour === 'zwart') + '</div><div class="demo-live"><button class="btn sm" id="sim-press">Druk</button><button class="btn ghost sm" id="sim-min">Draai −</button><button class="btn ghost sm" id="sim-plus">Draai +</button></div><div class="sim-state" id="sim-state" style="margin-top:10px"></div>'; }
     else if (s.familie) vis = '<div class="demo-vis fam">' + P.bouwvormen.map(function (f) { return '<div>' + imgOrPh(f.beelden[0], f.naam, f.beeld_bron) + '</div>'; }).join('') + '<div>' + imgOrPh('assets/processed/is-hbc.jpg', 'High Bay Corridor') + '</div></div>';
-    else if (s.koffer) vis = '<div class="demo-vis koffer">' + (K.foto_boven ? '<img src="' + esc(K.foto_boven) + '" alt="' + esc(K.foto_boven_alt) + '" style="object-fit:cover;mix-blend-mode:normal">' : '<div class="ph"><b>Kofferfoto volgt</b><span>Wijs in de fysieke koffer aan wat werkt en wat toonmodel is.</span></div>') + '</div>';
+    else if (s.koffer) vis = '<div class="demo-illu">' + illuHtml(true, 'illu-demo') + '</div>';
     else vis = '<div class="demo-vis' + (isDarkSrc(s.beeld) ? ' dark' : '') + '">' + imgOrPh(s.beeld, s.titel) + '</div>';
     return '<div class="demo-top"><a href="#/" class="btn ghost sm" id="demo-exit">Stop demo</a><div class="prog"><i style="width:' + ((demoIdx + 1) / n * 100) + '%"></i></div><span class="n">' + (demoIdx + 1) + ' / ' + n + '</span><button class="btn ghost sm" id="demo-fs" title="Volledig scherm">⛶</button></div>' +
-      '<div class="demo-body"><div class="demo-in fade"><div><div class="eyebrow">Klantdemo · ' + (demoIdx + 1) + '</div><h1>' + esc(s.titel) + '</h1><p class="msg">' + esc(s.boodschap) + '</p><ul>' + s.punten.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></div><div>' + vis + '</div></div></div>' +
+      '<div class="demo-body"><div class="demo-in fade' + (s.koffer ? ' wide' : '') + '"><div><div class="eyebrow">Klantdemo · ' + (demoIdx + 1) + '</div><h1>' + esc(s.titel) + '</h1><p class="msg">' + esc(s.boodschap) + '</p><ul>' + s.punten.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></div><div>' + vis + '</div></div></div>' +
       '<div class="demo-bottom"><details><summary>Wat zeg ik?</summary><p>' + esc(s.zeg) + '</p></details><div class="navb"><button class="btn ghost" id="demo-prev"' + (demoIdx === 0 ? ' disabled' : '') + '>‹ Vorige</button><button class="btn" id="demo-next">' + (demoIdx === n - 1 ? 'Afsluiten' : 'Volgende ›') + '</button></div></div>';
   }
   function bindDemo() {
@@ -388,6 +410,7 @@
       document.getElementById('demo-next').addEventListener('click', function () { go(1); });
       document.getElementById('demo-fs').addEventListener('click', toggleFullscreen);
       if (document.getElementById('sensor')) bindSim();
+      if (document.getElementById('illu-demo')) illuBind('illu-demo');
     }
     bind();
     root._key = function (e) { if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(1); } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(-1); } else if (e.key === 'Escape') { location.hash = '#/'; } };

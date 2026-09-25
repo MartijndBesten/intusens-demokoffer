@@ -342,3 +342,47 @@ body.demo-mode .nav{display:none}
 .fotostrip img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--radius)}
 .demo-vis.koffer{padding:0;aspect-ratio:auto}
 .demo-vis.koffer img{mix-blend-mode:normal;object-fit:contain}
+
+/* ---- gestileerde koffer-illustratie (v0.4) ---- */
+.hero.hero-illu{min-height:0;display:block;background:radial-gradient(120% 80% at 50% 0%,#1a1a1a 0%,#000 60%)}
+.hero-illu .hero-in{display:block;padding-top:clamp(40px,6vw,88px);padding-bottom:clamp(32px,5vw,72px)}
+.hero-illu .hero-text{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(20px,4vw,64px);align-items:end;margin-bottom:clamp(28px,4vw,56px)}
+.hero-illu .hero-text .brand{grid-column:1/-1;margin-bottom:0}
+.hero-illu .hero-text h1{grid-column:1}
+.hero-illu .hero-text .sub{grid-column:1;margin:0}
+.hero-illu .hero-actions{grid-column:2;grid-row:2/4;align-self:end}
+@media (max-width:860px){.hero-illu .hero-text{grid-template-columns:1fr}.hero-illu .hero-actions{grid-column:1;grid-row:auto;margin-top:20px}}
+.illu-wrap{position:relative}
+.illu{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2.2vw,32px)}
+@media (max-width:760px){.illu{grid-template-columns:1fr}}
+.illu-panel{margin:0}
+.illu-panel figcaption{display:flex;gap:10px;align-items:baseline;margin:0 0 10px 4px;font-size:13px;color:#8f8f8f;letter-spacing:.02em}
+.illu-panel figcaption b{color:#e8e8e8;font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.illu-svg{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 40px rgba(0,0,0,.55))}
+.illu .kc{cursor:pointer;outline:none;transition:opacity .25s ease}
+.illu .kc .body{transition:transform .25s ease,filter .25s ease;transform-box:fill-box;transform-origin:center}
+.illu .kc .halo{opacity:0;transition:opacity .2s ease}
+.illu .kc:hover .halo,.illu .kc:focus-visible .halo,.illu .kc.on .halo{opacity:1}
+.illu .kc:hover .body,.illu .kc.on .body{filter:brightness(1.08)}
+.illu.hovering .kc:not(.on){opacity:.42}
+.illu .lbl{font:600 11px/1 "Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;letter-spacing:.04em;opacity:0;transition:opacity .25s ease;pointer-events:none}
+.illu.labels .lbl{opacity:.95}
+.illu .kc.on .lbl{opacity:1;fill:#4097DB}
+.illu-tip{position:absolute;z-index:6;transform:translate(-50%,0);background:#fff;color:#000;border-radius:4px;padding:10px 14px;min-width:170px;max-width:260px;box-shadow:0 12px 32px rgba(0,0,0,.45);font-size:13px;pointer-events:none;opacity:0;transition:opacity .15s ease}
+.illu-tip.on{opacity:1}
+.illu-tip b{display:block;font-size:14px}
+.illu-tip span{display:block;color:#494A48;font-size:12px;margin-top:2px}
+.illu-tip em{display:block;font-style:normal;color:#072D78;font-weight:600;font-size:12px;margin-top:6px}
+.illu-tools{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-top:16px;font-size:13px;color:#9a9a9a}
+.illu-tools .toggle{display:inline-flex;align-items:center;gap:8px;color:#e6e6e6;cursor:pointer;user-select:none}
+.illu-tools input{width:16px;height:16px;accent-color:#4097DB}
+.section:not(.dark) .illu-tools{color:var(--grey)}
+.section:not(.dark) .illu-tools .toggle{color:var(--ink)}
+.demo-illu{background:#0a0a0a;border-radius:var(--radius);padding:clamp(12px,2vw,24px)}
+.demo-illu .illu{grid-template-columns:1fr}
+@media (min-width:1100px){.demo-illu .illu{grid-template-columns:1fr 1fr}}
+/* foto-hotspots: standaard verborgen, alleen via "Toon onderdelen" */
+.koffer-stage .hs{opacity:0;pointer-events:none}
+.koffer-stage.show .hs{opacity:1;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){.illu .kc,.illu .kc .body,.illu .lbl{transition:none}}
+.demo-in.wide{grid-template-columns:.62fr 1.7fr;max-width:1500px}.demo-in.wide h1{font-size:clamp(28px,3.4vw,52px)}@media (max-width:860px){.demo-in.wide{grid-template-columns:1fr}}
