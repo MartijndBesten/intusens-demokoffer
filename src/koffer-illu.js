@@ -11,7 +11,7 @@
     shell: '#171717', shellEdge: '#2e2e2e', tray: '#0c0c0c', trayEdge: '#242424',
     wFill: '#f4f4f2', wEdge: '#d6d6d1', wDet: '#c3c3be',
     gFill: '#aeb2b5', gEdge: '#92969a', gDet: '#7d8185',
-    kFill: '#222222', kEdge: '#3b3b3b', kDet: '#555555',
+    kFill: '#262626', kEdge: '#4b4b4b', kDet: '#5c5c5c',
     glass: '#2b3034', glassDet: '#6e767d', accent: '#4097DB'
   };
   function f(n) { return Math.round(n * 10) / 10; }
@@ -55,7 +55,7 @@
     return { body: s, halo: circle(cx, cy, r + 7, 'none', C.accent, 2), lx: cx, ly: cy + r + 15 };
   }
   function zhaga(cx, cy, variant) {
-    var r = 44, s = circle(cx, cy, r, '#1a1c1e', '#3d4145', 1.4);
+    var r = 44, s = circle(cx, cy, r, '#1c1e20', '#52575c', 1.5);
     if (variant === 'facet') {
       s += circle(cx, cy, r * 0.84, '#40464b', '#8a9196', 1) + circle(cx, cy, r * 0.84, 'none', '#aab0b4', 0.6, ' stroke-dasharray="2 3"') + circle(cx, cy, r * 0.6, 'none', '#9aa1a6', 0.8) + facets(cx, cy, r * 0.84, 7, '#c3c8cb', 0.9, -70);
     } else {
@@ -69,7 +69,7 @@
     var w = 107, h = 42, x = cx - w / 2, y = cy - h / 2, fill, edge, det, dotFill, s;
     if (variant === 'wit') { fill = C.wFill; edge = C.wEdge; det = '#bdbdb8'; dotFill = '#4b4b4b'; }
     else if (variant === 'grijs') { fill = C.gFill; edge = C.gEdge; det = '#83878b'; dotFill = '#3f4245'; }
-    else { fill = '#2a2926'; edge = '#454440'; det = '#6d6b66'; dotFill = '#8b8983'; }
+    else { fill = '#2d2c29'; edge = '#5c5a54'; det = '#74726c'; dotFill = '#8b8983'; }
     s = rect(x, y, w, h, 4, fill, edge, 1.2) + rect(x + 4, y + 4, w - 8, h - 8, 3, 'none', det, 0.7);
     var dotsLeft = variant !== 'grijs';
     var dx = dotsLeft ? x + 12 : x + w - 12;
@@ -81,7 +81,7 @@
   }
   function rail(cx, cy, variant) {
     var w = 340, h = variant === 'wit' ? 38 : 35, x = cx - w / 2, y = cy - h / 2;
-    var fill = variant === 'wit' ? '#efece3' : '#1f1f1f', edge = variant === 'wit' ? '#d3cfc3' : '#3a3a3a', det = variant === 'wit' ? '#bab5a7' : '#555';
+    var fill = variant === 'wit' ? '#efece3' : '#232323', edge = variant === 'wit' ? '#d3cfc3' : '#4c4c4c', det = variant === 'wit' ? '#bab5a7' : '#555';
     var s = rect(x, y, w, h, 3, fill, edge, 1.2);
     s += '<path d="M' + f(x + 5) + ' ' + f(cy - 6) + ' L' + f(x + 13) + ' ' + f(cy) + ' L' + f(x + 5) + ' ' + f(cy + 6) + ' Z" fill="' + det + '"/>';
     s += '<path d="M' + f(x + w - 5) + ' ' + f(cy - 6) + ' L' + f(x + w - 13) + ' ' + f(cy) + ' L' + f(x + w - 5) + ' ' + f(cy + 6) + ' Z" fill="' + det + '"/>';
@@ -92,7 +92,7 @@
   }
   function plug(cx, cy) {
     var w = 40, h = 162, x = cx - w / 2, y = cy - h / 2;
-    var s = rect(x, y, w, h * 0.72, 4, '#1d1d1d', '#3a3a3a', 1.2);
+    var s = rect(x, y, w, h * 0.72, 4, '#212121', '#4c4c4c', 1.2);
     s += rect(x + w * 0.52, y + 4, w * 0.4, h * 0.14, 2, '#2c2c2c', '#454545', 0.8);
     for (var i = 0; i < 5; i++) s += '<line x1="' + f(x + 6) + '" y1="' + f(y + 30 + i * 13) + '" x2="' + f(x + w - 6) + '" y2="' + f(y + 30 + i * 13) + '" stroke="#333" stroke-width="1"/>';
     for (var j = 0; j < 3; j++) s += rect(x + 5 + j * 11, y + h * 0.72, 8, h * 0.28, 2, '#2a2a2a', '#474747', 0.8);
@@ -106,7 +106,7 @@
     return { body: s, halo: circle(cx, cy, 106, 'none', C.accent, 2), lx: cx, ly: cy + 120 };
   }
   function broadcastSensor(cx, cy) {
-    var s = circle(cx, cy, 107, '#151515', '#2c2c2c', 1.2) + ticks(cx, cy, 88, 104, 132, '#2f2f2f', 1.6) + circle(cx, cy, 86, '#1e1e1e', '#333', 1) +
+    var s = circle(cx, cy, 107, '#141414', '#454545', 1.4) + ticks(cx, cy, 88, 104, 132, '#393939', 1.6) + circle(cx, cy, 86, '#1e1e1e', '#333', 1) +
       '<circle cx="' + cx + '" cy="' + cy + '" r="72" fill="url(#bcBody)"/>' +
       circle(cx, cy, 25, '#3a3a3a', '#4f4f4f', 1) + circle(cx, cy, 17, 'none', '#5a5a5a', 0.8) + facets(cx, cy, 25, 16, '#555', 0.6) +
       '<text x="' + cx + '" y="' + f(cy - 44) + '" font-size="6.5" letter-spacing="1.6" text-anchor="middle" fill="#5c5c5c" font-family="Segoe UI, Arial, sans-serif" font-weight="700">TRILUX</text>' +
@@ -136,23 +136,57 @@
     ]
   };
 
-  function shell(inner) {
-    return rect(4, 4, W - 8, H - 8, 44, C.shell, C.shellEdge, 1.5) + rect(14, 14, W - 28, H - 28, 36, 'none', '#222', 1) + inner;
+  var HX = 26; // extra hoogte onder de koffer voor handgreep/scharnieren
+  function corner(tx, ty, sx, sy) { // rubberen hoekbeschermer
+    return '<path transform="translate(' + tx + ' ' + ty + ') scale(' + sx + ' ' + sy + ')" d="M0 62 V44 A44 44 0 0 1 44 0 H62 V12 H46 A34 34 0 0 0 12 46 V62 Z" fill="#2a2a2a" stroke="#5a5a5a" stroke-width="1.2"/>';
+  }
+  function plate(x, y, w, h, screws) {
+    var s = rect(x, y, w, h, 3, '#2c2c2c', '#5e5e5e', 1.2) + rect(x + 2, y + 2, w - 4, h - 4, 2, 'none', 'rgba(255,255,255,.06)', 1);
+    for (var i = 0; i < screws; i++) s += circle(x + w * (i + 1) / (screws + 1), y + h / 2, 1.8, '#111', '#6a6a6a', 0.6);
+    return s;
+  }
+  function shell(inner, which) {
+    var s = '';
+    // kofferkuip: sterkere contour, lichte verloop, bovenrand-highlight
+    s += rect(4, 4, W - 8, H - 8, 44, 'url(#caseGrad)', '#5a5a5a', 2);
+    s += rect(7, 7, W - 14, H - 14, 41, 'none', 'rgba(255,255,255,.08)', 1.2);
+    // wand tussen rand en binnenplaat
+    s += rect(15, 15, W - 30, H - 30, 34, '#1c1c1c', '#070707', 1.6);
+    s += inner;
+    // hoekbeschermers
+    s += corner(4, 4, 1, 1) + corner(W - 4, 4, -1, 1) + corner(4, H - 4, 1, -1) + corner(W - 4, H - 4, -1, -1);
+    if (which === 'deksel') {
+      // sluitingen boven, scharnieren onder
+      s += plate(150, -1, 52, 14, 2) + plate(W - 202, -1, 52, 14, 2);
+      s += plate(170, H - 10, 84, 18, 3) + plate(W - 254, H - 10, 84, 18, 3);
+    } else {
+      // scharnieren boven, sluitingen + handgreep onder
+      s += plate(170, -8, 84, 18, 3) + plate(W - 254, -8, 84, 18, 3);
+      s += plate(130, H - 9, 52, 16, 2) + plate(W - 182, H - 9, 52, 16, 2);
+      s += '<path d="M' + (W / 2 - 92) + ' ' + (H - 6) + ' h184 v10 q0 14 -14 14 h-156 q-14 0 -14 -14 Z" fill="#232323" stroke="#5e5e5e" stroke-width="1.4"/>' +
+           rect(W / 2 - 70, H + 2, 140, 7, 3.5, '#0b0b0b', '#3a3a3a', 1);
+    }
+    return s;
+  }
+  function tray(x, y, w, h, rx) { // foam-binnenplaat, duidelijk anders dan de wand
+    return rect(x, y, w, h, rx, 'url(#foam)', '#000', 2.2) + rect(x + 1.5, y + 1.5, w - 3, h - 3, rx - 1, 'none', 'rgba(255,255,255,.07)', 1);
   }
   function panel(which, opts) {
-    var defs = '<defs><radialGradient id="bcBody" cx="45%" cy="38%" r="70%"><stop offset="0" stop-color="#2d2d2d"/><stop offset="1" stop-color="#1c1c1c"/></radialGradient><radialGradient id="swBody" cx="42%" cy="36%" r="72%"><stop offset="0" stop-color="#ffffff"/><stop offset=".75" stop-color="#f3f3f1"/><stop offset="1" stop-color="#e6e6e2"/></radialGradient></defs>';
+    var defs = '<defs><radialGradient id="bcBody" cx="45%" cy="38%" r="70%"><stop offset="0" stop-color="#2d2d2d"/><stop offset="1" stop-color="#1c1c1c"/></radialGradient><radialGradient id="swBody" cx="42%" cy="36%" r="72%"><stop offset="0" stop-color="#ffffff"/><stop offset=".75" stop-color="#f3f3f1"/><stop offset="1" stop-color="#e6e6e2"/></radialGradient>' +
+      '<linearGradient id="caseGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#303030"/><stop offset=".5" stop-color="#222"/><stop offset="1" stop-color="#171717"/></linearGradient>' +
+      '<pattern id="foam" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#121212"/><circle cx="1.5" cy="1.5" r=".7" fill="#1a1a1a"/><circle cx="4.5" cy="4.5" r=".7" fill="#191919"/></pattern></defs>';
     var bg;
     if (which === 'deksel') {
-      bg = shell(rect(28, 28, W - 56, H - 56, 26, C.tray, C.trayEdge, 1) +
-        '<text x="366" y="446" font-size="34" font-weight="700" letter-spacing="2" text-anchor="middle" fill="#f2f2f2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">INTUSENS</text>');
+      bg = shell(tray(28, 28, W - 56, H - 56, 26) +
+        '<text x="366" y="446" font-size="34" font-weight="700" letter-spacing="2" text-anchor="middle" fill="#f2f2f2" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">INTUSENS</text>', which);
     } else {
       bg = shell('<clipPath id="trayClip"><rect x="28" y="28" width="' + (W - 56) + '" height="' + (H - 56) + '" rx="26"/></clipPath>' +
-        '<g clip-path="url(#trayClip)"><rect x="28" y="28" width="338" height="' + (H - 56) + '" fill="#eeeeec"/><rect x="366" y="28" width="' + (W - 28 - 366) + '" height="' + (H - 56) + '" fill="#1b1b1b"/></g>' +
-        rect(28, 28, W - 56, H - 56, 26, 'none', C.trayEdge, 1) +
+        '<g clip-path="url(#trayClip)"><rect x="28" y="28" width="338" height="' + (H - 56) + '" fill="#eeeeec"/><rect x="366" y="28" width="' + (W - 28 - 366) + '" height="' + (H - 56) + '" fill="#1f1f1f"/></g>' +
+        rect(28, 28, W - 56, H - 56, 26, 'none', '#000', 2.2) + rect(29.5, 29.5, W - 59, H - 59, 25, 'none', 'rgba(255,255,255,.08)', 1) +
         '<text x="208" y="406" font-size="17" font-weight="700" letter-spacing="1" text-anchor="middle" fill="#3a3a3a" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">INTUSENS</text>' +
         '<text x="208" y="421" font-size="8" text-anchor="middle" fill="#6d6d6d" font-family="Segoe UI, Arial, sans-serif">Switch</text>' +
         '<text x="523" y="406" font-size="17" font-weight="700" letter-spacing="1" text-anchor="middle" fill="#f0f0f0" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">INTUSENS</text>' +
-        '<text x="523" y="421" font-size="8" text-anchor="middle" fill="#a8a8a8" font-family="Segoe UI, Arial, sans-serif">DALI-2 Broadcast</text>');
+        '<text x="523" y="421" font-size="8" text-anchor="middle" fill="#a8a8a8" font-family="Segoe UI, Arial, sans-serif">DALI-2 Broadcast</text>', which);
     }
     var parts = PARTS[which].map(function (p, i) {
       var g = p[2](), ref = p[0], lab = p[1];
@@ -163,7 +197,7 @@
       var lbl = '<text class="lbl" x="' + f(isRail ? g.lx + 10 : g.lx) + '" y="' + f(isRail ? g.ly + 3.5 : g.ly) + '" text-anchor="' + (isRail ? 'start' : 'middle') + '" fill="' + lblFill + '">' + lab + '</text>';
       return '<g class="kc" tabindex="0" role="link" data-ref="' + ref + '" data-i="' + i + '" aria-label="' + aria.replace(/"/g, '&quot;') + '"><g class="halo">' + g.halo + '</g><g class="body">' + g.body + '</g>' + lbl + '</g>';
     }).join('');
-    return '<svg class="illu-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + (which === 'deksel' ? 'Deksel van de demokoffer met de toonmodellen' : 'Onderzijde van de demokoffer met de twee werkende sensoren') + '">' + defs + bg + parts + '</svg>';
+    return '<svg class="illu-svg" viewBox="0 -10 ' + W + ' ' + (H + HX + 10) + '" role="img" aria-label="' + (which === 'deksel' ? 'Deksel van de demokoffer met de toonmodellen' : 'Onderzijde van de demokoffer met de twee werkende sensoren') + '">' + defs + bg + parts + '</svg>';
   }
 
   function html(opts) {

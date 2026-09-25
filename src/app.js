@@ -78,7 +78,7 @@
   /* ---------- START ---------- */
   function viewStart() {
     var hero = '<section class="hero hero-illu"><div class="hero-in">' +
-      '<div class="hero-text"><div class="brand">TRILUX</div>' +
+      '<div class="hero-text"><div class="brand"><img src="assets/brand/trilux-logo-wit-crop.png" alt="TRILUX"></div>' +
       '<h1>IntuSens<small>Demokoffer · Interactive Sales Guide</small></h1>' +
       '<p class="sub">Ontdek de sensor. Begrijp de toepassing. Laat hem direct zien.</p>' +
       '<div class="hero-actions">' +
