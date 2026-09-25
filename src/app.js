@@ -445,6 +445,8 @@
   }
   function demoScreen() {
     var s = DEMO.schermen[demoIdx], n = DEMO.schermen.length;
+    var liveRef = s.live ? (s.live === 'switch' ? 'K01' : 'K02') : null, pos = liveRef ? kofferPositie(liveRef) : null;
+    var kofferHint = pos ? '<p class="demo-koffer"><b>' + t('Werkend in de koffer') + '</b> · ' + esc(pos.split(' · ')[0]) + '</p>' : '';
     var vis;
     if (s.live) vis = annotated(s.live === 'switch' ? 'K01' : 'K02');
     else if (s.familie) vis = '<div class="demo-fam">' + P.bouwvormen.map(function (f) { return '<div>' + famImg(f, 'df-img') + '<span>' + esc(f.naam.replace('IntuSens ', '')) + '</span></div>'; }).join('') + '</div>';
@@ -452,7 +454,7 @@
     else if (s.compact) vis = '<div class="demo-cmp">' + s.compact_items.map(function (c) { var f = bouwvorm(c.bouwvorm); return '<div>' + famImg(f, 'df-img') + '<b>' + esc(c.kop) + '</b><span>' + esc(c.sub) + '</span><ul>' + c.feiten.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>'; }).join('') + '</div>';
     else vis = '<div class="demo-vis' + (isDarkSrc(s.beeld) ? ' dark' : '') + '">' + imgOrPh(s.beeld, s.titel) + '</div>';
     return '<div class="demo-top"><a href="#/" class="btn ghost sm" id="demo-exit">' + t('Sluiten') + '</a><div class="prog"><i style="width:' + ((demoIdx + 1) / n * 100) + '%"></i></div><span class="n">' + (demoIdx + 1) + ' / ' + n + '</span><button class="btn ghost sm" id="demo-fs" title="' + t('Volledig scherm') + '">⛶</button></div>' +
-      '<div class="demo-body"><div class="demo-in fade' + (s.koffer ? ' wide' : '') + '"><div><div class="eyebrow">' + t('Demo') + ' · ' + (demoIdx + 1) + '</div><h1>' + esc(s.titel) + '</h1><p class="msg">' + esc(s.boodschap) + '</p><ul>' + s.punten.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' + (s.noot ? '<p class="demo-noot">' + esc(s.noot) + '</p>' : '') + '</div><div>' + vis + '</div></div></div>' +
+      '<div class="demo-body"><div class="demo-in fade' + (s.koffer ? ' wide' : '') + (s.compact ? ' compact' : '') + '"><div><div class="eyebrow">' + t('Demo') + ' · ' + (demoIdx + 1) + '</div><h1>' + esc(s.titel) + '</h1><p class="msg">' + esc(s.boodschap) + '</p><ul>' + s.punten.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' + (s.noot ? '<p class="demo-noot">' + esc(s.noot) + '</p>' : '') + kofferHint + '</div><div>' + vis + '</div></div></div>' +
       '<div class="demo-bottom"><div class="navb"><button class="btn ghost" id="demo-prev"' + (demoIdx === 0 ? ' disabled' : '') + '>‹ ' + t('Vorige') + '</button><button class="btn" id="demo-next">' + (demoIdx === n - 1 ? t('Afsluiten') : '' + t('Volgende') + ' ›') + '</button></div></div>';
   }
   function bindDemo() {

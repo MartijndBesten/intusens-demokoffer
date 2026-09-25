@@ -256,10 +256,16 @@
       '<rect x="0" y="0" width="400" height="380" rx="18" fill="' + bg + '"/><g transform="translate(' + cx + ' ' + cy + ') scale(' + k + ') translate(' + (-cx) + ' ' + (-cy) + ')">' + g.body + '</g>' + mk + '</svg>';
   }
   /* part('K11'|'K12') — losse weergave van een toonmodel op donkere ondergrond */
+  /* part('K03'…'K12') — losse weergave van een toonmodel op donkere ondergrond (zelfde tekening als in het deksel) */
+  var PART_FRAME = { K03: [428, 296, 400, 300], K04: [428, 361, 400, 300], K05: [278, 204, 160, 120], K06: [425, 206, 160, 120], K07: [569, 209, 160, 120],
+    K08: [228, 104, 160, 120], K09: [374, 106, 160, 120], K10: [515, 110, 160, 120], K11: [160, 215, 160, 120], K12: [160, 361, 160, 120] }; // alle kaders 4:3, gelijk aan de kaarten
   function part(ref) {
-    var g = ref === 'K12' ? zhaga(100, 100, 'dome') : zhaga(100, 100, 'facet');
-    return '<svg class="part-svg" viewBox="0 0 200 200" role="img" aria-label="IntuSens Zhaga Book 18">' +
-      '<rect width="200" height="200" rx="14" fill="#0e0e0e"/><g transform="translate(100 100) scale(1.75) translate(-100 -100)">' + g.body + '</g></svg>';
+    var entry = null, fr = PART_FRAME[ref];
+    PARTS.deksel.forEach(function (p) { if (!entry && p[0] === ref) entry = p; });
+    if (!entry || !fr) { entry = PARTS.deksel[3]; fr = PART_FRAME.K11; }
+    var g = entry[2](), x = fr[0] - fr[2] / 2, y = fr[1] - fr[3] / 2;
+    return '<svg class="part-svg" viewBox="' + f(x) + ' ' + f(y) + ' ' + fr[2] + ' ' + fr[3] + '" role="img" aria-label="' + T(entry[1]).replace(/"/g, '&quot;') + '">' +
+      '<rect x="' + f(x) + '" y="' + f(y) + '" width="' + fr[2] + '" height="' + fr[3] + '" fill="#111"/>' + g.body + '</svg>';
   }
   /* icon('aansluiten'|'inschakelen') — rustige lijnillustraties voor de snelstart */
   function icon(kind) {
