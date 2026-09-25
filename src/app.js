@@ -345,6 +345,17 @@
     function tx(x, y, s, o) { o = o || {}; return '<text x="' + x + '" y="' + y + '" font-size="' + (o.s || 11) + '"' + F + (o.b ? ' font-weight="600"' : '') + ' fill="' + (o.c || INK) + '"' + (o.a ? ' text-anchor="' + o.a + '"' : '') + '>' + s + '</text>'; }
     function box(x, y, w, h, t1, t2) { return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="6" fill="#fff" stroke="' + INK + '" stroke-width="1.6"/>' + tx(x + w / 2, y + h / 2 - (t2 ? 4 : -4), t1, { b: 1, a: 'middle', s: 12 }) + (t2 ? tx(x + w / 2, y + h / 2 + 12, t2, { a: 'middle', c: GR, s: 10 }) : ''); }
     function dot(x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="2.6" fill="' + INK + '"/>'; }
+    function glyph(cx, cy, r, dark) { // herkenbare sensor: rond huis, ring, PIR-lens, zon-/klokpunt (zoals de plafondsensor)
+      var body = dark ? '#1b1b1b' : '#fff', ring = dark ? '#4a4a4a' : '#c9c9c4', lens = dark ? '#e9e9e9' : '#ececE9', lensEdge = dark ? '#bdbdbd' : '#b5b5b0', mark = dark ? '#8a8a8a' : '#9a9a95';
+      return '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + body + '" stroke="' + INK + '" stroke-width="1.6"/><circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.7) + '" fill="none" stroke="' + ring + '" stroke-width="1"/>' +
+        '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.3) + '" fill="' + lens + '" stroke="' + lensEdge + '" stroke-width="1"/><circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.11) + '" fill="' + mark + '"/>' +
+        '<circle cx="' + cx + '" cy="' + (cy + r * 0.55) + '" r="' + (r * 0.07) + '" fill="' + mark + '"/><circle cx="' + cx + '" cy="' + (cy + r * 0.78) + '" r="' + (r * 0.07) + '" fill="' + mark + '"/>';
+    }
+    function sensorBox(x, y, w, h, t1, t2, dark) { // aansluitkast met sensorsymbool boven de naam
+      var r = 19, cy = y + 30;
+      return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="6" fill="#fff" stroke="' + INK + '" stroke-width="1.6"/>' + glyph(x + w / 2, cy, r, dark) +
+        tx(x + w / 2, cy + r + 22, t1, { b: 1, a: 'middle', s: 12 }) + (t2 ? tx(x + w / 2, cy + r + 38, t2, { a: 'middle', c: GR, s: 10 }) : '');
+    }
     function term(x, y, s, side) { return '<circle cx="' + x + '" cy="' + y + '" r="3" fill="#fff" stroke="' + INK + '" stroke-width="1.4"/>' + tx(x + (side === 'l' ? 7 : -7), y + 4, s, { s: 10, c: GR, a: side === 'l' ? 'start' : 'end' }); }
     function lamp(cx, cy, lbl) { return '<circle cx="' + cx + '" cy="' + cy + '" r="14" fill="#fff" stroke="' + INK + '" stroke-width="1.6"/>' + pl('M' + (cx - 9) + ' ' + (cy - 9) + ' L' + (cx + 9) + ' ' + (cy + 9) + ' M' + (cx + 9) + ' ' + (cy - 9) + ' L' + (cx - 9) + ' ' + (cy + 9)) + (lbl ? tx(cx, cy + 30, lbl, { a: 'middle', c: GR, s: 10 }) : ''); }
     function button(x, y) { // maakcontact, horizontaal, links en rechts een aansluiting
@@ -355,7 +366,7 @@
     if (kind === 'switch') {
       s = '<svg class="wire" viewBox="0 0 520 250" role="img" aria-label="' + t('Aansluitschema IntuSens Switch') + '">';
       s += mains(30, 70) + ln(55, 70, 200, 70) + ln(55, 92, 200, 92) + ln(55, 114, 200, 114);
-      s += box(200, 40, 150, 140, 'IntuSens Switch', 'L · N · PE · L’ · T');
+      s += sensorBox(200, 40, 150, 140, 'IntuSens Switch', 'L · N · PE · L’ · T');
       s += ln(350, 70, 430, 70, BL, 2) + tx(360, 62, 'L’', { b: 1, c: BL }) + lamp(450, 70, t('Geschakeld armatuur'));
       s += ln(230, 180, 230, 218) + tx(236, 200, 'T', { b: 1 }) + button(140, 218) + ln(174, 218, 230, 218);
       s += ln(140, 218, 100, 218) + ln(100, 218, 100, 70) + dot(100, 70) + tx(120, 240, t('Drukknop (maakcontact) tussen L en T'), { c: GR, s: 10 });
@@ -363,24 +374,24 @@
     } else if (kind === 'ext') {
       s = '<svg class="wire" viewBox="0 0 560 250" role="img" aria-label="' + t('Twee IntuSens Switch-sensoren, één in Extension mode') + '">';
       s += mains(20, 60) + ln(45, 60, 120, 60) + ln(45, 82, 120, 82) + ln(45, 104, 120, 104);
-      s += box(120, 34, 140, 110, 'IntuSens Switch', t('Regelt · A of S'));
+      s += sensorBox(120, 34, 140, 116, 'IntuSens Switch', t('Regelt · A of S'));
       s += ln(260, 60, 300, 60, BL, 2) + tx(266, 52, 'L’', { b: 1, c: BL }) + lamp(320, 60, t('Armatuur'));
       s += mains(380, 60) + ln(405, 60, 420, 60) + ln(405, 82, 420, 82) + ln(405, 104, 420, 104);
-      s += box(420, 34, 130, 110, 'IntuSens Switch', 'Extension mode · E');
-      s += ln(190, 144, 190, 200) + ln(190, 200, 485, 200) + ln(485, 200, 485, 144) + tx(196, 168, 'T', { b: 1 }) + tx(479, 168, 'T', { b: 1, a: 'end' });
+      s += sensorBox(420, 34, 130, 116, 'IntuSens Switch', 'Extension mode · E');
+      s += ln(190, 150, 190, 200) + ln(190, 200, 485, 200) + ln(485, 200, 485, 150) + tx(196, 168, 'T', { b: 1 }) + tx(479, 168, 'T', { b: 1, a: 'end' });
       s += tx(337, 194, t('Koppeling via het T-/drukknopcontact'), { a: 'middle', c: GR, s: 10 });
       s += tx(280, 236, t('De extra sensor meldt beweging door en vergroot het detectiebereik'), { a: 'middle', c: GR, s: 10 });
       s += '</svg>';
     } else {
       s = '<svg class="wire" viewBox="0 0 520 290" role="img" aria-label="' + t('IntuSens DALI-2 Broadcast met DALI-armaturen en een IntuSens DALI-2 Input Device op één DALI-bus') + '">';
       s += mains(20, 60) + ln(45, 60, 100, 60) + ln(45, 82, 100, 82) + ln(45, 104, 100, 104);
-      s += box(100, 30, 170, 110, 'IntuSens DALI-2 Broadcast', t('Regelt · application controller'));
+      s += sensorBox(100, 30, 170, 116, 'IntuSens DALI-2 Broadcast', t('Regelt · application controller'), true);
       s += ln(270, 74, 480, 74, BL, 2) + ln(270, 92, 480, 92, BL, 2) + tx(285, 66, 'DA+', { b: 1, c: BL, s: 10 }) + tx(285, 106, 'DA−', { b: 1, c: BL, s: 10 });
       s += ln(340, 74, 340, 200, BL, 2) + ln(358, 92, 358, 200, BL, 2) + dot(340, 74) + dot(358, 92);
       s += box(290, 200, 120, 56, t('DALI-armaturen'), t('Op dezelfde bus'));
       s += ln(440, 74, 440, 198, BL, 2) + ln(458, 92, 458, 198, BL, 2) + dot(440, 74) + dot(458, 92);
       // extra sensor: rond sensorlichaam met lens, zoals de plafondsensor
-      s += '<circle cx="449" cy="226" r="27" fill="#1b1b1b" stroke="' + INK + '" stroke-width="1.6"/><circle cx="449" cy="226" r="19" fill="none" stroke="#4a4a4a" stroke-width="1"/><circle cx="449" cy="226" r="8" fill="#e9e9e9" stroke="#bdbdbd" stroke-width="1"/><circle cx="449" cy="226" r="3" fill="#9a9a9a"/>';
+      s += glyph(449, 226, 27, true);
       s += tx(449, 268, t('Extra DALI-2 sensor'), { a: 'middle', b: 1, s: 11 }) + tx(449, 281, 'Input Device \u00b7 ' + t('gevoed via DALI'), { a: 'middle', c: GR, s: 10 });
       s += '</svg>';
     }
