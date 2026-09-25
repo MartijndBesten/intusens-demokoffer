@@ -569,7 +569,9 @@ body.demo-mode .nav{display:none}
 .fl-detail .bereik{margin-top:14px;font-size:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
 .fl-detail .bereik span{color:var(--grey)}
 .fl-detail .opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.fl-detail .opts div{border:1px solid var(--line);border-radius:var(--radius);padding:8px 12px;font-size:14px;display:flex;gap:10px;align-items:center}
+.fl-detail .opts{flex-direction:column}
+.fl-detail .opts div{border:1px solid var(--line);border-radius:var(--radius);padding:10px 14px;font-size:14px;display:flex;gap:14px;align-items:flex-start}
+.fl-detail .opts span{display:flex;flex-direction:column;gap:2px}.fl-detail .opts strong{font-weight:600}.fl-detail .opts small{font-size:13px;color:var(--grey)}
 .fl-detail .opts b{font-family:var(--mono);color:var(--blue);font-size:16px}
 .fl-nav{display:flex;gap:8px;margin-top:18px}
 .adv{margin-top:28px}
