@@ -168,7 +168,7 @@
       ['#/familie', t('Sensorfamilie'), t('Vijf bouwvormen, van plafond tot rail.')],
       ['#/snelstart', t('Snelstart'), t('In drie stappen klaar voor de demonstratie.')],
       ['#/bediening/switch', t('Bediening'), t('Zo stelt u Switch en Broadcast in.')],
-      ['#/demo', 'Demo', t('Een rondleiding in negen stappen.')]
+      ['#/demo', t('Demo'), t('Een rondleiding in negen stappen.')]
     ].map(function (x) { return '<a class="card route" href="' + x[0] + '"><div class="card-body"><b>' + x[1] + '</b><span class="sub">' + x[2] + '</span><i class="arrow">→</i></div></a>'; }).join('') + '</div>');
     var use = section('', '<div class="grid g2"><div><div class="eyebrow">' + t('Toepassingen') + '</div><h2>' + t('Van kantoor tot magazijn') + '</h2><p class="lead">' + esc(t('Dezelfde sensorfamilie voor {lijst}.', { lijst: P.familie.toepassingen.lijst.join(', ') })) + '</p></div>' +
       '<div class="kv"><div class="box"><h4>' + t('Lokaal regelen') + '</h4><ul><li>' + t('Switch: schakelt de verlichting direct.') + '</li><li>' + t('DALI-2 Broadcast: regelt alle armaturen op de lijn als één groep.') + '</li><li>' + t('Switch en Broadcast: instellen op de sensor, zonder app.') + '</li></ul></div>' +
@@ -301,10 +301,10 @@
     var rows = [
       [t('Wie regelt het licht?'), t('de sensor zelf'), t('de sensor zelf'), t('het systeem (bv. LiveLink)')],
       [t('Wat stuurt de sensor?'), t('230 V-belasting aan/uit'), t('alle DALI-armaturen op de lijn, samen'), t('signalen naar de DALI-2-controller')],
-      [t('Adressering nodig?'), 'nee', t('nee (broadcast)'), t('ja, door het systeem')],
+      [t('Adressering nodig?'), t('nee'), t('nee (broadcast)'), t('ja, door het systeem')],
       [t('Dimmen?'), t('nee, schakelen'), t('ja, incl. constantlichtregeling'), t('bepaalt het systeem')],
       [t('Instellen'), t('op de sensor'), t('op de sensor'), t('in het systeem (LiveLink ONE)')],
-      [t('Meerdere groepen / scènes?'), 'nee', t('nee, één groep'), 'ja'],
+      [t('Meerdere groepen / scènes?'), t('nee'), t('nee, één groep'), t('ja')],
       [t('Typisch'), t('enkele ruimte, eenvoudige vervanging'), t('ruimte met één lichtgroep'), t('gebouw met lichtmanagement')]
     ];
     var cmp = '<div class="cmp"><div class="h l">&nbsp;</div><div class="h" data-col="Switch">Switch</div><div class="h" data-col="Broadcast">DALI-2 Broadcast</div><div class="h" data-col="Input Device">DALI-2 Input Device</div>' +
@@ -409,7 +409,7 @@
   function viewProduct(id) {
     var p = product(id); if (!p) return section('', '<h2>' + t('Onbekend product') + '</h2><p>' + link('#/koffer', '', t('Terug naar de koffer')) + '</p>');
     var f = bouwvorm(p.family), sa = p.sales;
-    var schema = p.id === 'K01' ? ['230 V', 'IntuSens Switch', t('verlichting aan/uit')] : p.id === 'K02' ? ['230 V', 'IntuSens Broadcast', 'DALI-bus', t('armaturen als één groep')] : ['DALI-2-bus', esc(p.kort), t('DALI-2-controller, bijv. LiveLink'), t('groepen, scènes, koppelingen')];
+    var schema = p.id === 'K01' ? ['230 V', 'IntuSens Switch', t('verlichting aan/uit')] : p.id === 'K02' ? ['230 V', 'IntuSens Broadcast', t('DALI-bus'), t('armaturen als één groep')] : [t('DALI-2-bus'), esc(p.kort), t('DALI-2-controller, bijv. LiveLink'), t('groepen, scènes, koppelingen')];
     var schemaHtml = '<div class="schema">' + schema.map(function (x, i) { return (i ? '<span></span>' : '') + '<div' + (i === 1 ? ' class="hi"' : '') + '>' + x + '</div>'; }).join('') + '</div>';
     var art = sa.artikel || {}, pos = kofferPositie(p.id);
     var artRows = [[t('Typecode'), art.typecode, 1], ['TOC', art.toc, 1], ['TK', art.tk, 1], [t('Uitvoering'), art.uitvoering], [t('Positie in de koffer'), pos]].filter(function (r) { return r[1]; });

@@ -16,7 +16,7 @@
   }
   function skip(s) { return /^(https?:|assets\/|#\/|data:)/.test(s); }
   function tr(v) { // vertaalt alle tekst in een data-object (diep), zonder het origineel te wijzigen
-    if (typeof v === 'string') return skip(v) ? v : t(v);
+    if (typeof v === 'string') return (skip(v) && !Object.prototype.hasOwnProperty.call(tables[lang] || {}, v)) ? v : t(v); // URL's alleen bij expliciete tabelregel
     if (Array.isArray(v)) return v.map(tr);
     if (v && typeof v === 'object') { var o = {}; for (var k in v) if (Object.prototype.hasOwnProperty.call(v, k)) o[k] = tr(v[k]); return o; }
     return v;
