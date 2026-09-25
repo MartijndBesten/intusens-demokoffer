@@ -317,10 +317,12 @@
     var adv = sa.geavanceerd ? '<details class="tech-d adv"><summary>Meer / geavanceerd</summary><dl>' + sa.geavanceerd.map(function (g) { return '<dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd>'; }).join('') + '</dl></details>' : '';
     var keten = sa.keten ? section('grey', '<div class="head"><div class="eyebrow">Zo werkt het</div><h2>Eén sensor, één lichtgroep</h2></div><div class="flowline">' + sa.keten.map(function (k, i) { return (i ? '<span class="arr">→</span>' : '') + '<div' + (i === 1 ? ' class="hi"' : '') + '>' + esc(k) + '</div>'; }).join('') + '</div>') : '';
     var A = B.sales.aansluiten, openId = isSw ? 'switch' : 'bcast';
-    var aansl = A ? section('', '<div class="head"><div class="eyebrow">Aansluiten</div><h2>' + esc(A.kop) + '</h2><p class="lead">' + esc(A.sub) + '</p></div>' + wiringHtml(A, openId)) : '';
+    var aansl = A ? section('', '<div class="head anchor" id="sec-aansluiten"><div class="eyebrow">Aansluiten</div><h2>' + esc(A.kop) + '</h2><p class="lead">' + esc(A.sub) + '</p></div>' + wiringHtml(A, openId)) : '';
     setTimeout(function () { bindFlow('flow-' + ref, sa.flow); bindWiring(A); }, 0);
-    return section('tight', tabs + '<div class="head"><h2>' + esc(sa.titel) + '</h2><p class="lead">' + esc(sa.sub) + '</p></div>' + annotated(ref) + '<p class="small muted" style="margin-top:18px">' + esc(sa.koffer) + '</p>') +
-      section('grey', '<div class="head"><div class="eyebrow">Instellen op de sensor</div><h2>Zo stelt u de ' + naam + ' in</h2><p class="lead">Fabrieksinstellingen: ' + esc(B.sales.fabriek_noot) + '</p></div>' + fab + flowHtml('flow-' + ref, sa.flow) + adv +
+    var jump = '<div class="jump"><button type="button" data-to="sec-instellen">Sensor instellen</button><button type="button" data-to="sec-aansluiten">Aansluiten</button></div>';
+    setTimeout(function () { document.querySelectorAll('.jump button').forEach(function (btn) { btn.addEventListener('click', function () { var t = document.getElementById(btn.getAttribute('data-to')); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); }); }, 0);
+    return section('tight', tabs + jump + '<div class="head"><h2>' + esc(sa.titel) + '</h2><p class="lead">' + esc(sa.sub) + '</p></div>' + annotated(ref) + '<p class="small muted" style="margin-top:18px">' + esc(sa.koffer) + '</p>') +
+      section('grey', '<div class="head anchor" id="sec-instellen"><div class="eyebrow">Instellen op de sensor</div><h2>Zo stelt u de ' + naam + ' in</h2><p class="lead">Fabrieksinstellingen: ' + esc(B.sales.fabriek_noot) + '</p></div>' + fab + flowHtml('flow-' + ref, sa.flow) + adv +
         '<div class="btn-row" style="margin-top:28px">' + link('#/demo', 'btn', 'Start demo') + link('#/product/' + ref, 'btn ghost', 'Productinformatie') + '</div>') + aansl + keten;
   }
 
@@ -343,31 +345,31 @@
       s = '<svg class="wire" viewBox="0 0 520 250" role="img" aria-label="Aansluitschema IntuSens Switch">';
       s += mains(30, 70) + ln(55, 70, 200, 70) + ln(55, 92, 200, 92) + ln(55, 114, 200, 114);
       s += box(200, 40, 150, 140, 'IntuSens Switch', 'L · N · PE · L’ · T');
-      s += ln(350, 70, 430, 70, BL, 2) + tx(360, 62, 'L’', { b: 1, c: BL }) + lamp(450, 70, 'geschakeld armatuur');
+      s += ln(350, 70, 430, 70, BL, 2) + tx(360, 62, 'L’', { b: 1, c: BL }) + lamp(450, 70, 'Geschakeld armatuur');
       s += ln(230, 180, 230, 218) + tx(236, 200, 'T', { b: 1 }) + button(140, 218) + ln(174, 218, 230, 218);
-      s += ln(140, 218, 100, 218) + ln(100, 218, 100, 70) + dot(100, 70) + tx(120, 240, 'drukknop (maakcontact) tussen L en T', { c: GR, s: 10 });
+      s += ln(140, 218, 100, 218) + ln(100, 218, 100, 70) + dot(100, 70) + tx(120, 240, 'Drukknop (maakcontact) tussen L en T', { c: GR, s: 10 });
       s += '</svg>';
     } else if (kind === 'ext') {
       s = '<svg class="wire" viewBox="0 0 560 250" role="img" aria-label="Twee IntuSens Switch-sensoren, één in Extension mode">';
       s += mains(20, 60) + ln(45, 60, 120, 60) + ln(45, 82, 120, 82) + ln(45, 104, 120, 104);
-      s += box(120, 34, 140, 110, 'IntuSens Switch', 'regelt · A of S');
-      s += ln(260, 60, 300, 60, BL, 2) + tx(266, 52, 'L’', { b: 1, c: BL }) + lamp(320, 60, 'armatuur');
+      s += box(120, 34, 140, 110, 'IntuSens Switch', 'Regelt · A of S');
+      s += ln(260, 60, 300, 60, BL, 2) + tx(266, 52, 'L’', { b: 1, c: BL }) + lamp(320, 60, 'Armatuur');
       s += mains(380, 60) + ln(405, 60, 420, 60) + ln(405, 82, 420, 82) + ln(405, 104, 420, 104);
       s += box(420, 34, 130, 110, 'IntuSens Switch', 'Extension mode · E');
       s += ln(190, 144, 190, 200) + ln(190, 200, 485, 200) + ln(485, 200, 485, 144) + tx(196, 168, 'T', { b: 1 }) + tx(479, 168, 'T', { b: 1, a: 'end' });
-      s += tx(337, 194, 'koppeling via het T-/drukknopcontact', { a: 'middle', c: GR, s: 10 });
-      s += tx(280, 236, 'de extra sensor meldt beweging door en vergroot het detectiebereik', { a: 'middle', c: GR, s: 10 });
+      s += tx(337, 194, 'Koppeling via het T-/drukknopcontact', { a: 'middle', c: GR, s: 10 });
+      s += tx(280, 236, 'De extra sensor meldt beweging door en vergroot het detectiebereik', { a: 'middle', c: GR, s: 10 });
       s += '</svg>';
     } else {
       s = '<svg class="wire" viewBox="0 0 520 290" role="img" aria-label="IntuSens DALI-2 Broadcast met DALI-armaturen en een IntuSens DALI-2 Input Device op één DALI-bus">';
       s += mains(20, 60) + ln(45, 60, 100, 60) + ln(45, 82, 100, 82) + ln(45, 104, 100, 104);
-      s += box(100, 30, 170, 110, 'IntuSens DALI-2 Broadcast', 'regelt · application controller');
+      s += box(100, 30, 170, 110, 'IntuSens DALI-2 Broadcast', 'Regelt · application controller');
       s += ln(270, 74, 480, 74, BL, 2) + ln(270, 92, 480, 92, BL, 2) + tx(285, 66, 'DA+', { b: 1, c: BL, s: 10 }) + tx(285, 106, 'DA−', { b: 1, c: BL, s: 10 });
       s += ln(340, 74, 340, 200, BL, 2) + ln(358, 92, 358, 200, BL, 2) + dot(340, 74) + dot(358, 92);
-      s += box(290, 200, 120, 56, 'DALI-armaturen', 'op dezelfde bus');
+      s += box(290, 200, 120, 56, 'DALI-armaturen', 'Op dezelfde bus');
       s += ln(440, 74, 440, 200, BL, 2) + ln(458, 92, 458, 200, BL, 2) + dot(440, 74) + dot(458, 92);
       s += box(415, 200, 100, 56, 'DALI-2', 'Input Device');
-      s += tx(515, 275, 'gevoed via DALI, geen 230 V nodig', { a: 'end', c: GR, s: 10 });
+      s += tx(515, 275, 'Gevoed via DALI, geen 230 V nodig', { a: 'end', c: GR, s: 10 });
       s += '</svg>';
     }
     return s;
