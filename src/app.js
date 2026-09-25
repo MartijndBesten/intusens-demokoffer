@@ -297,7 +297,7 @@
       ['Typisch', 'enkele ruimte, eenvoudige vervanging', 'ruimte met één lichtgroep', 'gebouw met lichtmanagement']
     ];
     var cmp = '<div class="cmp"><div class="h l">&nbsp;</div><div class="h" data-col="Switch">Switch</div><div class="h" data-col="Broadcast">DALI-2 Broadcast</div><div class="h" data-col="Input Device">DALI-2 Input Device</div>' +
-      rows.map(function (r) { return '<div class="l">' + r[0] + '</div><div>' + r[1] + '</div><div>' + r[2] + '</div><div>' + r[3] + '</div>'; }).join('') + '</div>';
+      rows.map(function (r) { return '<div class="l">' + r[0] + '</div><div data-col="Switch">' + r[1] + '</div><div data-col="DALI-2 Broadcast">' + r[2] + '</div><div data-col="DALI-2 Input Device">' + r[3] + '</div>'; }).join('') + '</div>';
     return section('tight', '<div class="head"><div class="eyebrow">De vier regelvarianten</div><h2>Zelfde sensor, andere rol</h2><p class="lead">Eerst bepalen wat de sensor in het systeem moet doen. Daarna pas de uitvoering kiezen.</p></div>' + cards) +
       section('grey', '<div class="head"><div class="eyebrow">In één oogopslag</div><h2>De verschillen op een rij</h2></div>' + cmp +
         '<div class="note"><b>Bluetooth NLC</b> is de draadloze variant in de IntuSens-familie en is bij TRILUX in voorbereiding. Deze uitvoering is niet aanwezig in deze demokoffer.</div>' +
