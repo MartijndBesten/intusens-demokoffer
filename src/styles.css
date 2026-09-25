@@ -699,3 +699,13 @@ body.demo-mode .nav{display:none}
 @media (min-width:1101px){html[lang=en] .nav-links a,html[lang=fr] .nav-links a{font-size:13px;padding:8px 9px}html[lang=fr] .nav-links a.cta{padding:8px 12px}html[lang=en] .lang,html[lang=fr] .lang{margin-left:2px}}
 .nav-logo{flex:none;white-space:nowrap}
 @media (min-width:1101px) and (max-width:1180px){html[lang=fr] .nav-links a{font-size:12.5px;padding:8px 7px}html[lang=fr] .nav-links a.cta{padding:8px 10px}html[lang=fr] .lang button{padding:6px 3px}}
+/* Mobiele demo: vaste boven- en onderbalk; alleen de inhoud ertussen scrolt (Martijn, site-commit 0785305). */
+@media (max-width:860px){
+  body.demo-mode{overflow:hidden}
+  .demo{display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100vh;height:100dvh;overflow:hidden}
+  .demo-top{position:relative;top:auto;padding-top:max(10px,env(safe-area-inset-top))}
+  .demo-body{display:block;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .demo-bottom{position:relative;bottom:auto;padding-bottom:max(10px,env(safe-area-inset-bottom))}
+  .demo-bottom .navb{flex-wrap:nowrap}
+  .demo-bottom .navb .btn{min-width:0}
+}
