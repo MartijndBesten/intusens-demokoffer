@@ -602,3 +602,7 @@ body.demo-mode .nav{display:none}
   .demo-cmp{gap:6px}.demo-cmp>div{font-size:11px}.demo-cmp b{font-size:13px;margin-top:2px}.demo-cmp ul{display:none}
   .demo-cmp .df-img{max-height:16vh;aspect-ratio:1;padding:8%}
 }
+.koffer-noot{margin:10px 0 0;font-size:14px;font-weight:600;color:var(--ink)}
+.card-body b .tag{vertical-align:middle;margin-left:6px}
+.demo-noot{margin:18px 0 0;padding:12px 14px;border-left:2px solid var(--blue);font-size:15px;color:var(--grey);max-width:52ch}
+@media (max-width:860px){.demo-noot{font-size:13px;margin-top:10px;padding:8px 10px}}

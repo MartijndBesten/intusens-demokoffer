@@ -284,7 +284,7 @@
   function viewVarianten() {
     var v = P.regelvarianten;
     var cards = '<div class="var">' + v.map(function (x) {
-      return '<div class="card"><div class="card-img' + (x.id === 'switch' || x.id === 'ipd' ? ' dark' : '') + '"><img src="' + esc(x.beeld) + '" alt="' + esc(x.naam) + '"></div><div class="card-body"><b>' + esc(x.naam) + '</b><div class="kop">' + esc(x.kop) + '</div><ul>' + x.uitleg.map(function (u) { return '<li>' + esc(u) + '</li>'; }).join('') + '</ul>' + (x.link ? '<p class="small" style="margin:10px 0 0">' + ext(x.link) + '</p>' : '') + '</div></div>';
+      return '<div class="card"><div class="card-img' + (x.id === 'switch' || x.id === 'ipd' ? ' dark' : '') + '"><img src="' + esc(x.beeld) + '" alt="' + esc(x.naam) + '"></div><div class="card-body"><b>' + esc(x.naam) + (x.label ? ' <span class="tag grey">' + esc(x.label) + '</span>' : '') + '</b><div class="kop">' + esc(x.kop) + '</div><ul>' + x.uitleg.map(function (u) { return '<li>' + esc(u) + '</li>'; }).join('') + '</ul>' + (x.koffer_noot ? '<p class="koffer-noot">' + esc(x.koffer_noot) + '</p>' : '') + (x.link ? '<p class="small" style="margin:10px 0 0">' + ext(x.link) + '</p>' : '') + '</div></div>';
     }).join('') + '</div>';
     var rows = [
       ['Wie regelt het licht?', 'de sensor zelf', 'de sensor zelf', 'het systeem (bv. LiveLink)'],
@@ -299,7 +299,7 @@
       rows.map(function (r) { return '<div class="l">' + r[0] + '</div><div>' + r[1] + '</div><div>' + r[2] + '</div><div>' + r[3] + '</div>'; }).join('') + '</div>';
     return section('tight', '<div class="head"><div class="eyebrow">De vier regelvarianten</div><h2>Zelfde sensor, andere rol</h2><p class="lead">Eerst bepalen wat de sensor in het systeem moet doen. Daarna pas de uitvoering kiezen.</p></div>' + cards) +
       section('grey', '<div class="head"><div class="eyebrow">In één oogopslag</div><h2>De verschillen op een rij</h2></div>' + cmp +
-        '<div class="note"><b>Bluetooth NLC</b> is de draadloze variant in de familie. Neem voor beschikbaarheid contact op met TRILUX.</div>' +
+        '<div class="note"><b>Bluetooth NLC</b> is de draadloze variant in de IntuSens-familie en is bij TRILUX in voorbereiding. Deze uitvoering is niet aanwezig in deze demokoffer.</div>' +
         '<div class="note"><b>Van standalone naar systeem.</b> De DALI-2 Input Device bestuurt de armaturen niet zelf zoals de Broadcast-sensor. Hij levert aanwezigheid en licht aan het systeem; LiveLink bepaalt groepen, scènes en koppelingen.</div>');
   }
 
@@ -370,7 +370,7 @@
     else if (s.compact) vis = '<div class="demo-cmp">' + s.compact_items.map(function (c) { var f = bouwvorm(c.bouwvorm); return '<div>' + famImg(f, 'df-img') + '<b>' + esc(c.kop) + '</b><span>' + esc(c.sub) + '</span><ul>' + c.feiten.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>'; }).join('') + '</div>';
     else vis = '<div class="demo-vis' + (isDarkSrc(s.beeld) ? ' dark' : '') + '">' + imgOrPh(s.beeld, s.titel) + '</div>';
     return '<div class="demo-top"><a href="#/" class="btn ghost sm" id="demo-exit">Sluiten</a><div class="prog"><i style="width:' + ((demoIdx + 1) / n * 100) + '%"></i></div><span class="n">' + (demoIdx + 1) + ' / ' + n + '</span><button class="btn ghost sm" id="demo-fs" title="Volledig scherm">⛶</button></div>' +
-      '<div class="demo-body"><div class="demo-in fade' + (s.koffer ? ' wide' : '') + '"><div><div class="eyebrow">Demo · ' + (demoIdx + 1) + '</div><h1>' + esc(s.titel) + '</h1><p class="msg">' + esc(s.boodschap) + '</p><ul>' + s.punten.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></div><div>' + vis + '</div></div></div>' +
+      '<div class="demo-body"><div class="demo-in fade' + (s.koffer ? ' wide' : '') + '"><div><div class="eyebrow">Demo · ' + (demoIdx + 1) + '</div><h1>' + esc(s.titel) + '</h1><p class="msg">' + esc(s.boodschap) + '</p><ul>' + s.punten.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' + (s.noot ? '<p class="demo-noot">' + esc(s.noot) + '</p>' : '') + '</div><div>' + vis + '</div></div></div>' +
       '<div class="demo-bottom"><div class="navb"><button class="btn ghost" id="demo-prev"' + (demoIdx === 0 ? ' disabled' : '') + '>‹ Vorige</button><button class="btn" id="demo-next">' + (demoIdx === n - 1 ? 'Afsluiten' : 'Volgende ›') + '</button></div></div>';
   }
   function bindDemo() {
