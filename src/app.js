@@ -83,7 +83,6 @@
       '<p class="sub">De sensorfamilie van TRILUX voor aanwezigheids- en daglichtafhankelijke lichtregeling, van kantoor tot hal.</p>' +
       '<div class="hero-actions">' +
       link('#/demo', 'btn light', 'Start demo') + link('#/koffer', 'btn outline-light', 'Bekijk de koffer') +
-      link('#/familie', 'btn outline-light', 'Sensorfamilie') + link('#/snelstart', 'btn outline-light', 'Snelstart') +
       '</div></div>' +
       '<div class="hero-visual-illu">' + illuHtml(false, 'illu-home') + '</div>' +
       '</div></section>';
@@ -95,9 +94,10 @@
       ['Vier varianten', 'Switch · DALI-2 Broadcast · DALI-2 Input Device · Bluetooth NLC']
     ].map(function (x) { return '<div><b>' + x[0] + '</b><span>' + x[1] + '</span></div>'; }).join('') + '</div>';
     var intro = section('', '<div class="head"><div class="eyebrow">Wat is IntuSens?</div><h2>' + esc(P.familie.claim) + '</h2></div>' + strip);
-    var routes = section('grey', '<div class="head"><div class="eyebrow">Verder kijken</div><h2>Waar wilt u beginnen?</h2></div><div class="grid g4">' + [
+    var routes = section('grey', '<div class="head"><div class="eyebrow">Verder kijken</div><h2>Waar wilt u beginnen?</h2></div><div class="grid g5 routes">' + [
       ['#/koffer', 'De koffer', 'Wat zit waar, klikbaar per onderdeel.'],
       ['#/familie', 'Sensorfamilie', 'Vijf bouwvormen, van plafond tot lichtlijn.'],
+      ['#/snelstart', 'Snelstart', 'In drie stappen klaar voor de demonstratie.'],
       ['#/bediening/switch', 'Bediening', 'Zo stelt u Switch en Broadcast in.'],
       ['#/demo', 'Demo', 'Een rondleiding in acht stappen.']
     ].map(function (x) { return '<a class="card route" href="' + x[0] + '"><div class="card-body"><b>' + x[1] + '</b><span class="sub">' + x[2] + '</span><i class="arrow">→</i></div></a>'; }).join('') + '</div>');
@@ -139,7 +139,7 @@
       }).join('') + '</div>') +
       section('grey', '<div class="head"><div class="eyebrow">Alle onderdelen</div><h2>Wat zit er in de koffer?</h2></div>' + grid) +
       section('tight', '<div class="head"><div class="eyebrow">In het echt</div><h2>Zo ziet de koffer eruit</h2></div>' + stagesHtml + editor) +
-      section('', '<div class="head"><div class="eyebrow">Achterzijde</div><h2>Aansluitingen voor later</h2><p class="lead">' + esc(K.uitbreiding_later) + '</p></div>');
+      section('', '<div class="head"><div class="eyebrow">Achterzijde</div><h2>Aansluitingen aan de achterzijde</h2><p class="lead">' + esc(K.uitbreiding_later) + '</p></div>');
     setTimeout(function () { bindKoffer(edit); illuBind('illu-koffer'); }, 0);
     return html;
   }
