@@ -59,7 +59,7 @@
   var TOUCH = window.matchMedia && window.matchMedia('(hover: none)').matches;
   function illuInfo(ref) {
     var p = product(ref), a = acc(ref);
-    if (p) return { label: p.kort, sub: p.sub + (p.kofferrol === 'actief' ? ' · werkend' : ''), cta: 'Bekijk product' };
+    if (p) return { label: p.kort, sub: p.sales.sub + (p.kofferrol === 'actief' ? ' · werkend' : ''), cta: 'Bekijk product' };
     if (a) return { label: a.naam, sub: 'niet nodig voor de basisdemo', cta: 'Snelstart' };
     return { label: ref };
   }

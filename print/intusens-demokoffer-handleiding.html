@@ -57,7 +57,6 @@
 (function(){
   var D=window.INTUSENS_DATA,P=D.producten,K=D.koffer,B=D.bediening,DEMO=D.demo;
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  function v(f){return f&&f.waarde!=null?esc(f.waarde)+(f.status!=='bevestigd'?' <span class="na">('+esc(f.status)+(f.open?' · '+esc(f.open):'')+')</span>':''):'<span class="na">nog te verifiëren'+(f&&f.open?' ('+esc(f.open)+')':'')+'</span>';}
   var h='';
   h+='<div class="brand"><img src="../assets/brand/trilux-logo-kleur-zwart.png" alt="TRILUX"><span>TRILUX IntuSens Demokoffer · snelle handleiding</span></div>';
   h+='<div class="eyebrow">TRILUX IntuSens Demokoffer</div><h1>Demokoffer — snelle handleiding</h1>';
@@ -65,7 +64,7 @@
   var ss=K.snelstart_sales;
   h+='<section><h2>1. Demokoffer in 30 seconden</h2><div class="steps" style="grid-template-columns:repeat(3,1fr)">'+ss.stappen.map(function(s,i){return '<div><i>'+(i+1)+'</i><b>'+esc(s[0])+'</b><br>'+esc(s[1])+'</div>';}).join('')+'</div><p class="small" style="margin-top:6pt">'+esc(ss.noot)+'</p></section>';
   h+='<section><h2>2. Wat zit waar?</h2><div class="fotos"><figure><img src="../'+esc(K.stages[0].foto)+'" alt=""><figcaption>Deksel: de toonmodellen</figcaption></figure><figure><img src="../'+esc(K.stages[1].foto)+'" alt=""><figcaption>Onderzijde: links Switch, rechts DALI-2 Broadcast</figcaption></figure></div></section>';
-  h+='<section><h2>3. Wat is IntuSens?</h2><p>'+esc(P.familie.claim)+'</p><ul>'+P.familie.kern.filter(function(k){return k.status==='bevestigd';}).map(function(k){return '<li>'+esc(k.tekst.replace(/\s*\([^)]*\)\s*$/,''))+'</li>';}).join('')+'</ul></section>';
+  h+='<section><h2>3. Wat is IntuSens?</h2><p>'+esc(P.familie.claim)+'</p><ul>'+P.familie.kern.map(function(k){return '<li>'+esc(k.tekst.replace(/\s*\([^)]*\)\s*$/,''))+'</li>';}).join('')+'</ul></section>';
   h+='<section><h2>4. De vier regelvarianten</h2><table><tr><th>Variant</th><th>Kern</th><th>Wat zeg ik?</th></tr>'+P.regelvarianten.map(function(r){return '<tr><td><b>'+esc(r.naam)+'</b></td><td>'+esc(r.kop)+'<ul>'+r.uitleg.map(function(u){return '<li>'+esc(u)+'</li>';}).join('')+'</ul></td><td>'+esc(r.verkoper_zegt)+'</td></tr>';}).join('')+'</table></section>';
   var V=P.vergelijking;
   h+='<section><h2>5. Eén familie, vijf montagevormen</h2><table><tr><th></th>'+V.kolommen.map(function(id){var f=P.bouwvormen.filter(function(b){return b.id===id;})[0];return '<th>'+esc(f.naam.replace('IntuSens ',''))+'</th>';}).join('')+'</tr>'+V.rijen.map(function(r){return '<tr><td><b>'+esc(r[0])+'</b></td>'+r.slice(1).map(function(v){return '<td>'+esc(v)+'</td>';}).join('')+'</tr>';}).join('')+'</table></section>';
