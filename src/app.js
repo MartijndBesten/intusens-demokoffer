@@ -81,13 +81,15 @@
   }
 
   /* ---------- navigatie ---------- */
-  var NAV = [
-    ['#/koffer', t('De koffer')], ['#/familie', t('Sensorfamilie')], ['#/varianten', t('Vier regelvarianten')],
-    ['#/bediening/switch', t('Bediening')], ['#/snelstart', t('Snelstart')]
-  ];
+  function NAV() { // bij elke render opnieuw vertaald (taalwissel zonder herladen)
+    return [
+      ['#/koffer', t('De koffer')], ['#/familie', t('Sensorfamilie')], ['#/varianten', t('Vier regelvarianten')],
+      ['#/bediening/switch', t('Bediening')], ['#/snelstart', t('Snelstart')]
+    ];
+  }
   function renderNav(route) {
     var links = document.getElementById('navlinks');
-    links.innerHTML = NAV.map(function (n) {
+    links.innerHTML = NAV().map(function (n) {
       var active = route === n[0].slice(2) || (n[0] === '#/bediening/switch' && route.indexOf('bediening') === 0) || (n[0] === '#/familie' && route.indexOf('product') === 0);
       return '<a href="' + n[0] + '"' + (active ? ' class="active"' : '') + '>' + n[1] + '</a>';
     }).join('') + '<a href="#/demo" class="cta">' + t('Start demo') + '</a>' +
