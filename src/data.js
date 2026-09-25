@@ -117,7 +117,7 @@ window.INTUSENS_DATA = {
     "uitleg": [
      "Alle armaturen op de DALI-lijn reageren tegelijk als één groep.",
      "Geen individuele DALI-adressering en geen centrale controller nodig.",
-     "Schakelen en dimmen, inclusief constantlichtregeling en basislicht (B03).",
+     "Schakelen en dimmen, met constantlichtregeling en basislicht.",
      "Instellingen direct op de sensor."
     ],
     "verkoper_zegt": "Hier regelt de sensor zelf de DALI-armaturen. Alles op de lijn doet hetzelfde: aan, uit, dimmen. Geen adressen, geen software.",
@@ -150,11 +150,11 @@ window.INTUSENS_DATA = {
     "naam": "Bluetooth NLC",
     "kop": "Draadloze uitvoering voor een Bluetooth NLC-veldlaag.",
     "uitleg": [
-     "Wordt in de TRILUX-familiepresentatie (18-05-2026) als vierde variant getoond.",
-     "Actuele leverstatus per artikel is niet bevestigd; niet presenteren als algemeen leverbaar.",
-     "Inzet in LiveLink Premium Hybrid per project bevestigen."
+     "Draadloze variant binnen de IntuSens-familie.",
+     "Voor lichtregeling met Bluetooth NLC.",
+     "Beschikbaarheid en inzet per project afstemmen met TRILUX."
     ],
-    "verkoper_zegt": "Er is ook een draadloze uitvoering in de familie. Of die voor dit project beschikbaar en passend is, check ik na het gesprek.",
+    "verkoper_zegt": "Er is ook een draadloze uitvoering in de familie. Of die bij dit project past, stem ik na het gesprek af.",
     "bron": [
      "A08",
      "B03"
@@ -240,7 +240,14 @@ window.INTUSENS_DATA = {
     "in_koffer": [
      "K01",
      "K02"
-    ]
+    ],
+    "sales": {
+     "foto": "assets/processed/is-inbouw-wit.jpg",
+     "montage": "Op het plafond · opbouw of inbouw",
+     "optiek": "Low Bay · High Bay · Corridor",
+     "wat": "De zichtbare sensor voor op het plafond, met instelling direct op de sensor.",
+     "toepassing": "kantoor, onderwijs, hallen, gangen"
+    }
    },
    {
     "id": "zhaga",
@@ -318,7 +325,14 @@ window.INTUSENS_DATA = {
     "in_koffer": [
      "K11",
      "K12"
-    ]
+    ],
+    "sales": {
+     "foto": null,
+     "montage": "Op het armatuur · Zhaga Book 18",
+     "optiek": "High Bay · Corridor",
+     "wat": "Klik-op-sensor voor industriearmaturen met Zhaga Book 18-socket. IP66.",
+     "toepassing": "industrie, logistiek, buiten"
+    }
    },
    {
     "id": "minir",
@@ -397,7 +411,14 @@ window.INTUSENS_DATA = {
      "K08",
      "K09",
      "K10"
-    ]
+    ],
+    "sales": {
+     "foto": "assets/processed/is-minir.jpg",
+     "montage": "In het armatuur · rond",
+     "optiek": "High Bay",
+     "wat": "Compacte ronde sensor, geïntegreerd in het armatuur.",
+     "toepassing": "hallen, magazijnen, sporthallen"
+    }
    },
    {
     "id": "minis",
@@ -474,7 +495,14 @@ window.INTUSENS_DATA = {
      "K05",
      "K06",
      "K07"
-    ]
+    ],
+    "sales": {
+     "foto": "assets/processed/is-minis.jpg",
+     "montage": "In het armatuur · rechthoekig",
+     "optiek": "Low Bay",
+     "wat": "Kleine rechthoekige sensormodule, onopvallend in het armatuur.",
+     "toepassing": "kantoor, onderwijs, vergaderruimtes"
+    }
    },
    {
     "id": "rail",
@@ -552,7 +580,14 @@ window.INTUSENS_DATA = {
     "in_koffer": [
      "K03",
      "K04"
-    ]
+    ],
+    "sales": {
+     "foto": "assets/processed/is-rail.jpg",
+     "montage": "In de lichtlijn",
+     "optiek": "Low Bay",
+     "wat": "Nauwelijks zichtbare sensor, geïntegreerd in de lichtlijn.",
+     "toepassing": "kantoor, retail, lichtlijnen"
+    }
    }
   ],
   "producten": [
@@ -672,7 +707,35 @@ window.INTUSENS_DATA = {
       "noot": "witte sensor in wit paneel links, opschrift \"INTUSENS Switch\"; zon- en kloksymbool onder de lens zichtbaar; geen typeplaatje gefotografeerd"
      }
     ],
-    "label_foto": null
+    "label_foto": null,
+    "sales": {
+     "sub": "wit · opbouw",
+     "beeld": "assets/processed/k01-switch.jpg",
+     "beeld_type": "koffer",
+     "wat": "De sensor is de schakelaar: aanwezigheid en daglicht schakelen de verlichting direct.",
+     "waar": [
+      "berging en technische ruimte",
+      "gang en trappenhuis",
+      "kleine kantoorruimte",
+      "sanitaire ruimte",
+      "werkplaats"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging) en lichtsensor (daglicht)"
+      ],
+      [
+       "Regeling",
+       "schakelen, met helderheidsdrempel en nalooptijd"
+      ],
+      [
+       "Instellen",
+       "op de sensor, met draairing en display — zonder app, afstandsbediening of gereedschap"
+      ]
+     ],
+     "artikel": {}
+    }
    },
    {
     "id": "K02",
@@ -786,7 +849,35 @@ window.INTUSENS_DATA = {
       "noot": "zwarte sensor met gekartelde draairing rechts, opschrift \"INTUSENS DALI-2 Broadcast\"; display boven de lens, zon- en kloksymbool onder de lens; geen typeplaatje gefotografeerd"
      }
     ],
-    "label_foto": null
+    "label_foto": null,
+    "sales": {
+     "sub": "zwart · inbouw",
+     "beeld": "assets/processed/k02-broadcast.jpg",
+     "beeld_type": "koffer",
+     "wat": "Regelt alle DALI-armaturen op de lijn als één groep: schakelen en dimmen, zonder adressering.",
+     "waar": [
+      "klaslokaal",
+      "kantoor met één lichtgroep",
+      "vergaderruimte",
+      "magazijnzone met eigen lijn",
+      "gang met dimbare armaturen"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging) en lichtsensor (daglicht)"
+      ],
+      [
+       "Regeling",
+       "schakelen en dimmen via DALI-broadcast, constantlichtregeling, basislicht"
+      ],
+      [
+       "Instellen",
+       "op de sensor, met draairing en display — zonder app, afstandsbediening of gereedschap"
+      ]
+     ],
+     "artikel": {}
+    }
    },
    {
     "id": "K03",
@@ -897,7 +988,38 @@ window.INTUSENS_DATA = {
       "noot": "rail-sensor in het deksel; typeplaatje niet gefotografeerd"
      }
     ],
-    "label_foto": null
+    "label_foto": null,
+    "sales": {
+     "sub": "wit · in de lichtlijn · Low Bay",
+     "beeld": "assets/processed/is-rail.jpg",
+     "beeld_type": "officieel",
+     "wat": "De nauwelijks zichtbare sensor, geïntegreerd in de lichtlijn.",
+     "waar": [
+      "kantoor met lichtlijnen",
+      "retail",
+      "onderwijs",
+      "verkeersruimten"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging) en lichtsensor (daglicht)"
+      ],
+      [
+       "Interface",
+       "DALI-2 Input Device"
+      ],
+      [
+       "Montage",
+       "geïntegreerd in de lichtlijn"
+      ],
+      [
+       "Montagehoogte",
+       "Low Bay, 2–5 m"
+      ]
+     ],
+     "artikel": {}
+    }
    },
    {
     "id": "K04",
@@ -1002,7 +1124,38 @@ window.INTUSENS_DATA = {
       "noot": "rail-sensor in het deksel; typeplaatje niet gefotografeerd"
      }
     ],
-    "label_foto": null
+    "label_foto": null,
+    "sales": {
+     "sub": "zwart · in de lichtlijn · Low Bay",
+     "beeld": "assets/processed/k04-rail-zwart.jpg",
+     "beeld_type": "koffer",
+     "wat": "De nauwelijks zichtbare sensor voor zwarte lichtlijnen.",
+     "waar": [
+      "kantoor met zwarte lichtlijnen",
+      "retail",
+      "horeca",
+      "verkeersruimten"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging) en lichtsensor (daglicht)"
+      ],
+      [
+       "Interface",
+       "DALI-2 Input Device"
+      ],
+      [
+       "Montage",
+       "geïntegreerd in de lichtlijn"
+      ],
+      [
+       "Montagehoogte",
+       "Low Bay, 2–5 m"
+      ]
+     ],
+     "artikel": {}
+    }
    },
    {
     "id": "K05",
@@ -1119,7 +1272,40 @@ window.INTUSENS_DATA = {
     ],
     "label_foto": "assets/processed/label-k05-minis-lb-01.jpg",
     "artikelnummer_label": "10414766",
-    "artikelnummer_label_noot": "nummer op het typeplaatje zonder TOC-/TK-aanduiding; vermoedelijk TRILUX-artikelnummer (TK) — in SAP bevestigen (OP-03)"
+    "artikelnummer_label_noot": "nummer op het typeplaatje zonder TOC-/TK-aanduiding; vermoedelijk TRILUX-artikelnummer (TK) — in SAP bevestigen (OP-03)",
+    "sales": {
+     "sub": "wit · in het armatuur · Low Bay",
+     "beeld": "assets/processed/is-minis.jpg",
+     "beeld_type": "officieel",
+     "wat": "Compacte sensormodule die onopvallend in het armatuur wordt ingebouwd.",
+     "waar": [
+      "kantoor",
+      "klaslokaal",
+      "vergaderruimte",
+      "verkeersruimten"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging) en lichtsensor (daglicht)"
+      ],
+      [
+       "Interface",
+       "DALI-2 Input Device"
+      ],
+      [
+       "Montage",
+       "in het armatuur"
+      ],
+      [
+       "Montagehoogte",
+       "Low Bay, 2–5 m"
+      ]
+     ],
+     "artikel": {
+      "typecode": "INS MiniS LI DA2 IPD LB 01"
+     }
+    }
    },
    {
     "id": "K06",
@@ -1223,7 +1409,40 @@ window.INTUSENS_DATA = {
     ],
     "label_foto": "assets/processed/label-k06-minis-lb-03.jpg",
     "artikelnummer_label": "10429521",
-    "artikelnummer_label_noot": "nummer op het typeplaatje zonder TOC-/TK-aanduiding; vermoedelijk TRILUX-artikelnummer (TK) — in SAP bevestigen (OP-03)"
+    "artikelnummer_label_noot": "nummer op het typeplaatje zonder TOC-/TK-aanduiding; vermoedelijk TRILUX-artikelnummer (TK) — in SAP bevestigen (OP-03)",
+    "sales": {
+     "sub": "grijs · in het armatuur · Low Bay",
+     "beeld": "assets/processed/k06-minis-grijs.jpg",
+     "beeld_type": "koffer",
+     "wat": "Compacte sensormodule voor armaturen met een grijze of aluminiumkleurige afwerking.",
+     "waar": [
+      "kantoor",
+      "onderwijs",
+      "retail",
+      "verkeersruimten"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging) en lichtsensor (daglicht)"
+      ],
+      [
+       "Interface",
+       "DALI-2 Input Device"
+      ],
+      [
+       "Montage",
+       "in het armatuur"
+      ],
+      [
+       "Montagehoogte",
+       "Low Bay, 2–5 m"
+      ]
+     ],
+     "artikel": {
+      "typecode": "INS MiniS LI DA2 IPD LB 03"
+     }
+    }
    },
    {
     "id": "K07",
@@ -1310,7 +1529,34 @@ window.INTUSENS_DATA = {
       "noot": "zwarte MiniS-module rechts in de middelste rij; typeplaatje niet gefotografeerd (OP-03)"
      }
     ],
-    "label_foto": null
+    "label_foto": null,
+    "sales": {
+     "sub": "zwart · in het armatuur · Low Bay",
+     "beeld": "assets/processed/k07-minis-zwart.jpg",
+     "beeld_type": "koffer",
+     "wat": "Compacte sensormodule voor zwarte armaturen.",
+     "waar": [
+      "kantoor",
+      "horeca",
+      "retail",
+      "verkeersruimten"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging) en lichtsensor (daglicht)"
+      ],
+      [
+       "Montage",
+       "in het armatuur"
+      ],
+      [
+       "Montagehoogte",
+       "Low Bay, 2–5 m"
+      ]
+     ],
+     "artikel": {}
+    }
    },
    {
     "id": "K08",
@@ -1430,7 +1676,50 @@ window.INTUSENS_DATA = {
       "noot": "leesbaar: \"INS MiniR LI DA2 IPD HB 01\", \"TOC: 6001072500\", \"TK:10443788\", \"10-20,5 DALI bus-powered\", \"ta -25...+50°C\", DALI-2, UKCA, CE, TRILUX GmbH & Co.KG"
      }
     ],
-    "label_foto": "assets/processed/label-k08-minir-hb-01.jpg"
+    "label_foto": "assets/processed/label-k08-minir-hb-01.jpg",
+    "sales": {
+     "sub": "wit · in het armatuur · High Bay",
+     "beeld": "assets/processed/is-minir.jpg",
+     "beeld_type": "officieel",
+     "wat": "Compacte ronde sensor in het armatuur, voor hallen tot 18 meter hoog.",
+     "waar": [
+      "magazijn",
+      "productiehal",
+      "sporthal",
+      "stellinggangen"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging) en lichtsensor (daglicht)"
+      ],
+      [
+       "Interface",
+       "DALI-2 Input Device"
+      ],
+      [
+       "Montage",
+       "in het armatuur (schroefdraad M27 × 1,5)"
+      ],
+      [
+       "Montagehoogte",
+       "High Bay, 5–18 m"
+      ],
+      [
+       "Voeding",
+       "DALI bus-powered, 10–20,5 V"
+      ],
+      [
+       "Omgevingstemperatuur",
+       "−25 … +50 °C"
+      ]
+     ],
+     "artikel": {
+      "typecode": "INS MiniR LI DA2 IPD HB 01",
+      "toc": "6001072500",
+      "tk": "10443788"
+     }
+    }
    },
    {
     "id": "K09",
@@ -1554,7 +1843,50 @@ window.INTUSENS_DATA = {
       "noot": "leesbaar: \"INS MiniR LI DA2 IPD HB 05 NO L\", \"TOC: 6001072600\", \"TK 10443789\", \"10-20,5 DALI bus-powered\", \"ta -25...+50°C\""
      }
     ],
-    "label_foto": "assets/processed/label-k09-minir-hb-05-no-l.jpg"
+    "label_foto": "assets/processed/label-k09-minir-hb-05-no-l.jpg",
+    "sales": {
+     "sub": "zwart · in het armatuur · High Bay",
+     "beeld": "assets/processed/is-minir.jpg",
+     "beeld_type": "officieel",
+     "wat": "Compacte ronde sensor in het armatuur, zwarte uitvoering, voor hallen tot 18 meter hoog.",
+     "waar": [
+      "magazijn",
+      "productiehal",
+      "sporthal",
+      "stellinggangen"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging)"
+      ],
+      [
+       "Interface",
+       "DALI-2 Input Device"
+      ],
+      [
+       "Montage",
+       "in het armatuur (schroefdraad M27 × 1,5)"
+      ],
+      [
+       "Montagehoogte",
+       "High Bay, 5–18 m"
+      ],
+      [
+       "Voeding",
+       "DALI bus-powered, 10–20,5 V"
+      ],
+      [
+       "Omgevingstemperatuur",
+       "−25 … +50 °C"
+      ]
+     ],
+     "artikel": {
+      "typecode": "INS MiniR LI DA2 IPD HB 05 NO L",
+      "toc": "6001072600",
+      "tk": "10443789"
+     }
+    }
    },
    {
     "id": "K10",
@@ -1674,7 +2006,49 @@ window.INTUSENS_DATA = {
      }
     ],
     "label_foto": "assets/processed/label-k10-minir-hb-05.jpg",
-    "tk_noot": "op het typeplaatje deels afgesneden gefotografeerd; leesbaar \"…10460023\" — opnieuw fotograferen of in SAP bevestigen (OP-04)"
+    "tk_noot": "op het typeplaatje deels afgesneden gefotografeerd; leesbaar \"…10460023\" — opnieuw fotograferen of in SAP bevestigen (OP-04)",
+    "sales": {
+     "sub": "zwart · in het armatuur · High Bay",
+     "beeld": "assets/processed/is-minir.jpg",
+     "beeld_type": "officieel",
+     "wat": "Compacte ronde sensor in het armatuur, zwarte uitvoering, voor hallen tot 18 meter hoog.",
+     "waar": [
+      "magazijn",
+      "productiehal",
+      "sporthal",
+      "stellinggangen"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging) en lichtsensor (daglicht)"
+      ],
+      [
+       "Interface",
+       "DALI-2 Input Device"
+      ],
+      [
+       "Montage",
+       "in het armatuur (schroefdraad M27 × 1,5)"
+      ],
+      [
+       "Montagehoogte",
+       "High Bay, 5–18 m"
+      ],
+      [
+       "Voeding",
+       "DALI bus-powered, 10–20,5 V"
+      ],
+      [
+       "Omgevingstemperatuur",
+       "−25 … +50 °C"
+      ]
+     ],
+     "artikel": {
+      "typecode": "INS MiniR LI DA2 IPD HB 05",
+      "toc": "6001072700"
+     }
+    }
    },
    {
     "id": "K11",
@@ -1795,7 +2169,57 @@ window.INTUSENS_DATA = {
      }
     ],
     "label_foto": "assets/processed/label-k11-zb18-hb.jpg",
-    "designation_noot": "volgorde op het typeplaatje is \"DA2 HB IPD\"; de brief noemde \"DA2 IPD HB\""
+    "designation_noot": "volgorde op het typeplaatje is \"DA2 HB IPD\"; de brief noemde \"DA2 IPD HB\"",
+    "sales": {
+     "sub": "op het armatuur · High Bay",
+     "beeld": null,
+     "beeld_type": "illustratie",
+     "wat": "Sensor die je op een armatuur met Zhaga Book 18-socket klikt. Stofdicht en waterstraalbestendig (IP66).",
+     "waar": [
+      "magazijn",
+      "productiehal",
+      "overdekte buitenruimte",
+      "parkeergarage"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging) en lichtsensor (daglicht)"
+      ],
+      [
+       "Interface",
+       "DALI-2 Input Device"
+      ],
+      [
+       "Montage",
+       "op een Zhaga Book 18-socket"
+      ],
+      [
+       "Optiek",
+       "High Bay — rond detectiegebied"
+      ],
+      [
+       "Montagehoogte",
+       "5–18 m"
+      ],
+      [
+       "Beschermingsgraad",
+       "IP66"
+      ],
+      [
+       "Voeding",
+       "DALI bus-powered, 10–20,5 V"
+      ],
+      [
+       "Omgevingstemperatuur",
+       "−25 … +50 °C"
+      ]
+     ],
+     "artikel": {
+      "typecode": "INS ZB18 DA2 HB IPD",
+      "toc": "6001072100"
+     }
+    }
    },
    {
     "id": "K12",
@@ -1914,7 +2338,57 @@ window.INTUSENS_DATA = {
       "noot": "leesbaar: \"INS ZB18 DA2 IPD HB Corr\", \"TOC: 6001072200\", \"DA-\", \"DA+\", \"DALI bus-powered 10 - 20,5V\", \"ta -25...+50°C\"; geen TK op het plaatje"
      }
     ],
-    "label_foto": "assets/processed/label-k12-zb18-hb-corr.jpg"
+    "label_foto": "assets/processed/label-k12-zb18-hb-corr.jpg",
+    "sales": {
+     "sub": "op het armatuur · High Bay Corridor",
+     "beeld": null,
+     "beeld_type": "illustratie",
+     "wat": "Dezelfde Zhaga-sensor, met een langgerekt detectiegebied voor gangen en stellinggangen.",
+     "waar": [
+      "stellinggangen",
+      "lange hallen",
+      "laad- en losstraten",
+      "parkeergarage-rijbanen"
+     ],
+     "techniek": [
+      [
+       "Detectie",
+       "PIR (beweging) en lichtsensor (daglicht)"
+      ],
+      [
+       "Interface",
+       "DALI-2 Input Device"
+      ],
+      [
+       "Montage",
+       "op een Zhaga Book 18-socket"
+      ],
+      [
+       "Optiek",
+       "High Bay Corridor — langgerekt detectiegebied"
+      ],
+      [
+       "Montagehoogte",
+       "5–18 m"
+      ],
+      [
+       "Beschermingsgraad",
+       "IP66"
+      ],
+      [
+       "Voeding",
+       "DALI bus-powered, 10–20,5 V"
+      ],
+      [
+       "Omgevingstemperatuur",
+       "−25 … +50 °C"
+      ]
+     ],
+     "artikel": {
+      "typecode": "INS ZB18 DA2 IPD HB Corr",
+      "toc": "6001072200"
+     }
+    }
    }
   ],
   "accessoires": [
@@ -1978,7 +2452,82 @@ window.INTUSENS_DATA = {
     "status": "bevestigd",
     "noot": "algemene TRILUX-lichtpraktijk; zegt niets over de IntuSens Broadcast-sensor zelf (OP-14)"
    }
-  ]
+  ],
+  "vergelijking": {
+   "kolommen": [
+    "plafond",
+    "zhaga",
+    "minir",
+    "minis",
+    "rail"
+   ],
+   "rijen": [
+    [
+     "Montage",
+     "opbouw of inbouw op het plafond",
+     "op het armatuur (Zhaga Book 18)",
+     "in het armatuur",
+     "in het armatuur",
+     "in de lichtlijn"
+    ],
+    [
+     "Optiek",
+     "Low Bay, High Bay, High Bay Corridor",
+     "High Bay, High Bay Corridor",
+     "High Bay",
+     "Low Bay",
+     "Low Bay"
+    ],
+    [
+     "Detectie",
+     "PIR + lichtsensor",
+     "PIR + lichtsensor",
+     "PIR + lichtsensor",
+     "PIR + lichtsensor",
+     "PIR + lichtsensor"
+    ],
+    [
+     "Kleuren",
+     "wit, zwart",
+     "—",
+     "wit, zwart",
+     "wit, grijs, zwart",
+     "wit, zwart"
+    ],
+    [
+     "Interface",
+     "Switch, DALI-2 Broadcast, DALI-2 Input Device",
+     "DALI-2 Input Device",
+     "DALI-2 Input Device",
+     "DALI-2 Input Device",
+     "DALI-2 Input Device"
+    ],
+    [
+     "Montagehoogte",
+     "2–5 m (Low Bay), 5–18 m (High Bay)",
+     "5–18 m",
+     "5–18 m",
+     "2–5 m",
+     "2–5 m"
+    ],
+    [
+     "Beschermingsgraad",
+     "—",
+     "IP66",
+     "—",
+     "—",
+     "—"
+    ],
+    [
+     "Toepassing",
+     "kantoor, onderwijs, hallen, gangen",
+     "industrie, logistiek, buiten",
+     "hallen, magazijnen, sporthallen",
+     "kantoor, onderwijs",
+     "kantoor, retail, lichtlijnen"
+    ]
+   ]
+  }
  },
  "koffer": {
   "_meta": {
@@ -2358,7 +2907,25 @@ window.INTUSENS_DATA = {
      }
     ]
    }
-  ]
+  ],
+  "snelstart_sales": {
+   "stappen": [
+    [
+     "Sluit aan",
+     "Steek het meegeleverde netsnoer achter in de koffer en in het stopcontact."
+    ],
+    [
+     "Schakel in",
+     "Zet de hoofdschakelaar achterop aan."
+    ],
+    [
+     "Kies je demo",
+     "Switch of DALI-2 Broadcast."
+    ]
+   ],
+   "noot": "De losse aansluitingen achterop zijn niet nodig voor de standaarddemo.",
+   "tip": "Open deze site één keer vóór de afspraak, dan werkt hij ook zonder internet."
+  }
  },
  "bediening": {
   "_meta": {
@@ -2491,6 +3058,81 @@ window.INTUSENS_DATA = {
     "assets/processed/bediening-broadcast-05.jpg",
     "assets/processed/bediening-broadcast-06.jpg"
    ]
+  },
+  "sales": {
+   "switch": {
+    "titel": "Zo laat je de Switch zien",
+    "sub": "Stel de sensor rechtstreeks in met de bediening op de sensor.",
+    "aanwijzingen": [
+     [
+      "PIR-lens",
+      "ziet beweging en meet het daglicht"
+     ],
+     [
+      "Draairing",
+      "stel de helderheidsdrempel of de nalooptijd in"
+     ],
+     [
+      "Display",
+      "toont direct de ingestelde waarde"
+     ]
+    ],
+    "stappen": [
+     [
+      "Laat de sensor zien",
+      "Wijs de PIR-lens, de draairing en het display aan."
+     ],
+     [
+      "Verander een instelling",
+      "Stel met de draairing de helderheidsdrempel of de nalooptijd in. Het display toont de waarde meteen."
+     ],
+     [
+      "Leg het voordeel uit",
+      "Direct op de sensor instelbaar: zonder app, afstandsbediening of gereedschap. De sensor schakelt de verlichting zelf."
+     ]
+    ],
+    "koffer": "In de koffer is geen lamp aangesloten. Je laat de instelling op het display zien."
+   },
+   "broadcast": {
+    "titel": "Zo laat je de DALI-2 Broadcast zien",
+    "sub": "Stel de sensor rechtstreeks in met de bediening op de sensor.",
+    "aanwijzingen": [
+     [
+      "PIR-lens",
+      "ziet beweging en meet het daglicht"
+     ],
+     [
+      "Draairing",
+      "stel de helderheidsdrempel of de nalooptijd in"
+     ],
+     [
+      "Display",
+      "toont direct de ingestelde waarde"
+     ]
+    ],
+    "stappen": [
+     [
+      "Laat de sensor zien",
+      "Wijs de PIR-lens, de draairing en het display aan."
+     ],
+     [
+      "Verander een instelling",
+      "Stel met de draairing de helderheidsdrempel of de nalooptijd in. Het display toont de waarde meteen."
+     ],
+     [
+      "Leg het voordeel uit",
+      "Direct op de sensor instelbaar, zonder app of adressering. Alle DALI-armaturen op de lijn reageren samen: schakelen en dimmen op daglicht."
+     ]
+    ],
+    "keten": [
+     "230 V",
+     "IntuSens DALI-2 Broadcast",
+     "DALI-bus",
+     "DALI-armaturen",
+     "samen als één groep"
+    ],
+    "koffer": "In de koffer zijn geen armaturen aangesloten. Je laat de instelling op het display zien."
+   }
   }
  },
  "demo": {
@@ -2543,9 +3185,9 @@ window.INTUSENS_DATA = {
     "live": "switch",
     "punten": [
      "geen lichtmanagement nodig",
-     "helderheidsdrempel en nalooptijd op de sensor"
+     "instellen met draairing en display"
     ],
-    "zeg": "Dit is de eenvoudigste vorm. De sensor schakelt het licht zelf. Kijk: ik stel hier de daglichtdrempel en de nalooptijd in, en het display laat de waarde zien.",
+    "zeg": "Dit is de eenvoudigste vorm. De sensor schakelt het licht zelf. Met de draairing stel ik de daglichtdrempel of de nalooptijd in, en het display laat de waarde meteen zien.",
     "foto": "assets/processed/k01-switch.jpg"
    },
    {
@@ -2559,7 +3201,7 @@ window.INTUSENS_DATA = {
      "constantlichtregeling",
      "geen controller, geen software"
     ],
-    "zeg": "Hier regelt de sensor DALI-armaturen. Alles op de lijn doet hetzelfde: aan, uit, dimmen op daglicht. Geen adressen, geen software, dezelfde bediening als de Switch.",
+    "zeg": "Hier regelt de sensor DALI-armaturen. Alles op de lijn doet hetzelfde: aan, uit en dimmen op daglicht. Geen adressen, geen software, dezelfde bediening als de Switch.",
     "foto": "assets/processed/k02-broadcast.jpg"
    },
    {

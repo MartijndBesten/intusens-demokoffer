@@ -196,5 +196,55 @@
     });
   }
 
-  window.KofferIllu = { html: html, bind: bind };
+
+  /* ---- losse weergaven (bediening, snelstart, familie) ---- */
+  var DEFS = '<defs><radialGradient id="bcBody" cx="45%" cy="38%" r="70%"><stop offset="0" stop-color="#2d2d2d"/><stop offset="1" stop-color="#1c1c1c"/></radialGradient><radialGradient id="swBody" cx="42%" cy="36%" r="72%"><stop offset="0" stop-color="#ffffff"/><stop offset=".75" stop-color="#f3f3f1"/><stop offset="1" stop-color="#e6e6e2"/></radialGradient></defs>';
+  function marker(n, x, y, tx, ty, dark) {
+    var c = dark ? '#ffffff' : '#072D78';
+    return '<g class="mk"><line x1="' + f(x) + '" y1="' + f(y) + '" x2="' + f(tx) + '" y2="' + f(ty) + '" stroke="' + c + '" stroke-width="1" opacity=".55"/>' +
+      circle(x, y, 3, c, 'none') + circle(tx, ty, 11, dark ? '#0b0b0b' : '#ffffff', c, 1.3) +
+      '<text x="' + f(tx) + '" y="' + f(ty + 4) + '" font-size="12" font-weight="600" text-anchor="middle" fill="' + c + '" font-family="Segoe UI, Arial, sans-serif">' + n + '</text></g>';
+  }
+  /* sensor('K01'|'K02', {markers:bool}) — grote losse sensor op zijn kofferpaneel */
+  function sensor(ref, opts) {
+    opts = opts || {};
+    var sw = ref === 'K01', cx = 200, cy = 190, k = 1.45, g = sw ? switchSensor(cx, cy) : broadcastSensor(cx, cy);
+    var bg = sw ? '#efefed' : '#1b1b1b', mk = '';
+    function P(dx, dy) { return [cx + dx * k, cy + dy * k]; }
+    if (opts.markers) {
+      var dark = !sw, ringR = sw ? 94 : 97, a;
+      a = P(12, 7);                     mk += marker(1, a[0], a[1], 352, 318, dark);   // PIR-lens
+      a = P(-ringR * 0.72, -ringR * 0.69); mk += marker(2, a[0], a[1], 40, 36, dark); // draairing
+      a = P(12, -45);                   mk += marker(3, a[0], a[1], 352, 36, dark);    // display boven de lens
+    }
+    return '<svg class="sensor-svg" viewBox="0 0 400 380" role="img" aria-label="' + (sw ? 'IntuSens Switch' : 'IntuSens DALI-2 Broadcast') + '">' + DEFS +
+      '<rect x="0" y="0" width="400" height="380" rx="18" fill="' + bg + '"/><g transform="translate(' + cx + ' ' + cy + ') scale(' + k + ') translate(' + (-cx) + ' ' + (-cy) + ')">' + g.body + '</g>' + mk + '</svg>';
+  }
+  /* part('K11'|'K12') — losse weergave van een toonmodel op donkere ondergrond */
+  function part(ref) {
+    var g = ref === 'K12' ? zhaga(100, 100, 'dome') : zhaga(100, 100, 'facet');
+    return '<svg class="part-svg" viewBox="0 0 200 200" role="img" aria-label="IntuSens Zhaga Book 18">' +
+      '<rect width="200" height="200" rx="14" fill="#0e0e0e"/><g transform="translate(100 100) scale(1.75) translate(-100 -100)">' + g.body + '</g></svg>';
+  }
+  /* icon('aansluiten'|'inschakelen') — rustige lijnillustraties voor de snelstart */
+  function icon(kind) {
+    var st = 'fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"';
+    if (kind === 'aansluiten') {
+      return '<svg class="qs-svg" viewBox="0 0 240 160" role="img" aria-label="Netsnoer achter in de koffer en in het stopcontact">' +
+        '<rect x="18" y="34" width="120" height="92" rx="14" fill="#1b1b1b"/><rect x="26" y="42" width="104" height="76" rx="9" fill="none" stroke="#333" stroke-width="1.2"/>' +
+        '<rect x="66" y="74" width="24" height="18" rx="3" fill="#0d0d0d" stroke="#555" stroke-width="1.2"/><rect x="71" y="79" width="3" height="8" fill="#888"/><rect x="76.5" y="79" width="3" height="8" fill="#888"/><rect x="82" y="79" width="3" height="8" fill="#888"/>' +
+        '<rect x="48" y="75" width="10" height="16" rx="2" fill="#0d0d0d" stroke="#555" stroke-width="1.2"/>' +
+        '<path d="M90 83 C 130 83, 140 120, 176 120" ' + st + ' stroke="#4097DB"/>' +
+        '<rect x="176" y="98" width="46" height="46" rx="10" ' + st + '/><circle cx="191" cy="121" r="3" fill="#111"/><circle cx="207" cy="121" r="3" fill="#111"/>' +
+        '<text x="78" y="146" font-size="10" text-anchor="middle" fill="#6b6b6b" font-family="Segoe UI, Arial, sans-serif">achterzijde koffer</text></svg>';
+    }
+    return '<svg class="qs-svg" viewBox="0 0 240 160" role="img" aria-label="Hoofdschakelaar achterop aan">' +
+      '<rect x="70" y="26" width="100" height="108" rx="14" fill="#1b1b1b"/><rect x="100" y="42" width="40" height="76" rx="6" fill="#0d0d0d" stroke="#555" stroke-width="1.2"/>' +
+      '<path d="M104 80 L136 66 L136 112 L104 112 Z" fill="#2a2a2a" stroke="#6a6a6a" stroke-width="1"/><path d="M104 46 L136 46 L136 66 L104 80 Z" fill="#3a3a3a" stroke="#6a6a6a" stroke-width="1"/>' +
+      '<text x="120" y="60" font-size="13" text-anchor="middle" fill="#4097DB" font-family="Segoe UI, Arial, sans-serif" font-weight="700">I</text>' +
+      '<text x="120" y="102" font-size="11" text-anchor="middle" fill="#8a8a8a" font-family="Segoe UI, Arial, sans-serif" font-weight="700">O</text>' +
+      '<text x="120" y="152" font-size="10" text-anchor="middle" fill="#6b6b6b" font-family="Segoe UI, Arial, sans-serif">hoofdschakelaar</text></svg>';
+  }
+
+  window.KofferIllu = { html: html, bind: bind, sensor: sensor, part: part, icon: icon };
 })();
