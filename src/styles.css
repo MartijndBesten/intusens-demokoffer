@@ -612,3 +612,27 @@ body.demo-mode .nav{display:none}
 .fl-why b{display:block;font-size:14px;margin-bottom:6px}
 .fl-why p{margin:0 0 6px;font-size:14px;color:var(--ink)}.fl-why p:last-child{margin-bottom:0}
 @media (max-width:760px){.fl-why{padding:10px 12px}.fl-why p{font-size:13px}}
+
+/* ---- aansluitschema's ---- */
+.wire-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.wire-tile{text-align:left;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;display:flex;flex-direction:column;gap:4px;transition:border-color .15s,box-shadow .15s}
+.wire-tile:hover{border-color:var(--ink)}
+.wire-tile.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.wire-tile b{font-size:16px}.wire-tile span{font-size:13px;color:var(--grey)}
+.wire-panel{margin-top:16px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(18px,3vw,40px);padding:clamp(18px,3vw,32px);align-items:start}
+.wire-vis{background:var(--surface);border-radius:var(--radius);padding:12px}
+.wire{display:block;width:100%;height:auto}
+.wire-txt h3{font-size:20px;margin-bottom:10px}
+.wire-txt ol{margin:0;padding-left:20px;color:var(--grey);font-size:15px}
+.wire-txt li{margin:6px 0}
+.wire-budget{margin-top:16px;padding:14px 16px;background:var(--blue-pale);border-left:2px solid var(--blue);border-radius:0 var(--radius) var(--radius) 0}
+.wire-budget b{display:block;font-size:14px;margin-bottom:6px}
+.wire-budget p{margin:0 0 10px;font-size:14px}
+.wire-budget dl{display:grid;grid-template-columns:1fr auto;gap:4px 16px;margin:0;font-size:13px}
+.wire-budget dt{color:var(--grey)}.wire-budget dd{margin:0;font-family:var(--mono);font-weight:600}
+@media (max-width:860px){
+  .wire-tiles{grid-template-columns:1fr;gap:8px}
+  .wire-tile{padding:12px 14px;flex-direction:row;align-items:baseline;gap:10px}.wire-tile b{font-size:15px}.wire-tile span{font-size:12px}
+  .wire-panel{grid-template-columns:1fr;padding:14px;gap:14px}
+  .wire-txt h3{font-size:17px}.wire-txt ol{font-size:14px}
+}

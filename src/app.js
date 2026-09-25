@@ -315,11 +315,80 @@
     var tabs = '<div class="seg">' + link('#/bediening/switch', isSw ? 'on' : '', 'Switch') + link('#/bediening/broadcast', isSw ? '' : 'on', 'DALI-2 Broadcast') + '</div>';
     var fab = '<div class="fab">' + B.sales.fabriek.filter(function (f) { return isSw ? !/Broadcast/.test(f[1]) : true; }).map(function (f) { return '<div><span>' + esc(f[0]) + '</span><b>' + esc(f[1].replace(' · alleen DALI-2 Broadcast', '')) + '</b></div>'; }).join('') + '</div>';
     var adv = sa.geavanceerd ? '<details class="tech-d adv"><summary>Meer / geavanceerd</summary><dl>' + sa.geavanceerd.map(function (g) { return '<dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd>'; }).join('') + '</dl></details>' : '';
-    var keten = sa.keten ? section('', '<div class="head"><div class="eyebrow">Zo werkt het</div><h2>Eén sensor, één lichtgroep</h2></div><div class="flowline">' + sa.keten.map(function (k, i) { return (i ? '<span class="arr">→</span>' : '') + '<div' + (i === 1 ? ' class="hi"' : '') + '>' + esc(k) + '</div>'; }).join('') + '</div>') : '';
-    setTimeout(function () { bindFlow('flow-' + ref, sa.flow); }, 0);
+    var keten = sa.keten ? section('grey', '<div class="head"><div class="eyebrow">Zo werkt het</div><h2>Eén sensor, één lichtgroep</h2></div><div class="flowline">' + sa.keten.map(function (k, i) { return (i ? '<span class="arr">→</span>' : '') + '<div' + (i === 1 ? ' class="hi"' : '') + '>' + esc(k) + '</div>'; }).join('') + '</div>') : '';
+    var A = B.sales.aansluiten, openId = isSw ? 'switch' : 'bcast';
+    var aansl = A ? section('', '<div class="head"><div class="eyebrow">Aansluiten</div><h2>' + esc(A.kop) + '</h2><p class="lead">' + esc(A.sub) + '</p></div>' + wiringHtml(A, openId)) : '';
+    setTimeout(function () { bindFlow('flow-' + ref, sa.flow); bindWiring(A); }, 0);
     return section('tight', tabs + '<div class="head"><h2>' + esc(sa.titel) + '</h2><p class="lead">' + esc(sa.sub) + '</p></div>' + annotated(ref) + '<p class="small muted" style="margin-top:18px">' + esc(sa.koffer) + '</p>') +
       section('grey', '<div class="head"><div class="eyebrow">Instellen op de sensor</div><h2>Zo stelt u de ' + naam + ' in</h2><p class="lead">Fabrieksinstellingen: ' + esc(B.sales.fabriek_noot) + '</p></div>' + fab + flowHtml('flow-' + ref, sa.flow) + adv +
-        '<div class="btn-row" style="margin-top:28px">' + link('#/demo', 'btn', 'Start demo') + link('#/product/' + ref, 'btn ghost', 'Productinformatie') + '</div>') + keten;
+        '<div class="btn-row" style="margin-top:28px">' + link('#/demo', 'btn', 'Start demo') + link('#/product/' + ref, 'btn ghost', 'Productinformatie') + '</div>') + aansl + keten;
+  }
+
+  /* ---------- AANSLUITSCHEMA'S (eenvoudige lijnschema's, stijl handleiding) ---------- */
+  function wiringSvg(kind) {
+    var F = ' font-family="Segoe UI, Arial, sans-serif"', INK = '#111', GR = '#8a8a8a', BL = '#072D78', LB = '#4097DB';
+    function ln(x1, y1, x2, y2, c, w, dash) { return '<path d="M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2 + '" stroke="' + (c || INK) + '" stroke-width="' + (w || 1.6) + '" fill="none" stroke-linecap="round"' + (dash ? ' stroke-dasharray="4 4"' : '') + '/>'; }
+    function pl(d, c, w) { return '<path d="' + d + '" stroke="' + (c || INK) + '" stroke-width="' + (w || 1.6) + '" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'; }
+    function tx(x, y, s, o) { o = o || {}; return '<text x="' + x + '" y="' + y + '" font-size="' + (o.s || 11) + '"' + F + (o.b ? ' font-weight="600"' : '') + ' fill="' + (o.c || INK) + '"' + (o.a ? ' text-anchor="' + o.a + '"' : '') + '>' + s + '</text>'; }
+    function box(x, y, w, h, t1, t2) { return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="6" fill="#fff" stroke="' + INK + '" stroke-width="1.6"/>' + tx(x + w / 2, y + h / 2 - (t2 ? 4 : -4), t1, { b: 1, a: 'middle', s: 12 }) + (t2 ? tx(x + w / 2, y + h / 2 + 12, t2, { a: 'middle', c: GR, s: 10 }) : ''); }
+    function dot(x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="2.6" fill="' + INK + '"/>'; }
+    function term(x, y, s, side) { return '<circle cx="' + x + '" cy="' + y + '" r="3" fill="#fff" stroke="' + INK + '" stroke-width="1.4"/>' + tx(x + (side === 'l' ? 7 : -7), y + 4, s, { s: 10, c: GR, a: side === 'l' ? 'start' : 'end' }); }
+    function lamp(cx, cy, lbl) { return '<circle cx="' + cx + '" cy="' + cy + '" r="14" fill="#fff" stroke="' + INK + '" stroke-width="1.6"/>' + pl('M' + (cx - 9) + ' ' + (cy - 9) + ' L' + (cx + 9) + ' ' + (cy + 9) + ' M' + (cx + 9) + ' ' + (cy - 9) + ' L' + (cx - 9) + ' ' + (cy + 9)) + (lbl ? tx(cx, cy + 30, lbl, { a: 'middle', c: GR, s: 10 }) : ''); }
+    function button(x, y) { // maakcontact, horizontaal, links en rechts een aansluiting
+      return dot(x, y) + dot(x + 34, y) + pl('M' + (x + 4) + ' ' + y + ' L' + (x + 26) + ' ' + (y - 9)) + pl('M' + (x + 15) + ' ' + (y - 16) + ' L' + (x + 15) + ' ' + (y - 9), INK, 1.2) + '<rect x="' + (x + 10) + '" y="' + (y - 22) + '" width="10" height="5" rx="1" fill="' + INK + '"/>';
+    }
+    function mains(x, y) { return tx(x, y - 10, '230 V', { b: 1, s: 11 }) + term(x + 22, y, 'L', 'r') + term(x + 22, y + 22, 'N', 'r') + term(x + 22, y + 44, 'PE', 'r'); }
+    var s = '';
+    if (kind === 'switch') {
+      s = '<svg class="wire" viewBox="0 0 520 250" role="img" aria-label="Aansluitschema IntuSens Switch">';
+      s += mains(30, 70) + ln(55, 70, 200, 70) + ln(55, 92, 200, 92) + ln(55, 114, 200, 114);
+      s += box(200, 40, 150, 140, 'IntuSens Switch', 'L · N · PE · L’ · T');
+      s += ln(350, 70, 430, 70, BL, 2) + tx(360, 62, 'L’', { b: 1, c: BL }) + lamp(450, 70, 'geschakeld armatuur');
+      s += ln(230, 180, 230, 218) + tx(236, 200, 'T', { b: 1 }) + button(140, 218) + ln(174, 218, 230, 218);
+      s += ln(140, 218, 100, 218) + ln(100, 218, 100, 70) + dot(100, 70) + tx(120, 240, 'drukknop (maakcontact) tussen L en T', { c: GR, s: 10 });
+      s += '</svg>';
+    } else if (kind === 'ext') {
+      s = '<svg class="wire" viewBox="0 0 560 250" role="img" aria-label="Twee IntuSens Switch-sensoren, één in Extension mode">';
+      s += mains(20, 60) + ln(45, 60, 120, 60) + ln(45, 82, 120, 82) + ln(45, 104, 120, 104);
+      s += box(120, 34, 140, 110, 'IntuSens Switch', 'regelt · A of S');
+      s += ln(260, 60, 300, 60, BL, 2) + tx(266, 52, 'L’', { b: 1, c: BL }) + lamp(320, 60, 'armatuur');
+      s += mains(380, 60) + ln(405, 60, 420, 60) + ln(405, 82, 420, 82) + ln(405, 104, 420, 104);
+      s += box(420, 34, 130, 110, 'IntuSens Switch', 'Extension mode · E');
+      s += ln(190, 144, 190, 200) + ln(190, 200, 485, 200) + ln(485, 200, 485, 144) + tx(196, 168, 'T', { b: 1 }) + tx(479, 168, 'T', { b: 1, a: 'end' });
+      s += tx(337, 194, 'koppeling via het T-/drukknopcontact', { a: 'middle', c: GR, s: 10 });
+      s += tx(280, 236, 'de extra sensor meldt beweging door en vergroot het detectiebereik', { a: 'middle', c: GR, s: 10 });
+      s += '</svg>';
+    } else {
+      s = '<svg class="wire" viewBox="0 0 520 290" role="img" aria-label="IntuSens DALI-2 Broadcast met DALI-armaturen en een IntuSens DALI-2 Input Device op één DALI-bus">';
+      s += mains(20, 60) + ln(45, 60, 100, 60) + ln(45, 82, 100, 82) + ln(45, 104, 100, 104);
+      s += box(100, 30, 170, 110, 'IntuSens DALI-2 Broadcast', 'regelt · application controller');
+      s += ln(270, 74, 480, 74, BL, 2) + ln(270, 92, 480, 92, BL, 2) + tx(285, 66, 'DA+', { b: 1, c: BL, s: 10 }) + tx(285, 106, 'DA−', { b: 1, c: BL, s: 10 });
+      s += ln(340, 74, 340, 200, BL, 2) + ln(358, 92, 358, 200, BL, 2) + dot(340, 74) + dot(358, 92);
+      s += box(290, 200, 120, 56, 'DALI-armaturen', 'op dezelfde bus');
+      s += ln(440, 74, 440, 200, BL, 2) + ln(458, 92, 458, 200, BL, 2) + dot(440, 74) + dot(458, 92);
+      s += box(415, 200, 100, 56, 'DALI-2', 'Input Device');
+      s += tx(515, 275, 'gevoed via DALI, geen 230 V nodig', { a: 'end', c: GR, s: 10 });
+      s += '</svg>';
+    }
+    return s;
+  }
+  function wiringHtml(A, openId) {
+    var tiles = '<div class="wire-tiles">' + A.items.map(function (it) { return '<button class="wire-tile' + (it.id === openId ? ' on' : '') + '" data-w="' + it.id + '"><b>' + esc(it.titel) + '</b><span>' + esc(it.sub) + '</span></button>'; }).join('') + '</div>';
+    return '<div class="wiring" id="wiring">' + tiles + '<div class="wire-panel">' + wiringPanel(A, openId) + '</div></div>';
+  }
+  function wiringPanel(A, id) {
+    var it = A.items.filter(function (x) { return x.id === id; })[0] || A.items[0];
+    var budget = it.budget ? '<div class="wire-budget"><b>' + esc(it.budget.kop) + '</b><p>' + esc(it.budget.tekst) + '</p><dl>' + it.budget.waarden.map(function (w) { return '<dt>' + esc(w[0]) + '</dt><dd>' + esc(w[1]) + '</dd>'; }).join('') + '</dl></div>' : '';
+    return '<div class="wire-vis">' + wiringSvg(it.schema) + '</div><div class="wire-txt"><h3>' + esc(it.titel) + '</h3><ol>' + it.uitleg.map(function (u) { return '<li>' + esc(u) + '</li>'; }).join('') + '</ol>' + budget + '</div>';
+  }
+  function bindWiring(A) {
+    var root = document.getElementById('wiring'); if (!root) return;
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('.wire-tile'); if (!b) return;
+      var id = b.getAttribute('data-w');
+      root.querySelectorAll('.wire-tile').forEach(function (t) { t.classList.toggle('on', t === b); });
+      root.querySelector('.wire-panel').innerHTML = wiringPanel(A, id);
+    });
   }
 
   /* ---------- PRODUCT ---------- */
