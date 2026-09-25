@@ -69,7 +69,7 @@
   function section(cls, inner) { return '<section class="section ' + (cls || '') + '"><div class="wrap">' + inner + '</div></section>'; }
   function salesImg(p, cls) { // productbeeld voor sales: officieel of koffer; Zhaga als illustratie
     var sa = p.sales || {};
-    if (sa.beeld) return '<div class="' + cls + (isDarkSrc(sa.beeld) ? ' dark' : '') + '"><img src="' + esc(sa.beeld) + '" alt="' + esc(p.kort) + '"></div>';
+    if (sa.beeld) return '<div class="' + cls + (isDarkSrc(sa.beeld) ? ' dark' : '') + (/rail/.test(sa.beeld) ? ' wide' : '') + '"><img src="' + esc(sa.beeld) + '" alt="' + esc(p.kort) + '"></div>';
     return '<div class="' + cls + ' dark illu-img">' + window.KofferIllu.part(p.id) + '</div>';
   }
   function famImg(f, cls) {

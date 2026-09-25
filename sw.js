@@ -1,7 +1,7 @@
 /* Service worker TRILUX IntuSens Demokoffer — gegenereerd door tools/publish_site.py.
    Doel: na het eerste bezoek werkt de site ook zonder internet (bij de klant).
    Strategie: alle bestanden vooraf in de cache; cache-first; bij een nieuwe versie wordt de oude cache opgeruimd. */
-const CACHE = "intusens-demokoffer-d45f31836bf8";
+const CACHE = "intusens-demokoffer-5d1f2e93f780";
 const FILES = [
  "./",
  "assets/brand/trilux-logo-kleur-zwart.png",
@@ -27,6 +27,8 @@ const FILES = [
  "assets/processed/is-inbouw-wit.jpg",
  "assets/processed/is-ipd.jpg",
  "assets/processed/is-lb.jpg",
+ "assets/processed/is-minir-wit.jpg",
+ "assets/processed/is-minir-zwart.jpg",
  "assets/processed/is-minir.jpg",
  "assets/processed/is-minis.jpg",
  "assets/processed/is-nlc.jpg",

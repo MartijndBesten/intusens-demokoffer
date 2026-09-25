@@ -682,3 +682,8 @@ body.demo-mode .nav{display:none}
 .jump button::after{content:"\2193";color:var(--blue);font-size:13px}
 .jump button:hover{border-color:var(--ink)}
 .anchor{scroll-margin-top:calc(var(--nav-h) + 16px)}
+/* brede beelden (Rail): vlak volgt de beeldverhouding, geen lege balken */
+.pd-img.wide{aspect-ratio:auto;height:auto;padding:0;overflow:hidden}
+.pd-img.wide img{width:100%;height:auto;object-fit:contain}
+.pd-img.wide:not(.dark){padding:8%}
+@media (max-width:800px){.pd-img.wide{height:auto;padding:0}.pd-img.wide:not(.dark){padding:6%}}
