@@ -1,15 +1,64 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** v0.8 gereed — polish-preview met vlottere timing, lichte tech-soundbed, fysieke cues en **lege voice-over-slots** (low-res, 45,5 s tot zwart). Beeld/tekst/opbouw ongewijzigd t.o.v. v0.6. **Blokkade:** geen acceptabele Nederlandse TTS in deze omgeving; stemmen extern genereren (zie `video/vo/README.md`).
+**Status:** v0.9 **gedeeltelijk** — beeld-polish klaar (losse karakterlagen, micro-acting, levendigere race, energiekere
+tellers) en een volledig automatische voice-pipeline; **de echte stemmen zijn nog niet geplaatst**.
 **Bijgewerkt:** 2026-09-26.
-**Volgende actor:** Martijn — 16 Nederlandse robotstemmen (extern) aanleveren volgens `video/vo/cues.csv`; daarna `audio.py --robot` + render → v0.8-vo. Daarna polish: scherpe Broadcast-still, definitief sound design, typografie, eventueel twee Higgsfield-videoshots.
+**Blokkade:** de TTS-masters uit `video/vo/higgsfield-v1-manifest.json` konden niet worden gedownload. De netwerkpolicy van de
+Claude-omgeving weigert de host `d8j0ntlcm91z4.cloudfront.net` (403 op de proxy). Niet omzeild.
+**Volgende actor:** Martijn — één van beide:
+1. de 17 WAV's (16 + `08-BC-code-op-display-fast.wav`) in `video/vo/` op deze branch zetten (bv. uploaden via GitHub), of
+2. in de omgevingsinstellingen *Network access* ruimer zetten of `d8j0ntlcm91z4.cloudfront.net` toevoegen aan de toegestane domeinen.
+Daarna: `vo_prepare.py` → `build_timeline.py` → `audio.py --robot` → render (zie `video/vo/README.md`). Geen andere handwerk nodig.
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
 - Higgsfield-karakters zijn de vaste visuele identiteit; geen redesign, geen mensen/armen/benen; gezichtjes subtiel.
-- Lengte: v0.8 45,5 s tot zwart (doel 44–45 s); display, website-uitleg en leesduur saleskaart niet ingekort.
+- Lengte: doel 45–50 s met echte stemmen; mag iets langer als de stemmen daardoor natuurlijker klinken.
+- Stemmen definitief: Switch = Skye, DALI-2 Broadcast = Orion, Rail = Chloe (higgsfield-v1).
 - Rail-cameo, displayanimatie, echte website, productrace en slot zijn definitief voor de animatic (v0.6).
 - Geen betaalde externe video-generaties; geen definitieve high-res export voordat v0.3 beoordeeld is.
+
+## Gewijzigd in v0.9 t.o.v. v0.8
+
+### Beeld: echte beweging met losse lagen (geen redesign)
+- `animatic/make_layers.py` snijdt Switch, Broadcast en Rail letterlijk uit dezelfde Higgsfield-platen (koffer- en raceplaat)
+  en vult de plek eronder met een harmonische vulling + korrel. Resultaat: schone achtergrondplaten + lagen met alpha
+  (`assets/k-switch.png`, `k-broadcast.png`, `k-rail.png`, `r-switch.png`, `r-broadcast.png`, `koffer-clean-ext.png`,
+  `race-clean.png`). Elke laag heeft eigen positie, rotatie, schaal, schaduw en gezichtje; productvormen worden niet vervormd
+  (alleen verschuiven, roteren ≤ 3,5°, schalen ≤ 5 %).
+- **Opening:** camera langzaam dichterbij (1,035 → 1,09) met horizontale pan; lagen bewegen 22 % extra mee (parallax).
+  "Hé collega?": Switch kort naar voren + snelle kanteling, ogen naar kijker. "We zitten hier al best lang.": Broadcast
+  rustig een kleine draai naar Switch, dan naar de kijker. "Veel te lang.": droge snelle knik van Switch. "Neem ons eens
+  mee…": beide leunen en kijken dezelfde kant op, de koffer uit.
+- **Broadcast-uitleg:** display 3 → 2 → 1 → ULC → 080 technisch ongewijzigd. Nieuw: kleine Broadcast in de hoek reageert
+  op de knopdruk en kijkt naar het display; bij 080 komt Switch kort nieuwsgierig in beeld.
+- **Website:** telefoon komt vloeiender binnen (schaal 0,9 → 1, rotatie −10° → −4°) en de camera volgt een klein stukje mee.
+- **Rail:** camera omhoog; Rail komt 3,5 % naar voren, kantelt bij "En ik dan?", droog tevreden na "Jij staat ook op de site."
+- **Race:** Switch en Broadcast als losse lagen, 8 % groter. Bij de vraag kijken ze elkaar aan. "Ik.": Switch direct een
+  korte zelfverzekerde stap naar voren met kanteling. Beat. "Succes.": Broadcast reageert nauwelijks, draait daarna heel
+  langzaam een paar graden naar Switch en kijkt droog in de camera. Pas daarna de tellers: cijfers rollen snel door,
+  grotere bump en kleine schok per stap, stopt vóór 50.
+
+### Tijdlijn om de echte stemmen heen
+- `animatic/build_timeline.py` genereert `timeline.js`. Alle acting in `index.html` is relatief aan dialoogregels en
+  scènegrenzen, dus alles schuift automatisch mee met de werkelijke stemduur.
+- Vaste blokken blijven even lang: display (5,8 s), website (≥ 5,8 s vanaf telefoon in beeld, 2,5 s ingezoomd),
+  saleskaart (8,4 s, ≈ 7 s volledig opgebouwd). Race-beats vast: 0,35 / 0,30 / 0,65 s en 0,45 s droge blik.
+- Doel ≤ 50 s: als de stemmen langer uitvallen, worden alleen de gewone pauzes compacter (tot 60 %).
+- Lipsync: mondopening volgt de amplitude van de echte stem (24 fps-envelope uit `vo_prepare.py`).
+
+### Voice-pipeline (klaar, getest met testsignalen)
+- `vo_prepare.py`: trimt alleen stilte (drempel max(−50 dBFS, piek − 40 dB), 40 ms voorloop, 90 ms uitloop), meet de
+  actieve duur, kiest voor regel 08 de snelle variant als de normale > 3,4 s actief is, versnelt alleen regels die duidelijk
+  boven natuurlijk leestempo zitten en nooit meer dan 12 % (ffmpeg atempo, toonhoogte gelijk).
+- `audio.py --robot`: lichte robot-kleur per karakter (korte chorus/comb + klein elektronisch randje, geen vocoder).
+  Lichte v0.8-techgroove (104 bpm) duckt onder de stemmen; knop-, display-, Rail-, teller- en koffercues blijven.
+- Getest met synthetische testbestanden van dezelfde ruwe lengte als het manifest: alle 16 regels geplaatst, timing en mix
+  correct. Echte verstaanbaarheid en actieve duur zijn **niet** gecontroleerd, omdat de echte stemmen ontbreken.
+
+### Preview in deze sessie
+- `video/out/intusens-preview-v0.9-beeld.mp4`: nieuwe beeldlaag op geschatte (v0.8-)regelduren, met groove en cues,
+  **zonder stemmen**. Alleen bedoeld om de beweging te beoordelen.
 
 ## Gewijzigd in v0.8 t.o.v. v0.7
 
@@ -197,7 +246,7 @@
 ## Bestanden
 `video/README.md`, `video/HANDOFF.md`, `video/animatic/{index.html,timeline.js,render.js,audio.py,encode.sh}`,
 `video/animatic/assets/*` (o.a. nieuwe `black-plate.png`), `video/reference/higgsfield/*`.
-Renders in `video/out/` (niet in git): `intusens-preview-v0.8.mp4`.
+Renders in `video/out/` (niet in git): `intusens-preview-v0.9-beeld.mp4`.
 
 ## Open vragen
 Geen blokkerende. Vraag 1 (kleur), 2 (MiniR) en 3 (URL) uit v0.1/v0.2 zijn beantwoord en verwerkt.

@@ -162,7 +162,8 @@ def koffer(buf, t0, closing=False, gain=0.22):
 def main(argv):
     out = argv[1] if len(argv) > 1 and not argv[1].startswith('--') else 'animatic-audio.wav'
     robot = '--robot' in argv
-    vo_dir = argv[argv.index('--vo') + 1] if '--vo' in argv else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'vo')
+    vo_root = os.environ.get('IS_VO_DIR') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'vo')
+    vo_dir = argv[argv.index('--vo') + 1] if '--vo' in argv else (os.path.join(vo_root, 'proc') if os.path.isdir(os.path.join(vo_root, 'proc')) else vo_root)
     T = load_timeline(); total = int(T['duration'] * SR)
     vo = np.zeros(total); bed = np.zeros(total); fx = np.zeros(total)
     placed, missing = place_vo(vo, T['lines'], vo_dir, robot)

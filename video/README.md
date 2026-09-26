@@ -4,10 +4,10 @@ Korte film (± 30 s) waarin de **IntuSens Switch** en de **IntuSens DALI-2 Broad
 demokoffer met elkaar praten. Toon: intern grapje dat toevallig ook echte productuitleg geeft.
 Stijl: premium TRILUX corporate animation, donkerblauw / zwart / wit / koelblauw, 2.5D/3D, droog.
 
-Status: **v0.8 — polish-preview met voice-over-slots** (low-res). Inhoud, tekst, beeld en opbouw identiek aan v0.6.
-Pseudo-spraak en donkere soundbed zijn weg. De regels zijn nu echte voice-over-slots: in deze omgeving is geen
-acceptabele Nederlandse TTS beschikbaar (zie `video/vo/README.md`), dus de stemmen worden extern gegenereerd en
-via `audio.py` op de bestaande tijdlijn geplaatst. Nog géén high-res, geen externe video-generaties.
+Status: **v0.9 — beeld klaar, stemmen geblokkeerd.** De definitieve TTS-masters (Skye/Orion/Chloe) staan in
+`vo/higgsfield-v1-manifest.json`, maar de download-host is door de netwerkpolicy van de omgeving geblokkeerd. v0.9 bevat
+daarom de nieuwe beeldlaag (losse karakterlagen, micro-acting, levendigere race) en een volledig automatische
+voice-pipeline; zodra de WAV's in `vo/` staan, levert één commando-reeks de echte v0.9 met stemmen (zie `vo/README.md`).
 
 Vaste besluiten (niet meer wijzigen):
 - **IntuSens Switch = wit, IntuSens DALI-2 Broadcast = zwart** (koffer, `src/data.js`, echte foto's zijn leidend;
@@ -23,10 +23,13 @@ Vaste besluiten (niet meer wijzigen):
 | Pad | Inhoud |
 |---|---|
 | `animatic/index.html` | De film als deterministische HTML-tijdlijn (`window.seek(t)`), 1920×1080-stage. Open lokaal via een http-server op de repo-root om te scrubben/afspelen. |
-| `animatic/timeline.js` | **Enige bron** voor scènes, dialoogregels, tijden, fotovolgorde, tellerstappen. Beeld én audio lezen hieruit. |
+| `animatic/timeline.js` | **Gegenereerd** door `build_timeline.py` (v0.9). Beeld én audio lezen hieruit; niet met de hand bewerken. |
 | `animatic/render.js` | Rendert frames (Playwright/Chromium). `--stills` voor compositiechecks. |
 | `animatic/audio.py` | Mix v0.8: plaatst voice-over-bestanden uit `video/vo/` op hun starttijd (optioneel `--robot` voor lichte robot-kleur), lichte tech-pulse-soundbed (104 bpm, majeur, duckt onder VO en tijdens de saleskaart), gesynthetiseerde fysieke cues. |
-| `animatic/vo_cues.py` | Genereert `video/vo/README.md`, `cues.csv` en `script-SW/BC/RL.txt` uit `timeline.js`. |
+| `animatic/make_layers.py` | v0.9: maakt losse karakterlagen (Switch, Broadcast, Rail) + schone achtergrondplaten uit dezelfde Higgsfield-renders (`assets/k-*.png`, `r-*.png`, `koffer-clean-ext.png`, `race-clean.png`, `layers.json/js`). Geen redesign: letterlijke uitsneden. |
+| `animatic/vo_prepare.py` | v0.9: trimt stilte, meet actieve spreekduur, kiest variant regel 08, begrensde tempo-correctie (≤ 12 %), lipsync-envelope → `vo/proc/`, `vo/durations.json`. |
+| `animatic/build_timeline.py` | v0.9: genereert `timeline.js` om de echte stemmen heen; alle acting is relatief aan regels; vaste blokken blijven even lang. |
+| `animatic/vo_cues.py` | (v0.8) cuesheets voor lege slots; vervangen door het manifest. |
 | `vo/` | Voice-over-cuesheets en (na aanlevering) de 16 stembestanden. |
 | `animatic/encode.sh` | Frames + wav → mp4 (H.264). |
 | `animatic/assets/` | Afgeleide werkbestanden: cut-outs met alpha, "gezichtsplaten" (ogen/mond geneutraliseerd), website-screenshots, display-crop. |
@@ -94,7 +97,7 @@ cd video/animatic
 node render.js --stills 1.0,7.6,12.4 --out ../out/stills     # compositiecheck
 node render.js --out ../out/frames --scale 0.5                # 960x540, 24 fps
 python3 audio.py ../out/animatic-audio.wav
-./encode.sh ../out/frames ../out/animatic-audio.wav ../out/intusens-preview-v0.8.mp4
+./encode.sh ../out/frames ../out/animatic-audio.wav ../out/intusens-preview-v0.9.mp4
 ```
 
 Vereist: Playwright (Chromium), Python 3 met Pillow/numpy (alleen voor assets), ffmpeg
