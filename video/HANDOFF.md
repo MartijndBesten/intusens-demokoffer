@@ -1,14 +1,40 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** animatic v0.5 gereed (low-res polish-preview, 42,9 s tot zwart, placeholder-audio).
+**Status:** animatic v0.6 gereed — **laatste animatic-iteratie** (low-res, 45,3 s tot zwart, placeholder-audio). Animatic-fase afgesloten.
 **Bijgewerkt:** 2026-09-26.
-**Volgende actor:** Martijn — beoordeel v0.5 (tempo, Rail-cameo, labels, eindkaart B) en beslis over de punten onder "Nog niet goed genoeg voor high-res".
+**Volgende actor:** Martijn — start polish-fase: scherpe Broadcast-still, stemmen, sound design, typografie, eventueel twee Higgsfield-videoshots (zie "Polish-fase" hieronder).
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
 - Higgsfield-karakters zijn de vaste visuele identiteit; geen redesign, geen mensen/armen/benen; gezichtjes subtiel.
-- Lengte: circa 41–43 s is acceptabel (v0.5: 42,9 s); geen harde maximumduur; leesbaarheid gaat vóór snelheid.
+- Lengte: circa 44–46 s is acceptabel (v0.6: 45,3 s); geen harde maximumduur; leesbaarheid gaat vóór snelheid.
+- Rail-cameo, displayanimatie, echte website, productrace en slot zijn definitief voor de animatic (v0.6).
 - Geen betaalde externe video-generaties; geen definitieve high-res export voordat v0.3 beoordeeld is.
+
+## Gewijzigd in v0.6 t.o.v. v0.5 (laatste animatic-correctie)
+1. **Saleschallenge vereenvoudigd.** "Verdeeld over meerdere installateurs telt ook" volledig verwijderd (onjuist).
+   Kaart nu: EN VOOR JOU · **VERKOOP MINIMAAL 50 LOSSE SENSOREN** (MINIMAAL 50 in blauw) · *in één keer voor de
+   grijpvoorraad* (kleiner) · Dan ligt er voor jou ook iets te grijpen. · kader PROJECTORDERS TELLEN NIET MEE.
+   Geen extra toelichtende regels.
+2. **Handtekening** onderaan klein: `intusens-demokoffer.nl` + *Concept & realisatie · Martijn den Besten*.
+3. **Timing.** Eindkaart B 34,7–43,1 s: volledig opgebouwd vanaf ± 36,1 s → 7,0 s stil leesbaar. Website-hold +0,7 s
+   (2,5 s ingezoomd), Rail-cameo +0,4 s (3,3 s), reactietijd tussen "Ik." en "Succes." 0,3 → 0,6 s. Totaal 42,9 → 45,3 s.
+4. Niet gewijzigd: Switch wit, Broadcast zwart, Rail-cameo, displayanimatie, echte website, productrace, slot.
+
+## Zelfcontrole v0.6 (stills + contactvel uit de mp4)
+- Eindkaart B: hiërarchie MINIMAAL 50 > "in één keer" > prijszin > kader; 7,0 s stil; credit klein en subtiel.
+- Ondertitels 78 px, 110 px boven de onderrand; kaarttekst ≥ 44 px (± 4,5 mm op een 6-inch-scherm); kader 64 px.
+- Rail-cameo, displayreeks en websitekoppeling ongewijzigd en leesbaar.
+
+## Polish-fase (volgende stap, na v0.6)
+1. Nieuwe scherpe zwarte Broadcast-characterstill in Higgsfield-stijl (frontaal, scherp, zonder ingebakken ogen) voor S2a.
+2. Stemmen: twee duidelijk verschillende Nederlandse stemmen (Switch energieker/scherper, Broadcast rustiger/droger),
+   Rail kort; cues staan per regel in `animatic/timeline.js` (who, t0, t1).
+3. Sound design subtiel: koffer, drukknop, lichte UI-clicks, kleine bewegingen; geen kinderachtige effecten.
+4. Typografie: TRILUX-huisstijlfont voor ondertitels, chips, tellers en eindkaarten.
+5. Eventueel twee Higgsfield-videoshots ter vervanging van de vlakke platen: S1 opening (0,0–6,5 s) en S5 face-off
+   (25,9–32,4 s). Alles daartussen blijft gecontroleerde montage.
+6. Daarna pas high-res export (`render.js --scale 1`), evt. 9:16-variant.
 
 ## Gewijzigd in v0.5 t.o.v. v0.4
 1. **Tempo nog iets rustiger.** +0,1–0,2 s tussen regels; eindkaart B 33,3–40,7 s: volledig opgebouwd vanaf ± 34,7 s
@@ -103,7 +129,7 @@
 ## Bestanden
 `video/README.md`, `video/HANDOFF.md`, `video/animatic/{index.html,timeline.js,render.js,audio.py,encode.sh}`,
 `video/animatic/assets/*` (o.a. nieuwe `black-plate.png`), `video/reference/higgsfield/*`.
-Renders in `video/out/` (niet in git): `intusens-animatic-v0.5.mp4`.
+Renders in `video/out/` (niet in git): `intusens-animatic-v0.6.mp4`.
 
 ## Open vragen
 Geen blokkerende. Vraag 1 (kleur), 2 (MiniR) en 3 (URL) uit v0.1/v0.2 zijn beantwoord en verwerkt.

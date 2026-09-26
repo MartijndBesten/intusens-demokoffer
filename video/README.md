@@ -4,8 +4,8 @@ Korte film (± 30 s) waarin de **IntuSens Switch** en de **IntuSens DALI-2 Broad
 demokoffer met elkaar praten. Toon: intern grapje dat toevallig ook echte productuitleg geeft.
 Stijl: premium TRILUX corporate animation, donkerblauw / zwart / wit / koelblauw, 2.5D/3D, droog.
 
-Status: **animatic v0.5** (low-res polish-preview: rustiger tempo, eindkaart B ≈ 6 s, Rail-cameo, labels na de stap).
-Nog géén high-res, geen stemmen, geen externe video-generaties.
+Status: **animatic v0.6 — laatste animatic-iteratie** (low-res). Volgende fase is polish: scherpe Broadcast-still,
+stemmen, sound design, typografie, eventueel twee Higgsfield-videoshots. Nog géén high-res of externe video-generaties.
 
 Vaste besluiten (niet meer wijzigen):
 - **IntuSens Switch = wit, IntuSens DALI-2 Broadcast = zwart** (koffer, `src/data.js`, echte foto's zijn leidend;
@@ -13,7 +13,7 @@ Vaste besluiten (niet meer wijzigen):
 - Higgsfield-karakters zijn de vaste visuele identiteit: geen redesign, geen mensen/armen/benen, gezichtjes subtiel.
 - Bediening, telefoon, website, teksten en tellers blijven gecontroleerde montage. Alleen twee karaktershots zijn
   later eventueel door hoogwaardige Higgsfield-video te vervangen: **S1 opening in de koffer (0,0–6,5 s)** en
-  **S5 face-off vlak vóór de race (24,8–31,0 s)**. Beide zijn in `index.html` losse scènes met één achtergrondplaat
+  **S5 face-off vlak vóór de race (25,9–32,4 s)**. Beide zijn in `index.html` losse scènes met één achtergrondplaat
   (`assets/koffer-plate-ext.png`, `assets/race-plate.png`) plus de gezichts-rig eroverheen.
 
 ## Mappen
@@ -34,20 +34,20 @@ Technische waarheid komt uit de repo zelf: `assets/processed/*` (echte foto's) e
 (`#/bediening/broadcast`, stap 2 Lichtdrempel) — dezelfde code die op
 [intusens-demokoffer.nl](https://intusens-demokoffer.nl) draait.
 
-## Script en timing (v0.5, 42,9 s tot zwart)
+## Script en timing (v0.6, 45,3 s tot zwart)
 
 | t (s) | Scène | Beeld | Dialoog |
 |---|---|---|---|
 | 0,0–6,5 | S1 Koffer | Koffer-styleframe, rustige push-in; blikken, beat vóór "Veel te lang", tilt + mini-bounce | SW *Hé collega?* · BC *We zitten hier al best lang.* · SW *Veel te lang.* · BC *Neem ons eens mee naar een installateur.* |
 | 6,5–8,1 | S2a | Broadcast (zwart) komt naar voren, Switch (wit) gluurt links | BC *Kijk. Zo moeilijk ben ik niet.* |
 | 8,1–13,9 | S2b Bediening | Echte foto (drukknop ingedrukt) met gereconstrueerd 7-segment-display: leeg (0,9 s, label *Drukknop 3 s vasthouden*) → 3 → 2 → 1 (1,8 s, alleen display) → ULC (1,2 s, label pas bij ULC) → 080 + LED licht (1,9 s, label pas bij 080) | — |
-| 13,9–21,9 | S3 Website | Match-cut: zelfde display met 080 links; echte site op telefoon rechts (16,0), verbindingslijn 080 → 080 (17,1); camera-push naar de telefoon (20,1–21,9) | SW *080?* · BC *Even checken? Pak de site erbij.* · BC *Code op het display, uitleg op je telefoon. Klaar.* |
-| 21,9–24,8 | S4 Rail-cameo | Switch en Broadcast in de koffer; bij "En ik dan?" kantelt de camera omhoog naar de echte witte Rail (K03) in het deksel: blauw lichtaccent, subtiel gezichtje, bounce, label INTUSENS RAIL (1,1 s); camera zakt iets terug, Switch kijkt omhoog en antwoordt; Rail reageert droog tevreden | RL *En ik dan?* · SW *Jij staat ook op de site.* |
-| 24,8–31,0 | S5 Face-off | Race-styleframe, tellers 00/00 → 12/18 → 27/31 → 43/46 (29,8 / 30,2 / 30,6) | SW *Maar goed. Belangrijkere vraag…* · BC *Wie van ons is als eerste vijftig keer verkocht?* · SW *Ik.* · BC *Succes.* |
-| 31,0–33,3 | Eindkaart A | **Switch vs Broadcast — RACE NAAR 50 — Welk product is als eerste vijftig keer verkocht?** | — |
-| 33,3–40,7 | Eindkaart B | **En voor jou — VERKOOP 50 LOSSE SENSOREN — voor de grijpvoorraad van installateurs. Verdeeld over meerdere installateurs telt ook. Dan ligt er voor jou ook iets te grijpen.** + kader **PROJECTORDERS TELLEN NIET MEE** + `intusens-demokoffer.nl`; volledig opgebouwd vanaf ± 34,7 s → 6,0 s stil leesbaar | — |
-| 40,7–42,9 | Slot | Face-off; Broadcast kijkt naar de kijker en geeft nog één droge blik naar Switch | SW *Dus… pak die koffer.* · BC *Alsjeblieft.* |
-| 42,9 | | Cut naar zwart | |
+| 13,9–22,6 | S3 Website | Match-cut: zelfde display met 080 links; echte site op telefoon rechts (16,0), verbindingslijn 080 → 080 (17,1); camera-push naar de telefoon (20,1) en 2,5 s hold op de site | SW *080?* · BC *Even checken? Pak de site erbij.* · BC *Code op het display, uitleg op je telefoon. Klaar.* |
+| 22,6–25,9 | S4 Rail-cameo | Bij "En ik dan?" kantelt de camera omhoog naar de echte witte Rail (K03) in het deksel: lichtaccent, gezichtje, bounce, label INTUSENS RAIL (1,1 s); camera zakt iets terug, Switch kijkt omhoog en antwoordt; Rail reageert droog tevreden (3,3 s) | RL *En ik dan?* · SW *Jij staat ook op de site.* |
+| 25,9–32,4 | S5 Face-off | Race-styleframe; 0,6 s reactietijd tussen "Ik." en "Succes."; tellers 00/00 → 12/18 → 27/31 → 43/46 (31,2 / 31,6 / 32,0) | SW *Maar goed. Belangrijkere vraag…* · BC *Wie van ons is als eerste vijftig keer verkocht?* · SW *Ik.* · BC *Succes.* |
+| 32,4–34,7 | Eindkaart A | **Switch vs Broadcast — RACE NAAR 50 — Welk product is als eerste vijftig keer verkocht?** | — |
+| 34,7–43,1 | Eindkaart B | **En voor jou — VERKOOP MINIMAAL 50 LOSSE SENSOREN** · *in één keer voor de grijpvoorraad* (kleiner) · **Dan ligt er voor jou ook iets te grijpen.** · kader **PROJECTORDERS TELLEN NIET MEE** · onderaan klein `intusens-demokoffer.nl` en *Concept & realisatie · Martijn den Besten*; volledig opgebouwd vanaf ± 36,1 s → 7,0 s stil leesbaar | — |
+| 43,1–45,3 | Slot | Face-off; Broadcast kijkt naar de kijker en geeft nog één droge blik naar Switch | SW *Dus… pak die koffer.* · BC *Alsjeblieft.* |
+| 45,3 | | Cut naar zwart | |
 
 ### Rail-cameo (S4) — bron en opbouw
 - In het echte deksel zitten twee Rail-toonmodellen: **K03 IntuSens Rail wit** (bovenste balk) en **K04 IntuSens Rail
@@ -91,7 +91,7 @@ cd video/animatic
 node render.js --stills 1.0,7.6,12.4 --out ../out/stills     # compositiecheck
 node render.js --out ../out/frames --scale 0.5                # 960x540, 24 fps
 python3 audio.py ../out/animatic-audio.wav
-./encode.sh ../out/frames ../out/animatic-audio.wav ../out/intusens-animatic-v0.5.mp4
+./encode.sh ../out/frames ../out/animatic-audio.wav ../out/intusens-animatic-v0.6.mp4
 ```
 
 Vereist: Playwright (Chromium), Python 3 met Pillow/numpy (alleen voor assets), ffmpeg
