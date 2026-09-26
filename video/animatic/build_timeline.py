@@ -100,7 +100,8 @@ def build(g=1.0, write=True):
     for o in L: print(f"  {o['t0']:6.2f}–{o['t1']:6.2f}  {o['who']}  {o['text']}{'  (geschat)' if o.get('geschat') else ''}")
 
 if __name__ == '__main__':
-    # doel ≤ 50 s: alleen de gewone pauzes compacter maken (min. 60 %), nooit stemmen of vaste blokken
+    # doel ≈ 50 s: alleen de gewone pauzes iets compacter (min. 85 %), nooit stemmen, race-beats of vaste blokken.
+    # (v0.9-meting: 60 % pauzes wint maar 1,5 s en klinkt gejaagd; natuurlijkheid gaat voor.)
     g = 1.0
-    while build(g, write=False)['duration'] > 50.0 and g > 0.6: g = round(g - 0.05, 2)
+    while build(g, write=False)['duration'] > 51.0 and g > 0.85: g = round(g - 0.05, 2)
     build(g)

@@ -4,10 +4,8 @@ Korte film (± 30 s) waarin de **IntuSens Switch** en de **IntuSens DALI-2 Broad
 demokoffer met elkaar praten. Toon: intern grapje dat toevallig ook echte productuitleg geeft.
 Stijl: premium TRILUX corporate animation, donkerblauw / zwart / wit / koelblauw, 2.5D/3D, droog.
 
-Status: **v0.9 — beeld klaar, stemmen geblokkeerd.** De definitieve TTS-masters (Skye/Orion/Chloe) staan in
-`vo/higgsfield-v1-manifest.json`, maar de download-host is door de netwerkpolicy van de omgeving geblokkeerd. v0.9 bevat
-daarom de nieuwe beeldlaag (losse karakterlagen, micro-acting, levendigere race) en een volledig automatische
-voice-pipeline; zodra de WAV's in `vo/` staan, levert één commando-reeks de echte v0.9 met stemmen (zie `vo/README.md`).
+Status: **v0.9 — polish-preview met echte stemmen** (Skye/Orion/Chloe, subtiele robot-kleur), losse karakterlagen met
+micro-acting, lichte tech-groove en fysieke cues. 50.5 s tot zwart. Nog géén high-res final.
 
 Vaste besluiten (niet meer wijzigen):
 - **IntuSens Switch = wit, IntuSens DALI-2 Broadcast = zwart** (koffer, `src/data.js`, echte foto's zijn leidend;

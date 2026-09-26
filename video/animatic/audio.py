@@ -63,17 +63,22 @@ def read_audio(path):
     return np.frombuffer(out.stdout, dtype='<f4').astype(float)
 
 def robotize(x, who):
-    """Lichte robot-kleur: stem blijft stem. Korte chorus/comb (elektronisch randje) + subtiele band-nadruk."""
+    """Subtiele robot-kleur; de stem blijft stem. Per karakter:
+    - korte chorus/doubling (comb met trage modulatie) → licht elektronisch;
+    - klein elektronisch randje: zachte ringmodulatie alleen boven 1,8 kHz;
+    - lichte klankkleur: Switch iets helderder, Broadcast iets voller/droger, Rail helder en kort.
+    Geen vocoder, geen pitch-effect, geen piepjes."""
+    P = {'SW': dict(d=6.0, mix=.22, ring=.07, rf=95, bright=.10, body=0.0),
+         'BC': dict(d=8.5, mix=.24, ring=.05, rf=60, bright=0.0, body=.12),
+         'RL': dict(d=4.5, mix=.20, ring=.08, rf=120, bright=.14, body=0.0)}[who]
     n = len(x); tt = np.arange(n) / SR
-    d_ms = {'SW': 6.5, 'BC': 9.0, 'RL': 5.0}[who]
-    d = int(d_ms * SR / 1000); mod = (0.6 * SR / 1000 * np.sin(2 * math.pi * 0.7 * tt)).astype(int)
-    idx = np.clip(np.arange(n) - d - mod, 0, n - 1)
-    comb = x[idx]
-    y = 0.78 * x + 0.32 * comb
-    # klein elektronisch randje: heel zachte ringmodulatie in de presence-band
-    ring = highpass(x, 1800) * np.sin(2 * math.pi * {'SW': 95, 'BC': 60, 'RL': 120}[who] * tt)
-    y += 0.10 * ring
-    return y
+    d = int(P['d'] * SR / 1000); mod = (0.5 * SR / 1000 * np.sin(2 * math.pi * 0.6 * tt)).astype(int)
+    comb = x[np.clip(np.arange(n) - d - mod, 0, n - 1)]
+    y = (1 - P['mix'] * .5) * x + P['mix'] * comb
+    y += P['ring'] * highpass(x, 1800) * np.sin(2 * math.pi * P['rf'] * tt)
+    if P['bright']: y += P['bright'] * highpass(x, 2500)
+    if P['body']: y += P['body'] * lowpass(x, 220, 1)
+    return highpass(y, 80)
 
 def place_vo(buf, lines, vo_dir, robot):
     placed, missing = [], []

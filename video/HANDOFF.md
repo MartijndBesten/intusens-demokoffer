@@ -1,14 +1,10 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** v0.9 **gedeeltelijk** — beeld-polish klaar (losse karakterlagen, micro-acting, levendigere race, energiekere
-tellers) en een volledig automatische voice-pipeline; **de echte stemmen zijn nog niet geplaatst**.
+**Status:** v0.9 gereed — low-res polish-preview **met de echte Nederlandse stemmen** (Skye/Orion/Chloe), subtiele
+robot-kleur, losse karakterlagen met micro-acting, lichte tech-groove en fysieke cues. 50.5 s tot zwart.
 **Bijgewerkt:** 2026-09-26.
-**Blokkade:** de TTS-masters uit `video/vo/higgsfield-v1-manifest.json` konden niet worden gedownload. De netwerkpolicy van de
-Claude-omgeving weigert de host `d8j0ntlcm91z4.cloudfront.net` (403 op de proxy). Niet omzeild.
-**Volgende actor:** Martijn — één van beide:
-1. de 17 WAV's (16 + `08-BC-code-op-display-fast.wav`) in `video/vo/` op deze branch zetten (bv. uploaden via GitHub), of
-2. in de omgevingsinstellingen *Network access* ruimer zetten of `d8j0ntlcm91z4.cloudfront.net` toevoegen aan de toegestane domeinen.
-Daarna: `vo_prepare.py` → `build_timeline.py` → `audio.py --robot` → render (zie `video/vo/README.md`). Geen andere handwerk nodig.
+**Volgende actor:** Martijn — v0.9 beoordelen (vooral verstaanbaarheid, robot-kleur en race-timing op gehoor).
+Daarna pas high-res final. Open punten voor final: zie "Nog niet goed genoeg voor high-res".
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
@@ -17,6 +13,67 @@ Daarna: `vo_prepare.py` → `build_timeline.py` → `audio.py --robot` → rende
 - Stemmen definitief: Switch = Skye, DALI-2 Broadcast = Orion, Rail = Chloe (higgsfield-v1).
 - Rail-cameo, displayanimatie, echte website, productrace en slot zijn definitief voor de animatic (v0.6).
 - Geen betaalde externe video-generaties; geen definitieve high-res export voordat v0.3 beoordeeld is.
+
+## v0.9 — stemmen verwerkt (update)
+
+- Stemmen aangeleverd als ZIP (17 WAV's, stereo 48 kHz) en uitgepakt in `video/vo/`. De eerdere download-blokkade
+  (host `d8j0ntlcm91z4.cloudfront.net`) is daarmee omzeild via upload, niet via het netwerk.
+- **Trim en meting** (`vo_prepare.py`): alleen stilte aan begin en eind weg (40 ms voorloop, 90 ms uitloop). In de masters
+  zaten korte klikjes aan de randen (regel 01, 03, 13 aan het begin; 05, 12, 16 aan het eind, 30–120 ms na tot 2,1 s
+  stilte); die tellen niet als spraak en zijn weg. Eén interne pauze is ingekort: de "Dus…"-pauze in regel 15 van 1,19 s
+  naar 0,75 s (knip in stilte, geen timestretch).
+- **Regel 08:** FAST-variant gebruikt (2,80 s actief, pauzes 0,60 / 0,28 s). De normale versie (4,30 s, pauzes 0,84 /
+  0,75 s) is trager zonder winst; hij blijft beschikbaar via `vo_prepare.py --08=normaal`.
+- **Tempo:** nergens aangepast (alle regels 1,00). Na trimmen passen de stemmen natuurlijk; de tijdlijn is om de stemmen
+  heen gelegd, niet andersom.
+- **Tijdlijn:** gewone pauzes op 95 % (compressie tot 60 % zou maar 1,5 s winnen en klinkt gejaagd). Race-beats vast:
+  0,35 s na "Belangrijkere vraag…", 0,30 s na de vraag, 0,65 s na "Ik.", 0,45 s droge blik na "Succes.", dan tellers.
+- **Robot-kleur** (`audio.py --robot`): korte chorus/doubling + klein elektronisch randje boven 1,8 kHz; Switch iets
+  helderder, Broadcast iets voller, Rail helder. Correlatie droog ↔ bewerkt 0,92–0,94: de stem blijft voorop.
+- **Controle (objectief):** onsets in de mix 0–30 ms na de ondertitelstart (= 40 ms voorloop), spraak 14–18 dB boven de
+  achtergrond, geen clipping (piek −1 dBFS). Lipsync volgt de amplitude van de echte stem. Verstaanbaarheid en robot-kleur
+  zijn **niet op gehoor** gecontroleerd (geen afspeelmogelijkheid in deze omgeving).
+
+| Regel | Ruw (s) | Actief (s) | Tempo | Variant |
+|---|---|---|---|---|
+| 01-SW-he-collega | 2.09 | 0.91 | 1.00 | normaal |
+| 02-BC-al-best-lang | 2.06 | 1.46 | 1.00 | normaal |
+| 03-SW-veel-te-lang | 1.87 | 0.88 | 1.00 | normaal |
+| 04-BC-neem-ons-mee | 2.56 | 1.99 | 1.00 | normaal |
+| 05-BC-zo-moeilijk | 4.12 | 1.87 | 1.00 | normaal |
+| 06-SW-080 | 2.09 | 0.85 | 1.00 | normaal |
+| 07-BC-even-checken | 2.70 | 2.23 | 1.00 | normaal |
+| 08-BC-code-op-display | 5.01 | 2.80 | 1.00 | snel |
+| 09-RL-en-ik-dan | 2.35 | 0.73 | 1.00 | normaal |
+| 10-SW-jij-ook-op-site | 1.71 | 1.27 | 1.00 | normaal |
+| 11-SW-belangrijkere-vraag | 3.85 | 2.10 | 1.00 | normaal |
+| 12-BC-wie-eerste-vijftig | 5.13 | 2.58 | 1.00 | normaal |
+| 13-SW-ik | 1.69 | 0.43 | 1.00 | normaal |
+| 14-BC-succes | 1.86 | 0.78 | 1.00 | normaal |
+| 15-SW-pak-die-koffer | 3.01 | 1.98 | 1.00 | normaal |
+| 16-BC-alsjeblieft | 1.88 | 0.78 | 1.00 | normaal |
+
+Tijdlijn v0.9 (scènegrenzen: S2a 6.75, display 9.01, website 14.81, Rail 24.01, race 27.11;
+tellers 35.04; kaart A 36.59; kaart B 38.59–46.99; zwart 50.54):
+
+| t (s) | Wie | Regel |
+|---|---|---|
+| 0.45–1.36 | SW | Hé collega? |
+| 1.65–3.10 | BC | We zitten hier al best lang. |
+| 3.31–4.19 | SW | Veel te lang. |
+| 4.48–6.47 | BC | Neem ons eens mee naar een installateur. |
+| 6.99–8.86 | BC | Kijk. Zo moeilijk ben ik niet. |
+| 15.01–15.86 | SW | 080? |
+| 16.14–18.38 | BC | Even checken? Pak de site erbij. |
+| 18.81–21.61 | BC | Code op het display, uitleg op je telefoon. Klaar. |
+| 24.30–25.03 | RL | En ik dan? |
+| 25.32–26.59 | SW | Jij staat ook op de site. |
+| 27.39–29.50 | SW | Maar goed. Belangrijkere vraag… |
+| 29.85–32.43 | BC | Wie van ons is als eerste vijftig keer verkocht? |
+| 32.73–33.16 | SW | Ik. |
+| 33.81–34.59 | BC | Succes. |
+| 47.19–49.17 | SW | Dus… pak die koffer. |
+| 49.36–50.14 | BC | Alsjeblieft. |
 
 ## Gewijzigd in v0.9 t.o.v. v0.8
 
@@ -56,9 +113,8 @@ Daarna: `vo_prepare.py` → `build_timeline.py` → `audio.py --robot` → rende
 - Getest met synthetische testbestanden van dezelfde ruwe lengte als het manifest: alle 16 regels geplaatst, timing en mix
   correct. Echte verstaanbaarheid en actieve duur zijn **niet** gecontroleerd, omdat de echte stemmen ontbreken.
 
-### Preview in deze sessie
-- `video/out/intusens-preview-v0.9-beeld.mp4`: nieuwe beeldlaag op geschatte (v0.8-)regelduren, met groove en cues,
-  **zonder stemmen**. Alleen bedoeld om de beweging te beoordelen.
+### Preview
+- `video/out/intusens-preview-v0.9.mp4` (met echte stemmen; zie update hierboven). De eerdere beeld-only-render is vervallen.
 
 ## Gewijzigd in v0.8 t.o.v. v0.7
 
@@ -246,7 +302,7 @@ Daarna: `vo_prepare.py` → `build_timeline.py` → `audio.py --robot` → rende
 ## Bestanden
 `video/README.md`, `video/HANDOFF.md`, `video/animatic/{index.html,timeline.js,render.js,audio.py,encode.sh}`,
 `video/animatic/assets/*` (o.a. nieuwe `black-plate.png`), `video/reference/higgsfield/*`.
-Renders in `video/out/` (niet in git): `intusens-preview-v0.9-beeld.mp4`.
+Renders in `video/out/` (niet in git): `intusens-preview-v0.9.mp4`.
 
 ## Open vragen
 Geen blokkerende. Vraag 1 (kleur), 2 (MiniR) en 3 (URL) uit v0.1/v0.2 zijn beantwoord en verwerkt.
