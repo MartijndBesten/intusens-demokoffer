@@ -5,8 +5,9 @@ AAC 256 kbit/s), 50,6 s tot zwart. Audio freeze gerespecteerd: de bevroren mix i
 **Bijgewerkt:** 2026-09-26.
 **Volgende actor:** Martijn — final verspreiden. De mp4 staat niet in git (te groot); bewaar hem buiten de repo.
 **Repo-opschoning (final):** alle gegenereerde stem-/audiobestanden zijn uit de publieke Git-repo verwijderd en staan in
-`.gitignore`. De branch is opnieuw opgebouwd als één squash-commit bovenop `main` (zonder audio in de zichtbare historie); de
-oude videobranch is verwijderd. Voor een nieuwe render moeten de 16 WAV's (zie `video/vo/README.md`) lokaal in `video/vo/` staan.
+`.gitignore`. De branch is opnieuw opgebouwd als één squash-commit bovenop `main` (zonder audio in de zichtbare historie):
+`claude/intusens-demokoffer-video-final`. De oude branch `claude/intusens-demokoffer-video-8swcni` (met de WAV's in de historie)
+moet Martijn zelf op GitHub verwijderen: de Claude-sessie kreeg HTTP 403 op het verwijderen van remote branches. Voor een nieuwe render moeten de 16 WAV's (zie `video/vo/README.md`) lokaal in `video/vo/` staan.
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
