@@ -24,7 +24,7 @@ fs.mkdirSync(outDir, { recursive: true });
   const browser = await chromium.launch();
   const ctx = await browser.newContext({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: opt.scale });
   const page = await ctx.newPage();
-  await page.goto(`http://127.0.0.1:${opt.port}/video/animatic/index.html?render=1&hud=1`, { waitUntil: 'networkidle' });
+  await page.goto(`http://127.0.0.1:${opt.port}/video/animatic/index.html?render=1`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.__ready === true);
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(300);

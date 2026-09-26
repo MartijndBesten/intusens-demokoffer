@@ -1,19 +1,34 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** v0.9c — **definitieve Broadcast-stem** (Andre / ElevenLabs / +1 semitoon / +7 % tempo) verwerkt; Switch (Skye/ElevenLabs)
-en Rail (Chloe) ongewijzigd. Low-res preview `video/out/intusens-preview-v0.9c.mp4`, 50.6 s tot zwart.
+**Status:** v0.9d — **audio freeze** + laatste visuele polish-pass. Low-res eindpreview `video/out/intusens-eindpreview-lowres.mp4`
+(50,6 s tot zwart), zonder preview-/debug-overlaytekst.
 **Bijgewerkt:** 2026-09-26.
-**Let op (Switch, uit V2, ongewijzigd):** regel **06** begint en **10** eindigt midden in klank (mogelijk afgekapt). Broadcast V3
-heeft geen afgekapte woorden; alleen "Succes." (14) begint direct met de S-klank (hooguit enkele ms van de sis).
-**Volgende actor:** Martijn — preview beluisteren. Eventueel Switch 06 en 10 opnieuw exporteren met ≥ 150 ms stilte voor/na.
+**Audio freeze (Martijn):** geen stemmen, pitch, tempo of timing meer wijzigen. Broadcast = Andre (definitief). Switch en Rail
+blijven exact zoals ze zijn, tenzij Martijn meldt dat regel 06 of 10 hoorbaar afgekapt is. `video/vo/`, `timeline.js` en de mix
+zijn in v0.9d niet aangeraakt (checksum gecontroleerd).
+**Volgende actor:** Martijn — eindpreview beoordelen. Daarna eventueel high-res final (zie "Open voor high-res").
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
 - Higgsfield-karakters zijn de vaste visuele identiteit; geen redesign, geen mensen/armen/benen; gezichtjes subtiel.
 - Lengte: doel 45–50 s met echte stemmen; mag iets langer als de stemmen daardoor natuurlijker klinken.
 - Stemmen definitief: Switch = Skye (ElevenLabs), DALI-2 Broadcast = **Andre (ElevenLabs, +1 semitoon, +7 % tempo)**, Rail = Chloe.
+- **Audio freeze** (v0.9d): stemmen, pitch, tempo, timing en mix liggen vast.
 - Rail-cameo, displayanimatie, echte website, productrace en slot zijn definitief voor de animatic (v0.6).
 - Geen betaalde externe video-generaties; geen definitieve high-res export voordat v0.3 beoordeeld is.
+
+## v0.9d — visuele polish-pass (update)
+- Alleen `animatic/index.html` (beweging) en `animatic/render.js` (geen overlay) gewijzigd. Verkoopkaart inhoudelijk ongewijzigd.
+- **Opening (0–6,8 s):** camera herkadreert zacht naar wie spreekt (±8–14 px), lichte handheld-ademing (≈ 1–2 px, ±0,12°), bij
+  de laatste regel 1,2 % verder in. Sensoren: eigen idle-ademing (≤ 1 px, ≤ 0,3 %), kleine aanloop vóór hun regel, oog-saccades
+  tijdens luisteren, instemmend knikje van Switch tijdens "We zitten hier al best lang.", droge zijblik van Broadcast na
+  "Veel te lang.", twee ongeduldige mini-hupjes van Switch tijdens "Neem ons eens mee…".
+- **Race:** camera herkadreert naar de spreker (±8–12 px), korte punch-in van 1,8 % bij "Ik.", trage push van 1,2 % tijdens de
+  droge blik na "Succes.", tikje van 0,6 % per tellerstap, lichte ademing. Switch: twee ongeduldige hupjes aan het eind van de
+  vraag en een hupje (5 px) per tellerstap; Broadcast: minimale kanteling (0,5°) per stap. Idle-ademing op beide lagen.
+- **Grenzen:** rotaties ≤ 3,5°, schaal ≤ +5 % per laag: productvormen blijven technisch herkenbaar, geen vervorming.
+- **Overlay:** de debug-tijdcode/scènenaam wordt nooit meer gerenderd (alleen nog bij handmatig scrubben met `?hud=1`).
+- **Audio:** de mix van v0.9c is ongewijzigd hergebruikt; synchronisatie opnieuw gemeten in de eindpreview.
 
 ## v0.9c — definitieve Broadcast-stem (update)
 - Alleen de 8 BC-bestanden in `video/vo/` vervangen door Broadcast V3 (Andre / ElevenLabs / +1 semitoon / +7 % tempo; README uit de
@@ -367,7 +382,7 @@ tellers 35.04; kaart A 36.59; kaart B 38.59–46.99; zwart 50.54):
 ## Bestanden
 `video/README.md`, `video/HANDOFF.md`, `video/animatic/{index.html,timeline.js,render.js,audio.py,encode.sh}`,
 `video/animatic/assets/*` (o.a. nieuwe `black-plate.png`), `video/reference/higgsfield/*`.
-Renders in `video/out/` (niet in git): `intusens-preview-v0.9c.mp4` (actueel).
+Renders in `video/out/` (niet in git): `intusens-eindpreview-lowres.mp4` (actueel).
 
 ## Open vragen
 Geen blokkerende. Vraag 1 (kleur), 2 (MiniR) en 3 (URL) uit v0.1/v0.2 zijn beantwoord en verwerkt.
