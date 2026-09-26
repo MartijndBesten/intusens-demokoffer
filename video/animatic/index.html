@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>IntuSens promofilm — animatic v0.1</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root { --navy: #050a16; --navy2: #0b1730; --blue: #4fb3ff; --blue2: #7fc8ff; --white: #f3f7fb; }
+  html, body { margin: 0; background: #000; height: 100%; overflow: hidden; }
+  body { font-family: "Liberation Sans", Arial, Helvetica, sans-serif; color: var(--white); }
+  #wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--navy); transform-origin: top left; }
+  .scene { position: absolute; inset: 0; display: none; }
+  .scene.on { display: block; }
+  .cam { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+  .bg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; }
+  .face { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
+  .char { position: absolute; transform-origin: 50% 90%; will-change: transform; }
+  .char img { display: block; width: 100%; height: auto; }
+  .char svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+  .world { position: absolute; inset: 0; background:
+      radial-gradient(1200px 700px at 50% 20%, #142a52 0%, #0a1530 45%, #040812 100%); }
+  .world .floor { position: absolute; left: 0; right: 0; top: 700px; bottom: 0; background: linear-gradient(#0a1633, #040812); }
+  .world .lightbar { position: absolute; height: 6px; left: 0; right: 0; top: 698px; background: linear-gradient(90deg, transparent, var(--blue) 30%, #9fdcff 50%, var(--blue) 70%, transparent); filter: blur(1px); opacity: .85; }
+  .world .glow { position: absolute; left: 0; right: 0; top: 640px; height: 120px; background: radial-gradient(60% 100% at 50% 50%, rgba(79,179,255,.35), transparent 70%); }
+  /* foto's */
+  .photo { position: absolute; inset: 0; opacity: 0; }
+  .photo .blur { position: absolute; inset: -60px; background-size: cover; background-position: center; filter: blur(40px) brightness(.45); }
+  .photo .img { position: absolute; left: 50%; top: 50%; width: 1000px; height: 1000px; margin: -500px 0 0 -500px; background-size: cover; background-position: center; transform-origin: 50% 50%; box-shadow: 0 40px 120px rgba(0,0,0,.6); }
+  .chip { position: absolute; left: 120px; bottom: 150px; padding: 18px 30px; border-radius: 12px; background: rgba(5,10,22,.82); border: 1px solid rgba(127,200,255,.35); font: 600 40px "DejaVu Sans Mono", monospace; letter-spacing: .04em; color: #dff1ff; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+  .kicker { position: absolute; left: 120px; top: 90px; font: 700 30px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .28em; text-transform: uppercase; color: #9fc6ea; opacity: .9; }
+  /* scène 3 */
+  .card { position: absolute; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.65), 0 0 0 1px rgba(127,200,255,.25); background: #111; }
+  .card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .phone { position: absolute; width: 470px; height: 1016px; border-radius: 64px; background: #0c0f14; box-shadow: 0 60px 140px rgba(0,0,0,.7), inset 0 0 0 3px #2a2f38, 0 0 0 2px #05070a; will-change: transform; }
+  .phone .screen { position: absolute; left: 18px; top: 18px; right: 18px; bottom: 18px; border-radius: 48px; overflow: hidden; background: #fff; }
+  .phone .screen img { display: block; width: 100%; height: auto; }
+  .phone .notch { position: absolute; left: 50%; top: 30px; width: 150px; height: 34px; margin-left: -75px; border-radius: 20px; background: #05070a; }
+  .link { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
+  /* captions (animatic-dialoog) */
+  #cap { position: absolute; left: 0; right: 0; bottom: 64px; text-align: center; opacity: 0; }
+  #cap .who { font: 700 22px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .3em; text-transform: uppercase; margin-bottom: 14px; }
+  #cap .txt { display: inline-block; font: 500 54px/1.15 "Liberation Sans", Arial, sans-serif; padding: 14px 34px; border-radius: 14px; background: rgba(3,6,14,.72); color: #fff; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+  /* tellers */
+  .counter { position: absolute; top: 90px; width: 520px; padding: 26px 34px; border-radius: 18px; background: rgba(5,10,22,.78); border: 1px solid rgba(127,200,255,.35); box-shadow: 0 20px 60px rgba(0,0,0,.5); opacity: 0; }
+  .counter .n { font: 700 26px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .32em; text-transform: uppercase; color: #9fc6ea; }
+  .counter .v { font: 700 130px/1 "DejaVu Sans Mono", monospace; color: #fff; margin-top: 8px; letter-spacing: .04em; }
+  .counter.l { left: 110px; } .counter.r { right: 110px; text-align: right; }
+  .counter.r .v { color: var(--blue2); }
+  /* titelkaart */
+  #title { position: absolute; inset: 0; background: rgba(3,6,14,.92); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; }
+  #title .h { font: 800 150px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .06em; color: #fff; }
+  #title .h b { color: var(--blue); font-weight: 800; }
+  #title .s { margin-top: 34px; font: 500 46px/1.3 "Liberation Sans", Arial, sans-serif; color: #dbe8f5; }
+  #title .k { margin-top: 26px; font: 400 28px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .12em; color: #7f93ad; text-transform: uppercase; }
+  #title .u { position: absolute; bottom: 70px; font: 500 30px/1 "DejaVu Sans Mono", monospace; color: #7fc8ff; letter-spacing: .06em; }
+  #fade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+  #hud { position: absolute; left: 24px; top: 18px; font: 500 22px/1 "DejaVu Sans Mono", monospace; color: rgba(255,255,255,.55); letter-spacing: .06em; display: none; }
+  #hud.on { display: block; }
+  #ctl { position: fixed; left: 12px; bottom: 12px; z-index: 9; font: 13px monospace; color: #fff; background: rgba(0,0,0,.6); padding: 8px 10px; border-radius: 6px; }
+  #ctl input { width: 420px; vertical-align: middle; }
+  body.render #ctl { display: none; }
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="stage">
+
+  <!-- S1 / S4: koffer-wereld (Higgsfield-styleframe met geneutraliseerde gezichten + live gezichten) -->
+  <div class="scene" id="s1">
+    <div class="cam" id="s1cam">
+      <img class="bg" src="assets/koffer-plate.png" alt="">
+      <svg class="face" id="s1face" viewBox="0 0 1920 1080"></svg>
+    </div>
+  </div>
+
+  <!-- S2a: Broadcast komt naar voren -->
+  <div class="scene" id="s2a">
+    <div class="cam" id="s2cam">
+      <div class="world"><div class="glow"></div><div class="floor"></div><div class="lightbar"></div></div>
+      <div class="char" id="s2sw" style="width:520px;left:-120px;top:600px"><img src="assets/white-plate.png" alt=""><svg viewBox="0 0 655 420" id="s2swface"></svg></div>
+      <div class="char" id="s2bc" style="width:900px;left:510px;top:300px"><img src="assets/black-plate.png" alt=""><svg viewBox="0 0 683 475" id="s2bcface"></svg></div>
+    </div>
+  </div>
+
+  <!-- S2b: echte bedieningsfoto's -->
+  <div class="scene" id="s2b">
+    <div class="kicker">IntuSens DALI-2 Broadcast · bediening</div>
+    <div id="photos"></div>
+  </div>
+
+  <!-- S3: code op display → uitleg op telefoon -->
+  <div class="scene" id="s3">
+    <div class="cam" id="s3cam">
+      <div class="world"><div class="glow"></div><div class="floor"></div><div class="lightbar"></div></div>
+      <div class="card" id="s3card" style="left:150px;top:210px;width:640px;height:420px"><img src="assets/display-080-crop.jpg" alt=""></div>
+      <svg class="link" id="s3link" viewBox="0 0 1920 1080"></svg>
+      <div class="phone" id="s3phone" style="left:1180px;top:80px"><div class="screen"><img src="assets/site-phone-080.png" alt=""></div><div class="notch"></div></div>
+      <div class="char" id="s3sw" style="width:430px;left:30px;top:800px"><img src="assets/white-plate.png" alt=""><svg viewBox="0 0 655 420" id="s3swface"></svg></div>
+      <div class="char" id="s3bc" style="width:470px;left:410px;top:770px"><img src="assets/black-plate.png" alt=""><svg viewBox="0 0 683 475" id="s3bcface"></svg></div>
+    </div>
+  </div>
+
+  <!-- S5: face-off + race -->
+  <div class="scene" id="s5">
+    <div class="cam" id="s5cam">
+      <img class="bg" src="assets/race-plate.png" alt="" style="transform:scaleX(-1)">
+      <svg class="face" id="s5face" viewBox="0 0 1920 1080"></svg>
+    </div>
+    <div class="counter l" id="cL"><div class="n">Switch</div><div class="v">00</div></div>
+    <div class="counter r" id="cR"><div class="n">Broadcast</div><div class="v">00</div></div>
+    <div id="title">
+      <div class="h">RACE NAAR <b>50</b></div>
+      <div class="s">Los verkocht voor de grijpvoorraad van installateurs</div>
+      <div class="k">Projectorders tellen niet mee</div>
+      <div class="u">intusens-demokoffer.nl</div>
+    </div>
+  </div>
+
+  <div id="cap"><div class="who"></div><div class="txt"></div></div>
+  <div id="fade"></div>
+  <div id="hud"></div>
+</div>
+</div>
+<div id="ctl"><input type="range" id="scrub" min="0" max="31" step="0.02" value="0"> <span id="tc">0.00</span> <button id="play">play</button></div>
+
+<script src="timeline.js"></script>
+<script>
+(function () {
+  var T = window.TIMELINE;
+  var q = new URLSearchParams(location.search);
+  if (q.get('hud') === '1') document.getElementById('hud').classList.add('on');
+  if (q.get('render') === '1') document.body.classList.add('render');
+
+  /* ---------- helpers ---------- */
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  function lerp(a, b, u) { return a + (b - a) * u; }
+  function ease(u) { u = clamp(u, 0, 1); return u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; }
+  function easeOut(u) { u = clamp(u, 0, 1); return 1 - Math.pow(1 - u, 3); }
+  function easeOutBack(u) { u = clamp(u, 0, 1); var c = 1.4; return 1 + (c + 1) * Math.pow(u - 1, 3) + c * Math.pow(u - 1, 2); }
+  function span(t, a, b) { return clamp((t - a) / (b - a), 0, 1); }
+  function inR(t, a, b) { return t >= a && t < b; }
+  function fmt(n) { return (n < 10 ? '0' : '') + n; }
+
+  /* ---------- gezichts-rig (SVG) ---------- */
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+  // style: 'bc' = rustige cyaan ovalen; 'sw' = scherpe, schuine wedges (bijdehand)
+  function makeFace(svg, style, L, R, M, s) {
+    s = s || 1;
+    var g = el('g', {});
+    var defs = el('defs', {});
+    var fid = 'g' + Math.random().toString(36).slice(2, 7);
+    var f = el('filter', { id: fid, x: '-80%', y: '-80%', width: '260%', height: '260%' });
+    var b = el('feGaussianBlur', { stdDeviation: 3 * s, result: 'b' });
+    var m = el('feMerge', {}); m.appendChild(el('feMergeNode', { in: 'b' })); m.appendChild(el('feMergeNode', { in: 'SourceGraphic' }));
+    f.appendChild(b); f.appendChild(m); defs.appendChild(f); g.appendChild(defs);
+    // Broadcast (zwart product): cyaan gloed. Switch (wit product): verzadigd koelblauw, anders geen contrast op wit.
+    var col = style === 'bc' ? '#9fdcff' : '#2b8fe8';
+    function eye(cx, cy, dir) {
+      var eg = el('g', { transform: 'translate(' + cx + ' ' + cy + ')' });
+      var inner = el('g', {});
+      var shape;
+      if (style === 'bc') shape = el('ellipse', { cx: 0, cy: 0, rx: 27 * s, ry: 9 * s, fill: col, filter: 'url(#' + fid + ')' });
+      else {
+        // wedge: buitenkant hoog, binnenkant laag → "brutale" blik
+        var w = 26 * s, h = 12 * s, d = dir;
+        shape = el('path', { d: 'M ' + (-w * d) + ' ' + (-h * .1) + ' Q 0 ' + (-h) + ' ' + (w * d) + ' ' + (h * .55) + ' Q ' + (w * .1 * d) + ' ' + (h * .9) + ' ' + (-w * d) + ' ' + (h * .35) + ' Z', fill: col, filter: 'url(#' + fid + ')' });
+      }
+      inner.appendChild(shape); eg.appendChild(inner); g.appendChild(eg);
+      return { g: eg, inner: inner };
+    }
+    var eL = eye(L[0], L[1], -1), eR = eye(R[0], R[1], 1);
+    var mouth = el('path', { d: '', fill: 'none', stroke: style === 'bc' ? '#c9d6e6' : '#5a6470', 'stroke-width': 3.2 * s, 'stroke-linecap': 'round', opacity: .9 });
+    var mouthFill = el('ellipse', { cx: M[0], cy: M[1], rx: 0, ry: 0, fill: style === 'bc' ? '#0a0d12' : '#2a3038', opacity: .95 });
+    g.appendChild(mouthFill); g.appendChild(mouth);
+    svg.appendChild(g);
+    var st = { open: 0, blink: 0, lookX: 0, lookY: 0, mood: 0, squint: 0 };
+    function set(o) {
+      for (var k in o) st[k] = o[k];
+      var bl = 1 - clamp(st.blink, 0, 1) * .92 - st.squint * .45;
+      var dx = st.lookX * 9 * s, dy = st.lookY * 5 * s;
+      eL.inner.setAttribute('transform', 'translate(' + dx + ' ' + dy + ') scale(1 ' + bl + ')');
+      eR.inner.setAttribute('transform', 'translate(' + dx + ' ' + dy + ') scale(1 ' + bl + ')');
+      // mond: mood -1 = strak/omlaag, 0 = neutraal, 1 = glimlach; open = 0..1
+      var w = 20 * s, op = st.open;
+      var curve = lerp(-4, 8, (st.mood + 1) / 2) * s;
+      var y = M[1] + op * 3 * s;
+      mouth.setAttribute('d', 'M ' + (M[0] - w) + ' ' + y + ' Q ' + M[0] + ' ' + (y + curve + op * 4 * s) + ' ' + (M[0] + w) + ' ' + y);
+      mouthFill.setAttribute('cx', M[0]); mouthFill.setAttribute('cy', y + 2 * s + op * 2 * s);
+      mouthFill.setAttribute('rx', lerp(0, 13, op) * s); mouthFill.setAttribute('ry', lerp(0, 9, op) * s);
+    }
+    set({});
+    return { set: set, st: st };
+  }
+
+  /* dialoog → mondopening (deterministisch pseudo-lettergreepritme) */
+  function talk(t, line) {
+    if (!inR(t, line.t0, line.t1)) return 0;
+    var u = t - line.t0, len = line.t1 - line.t0;
+    var env = Math.min(1, u / .08, (len - u) / .12);
+    var syl = Math.max(0, Math.sin(u * 2 * Math.PI * 6.2) * .6 + Math.sin(u * 2 * Math.PI * 9.7 + 1.3) * .4 + .15);
+    return clamp(env * syl * 1.3, 0, 1);
+  }
+  function talking(t, who) { var s = 0; T.lines.forEach(function (l) { if (l.who === who) s = Math.max(s, talk(t, l)); }); return s; }
+  function blink(t, times) { var b = 0; times.forEach(function (bt) { var u = t - bt; if (u > 0 && u < .18) b = Math.max(b, u < .07 ? u / .07 : 1 - (u - .07) / .11); }); return b; }
+
+  /* ---------- scènes opbouwen ---------- */
+  var K = 1920 / 1344; // styleframe → stage
+  // Technische waarheid (assets/processed, src/data.js): Switch = wit (K01), DALI-2 Broadcast = zwart (K02).
+  var s1sw = makeFace(document.getElementById('s1face'), 'sw', [447 * K, 425 * K], [556 * K, 433 * K], [490 * K, 455 * K], 1.05);
+  var s1bc = makeFace(document.getElementById('s1face'), 'bc', [822 * K, 480 * K], [944 * K, 492 * K], [880 * K, 512 * K], 1.0);
+  // "de rest": twee kleine oogparen in het dekselvak (S4)
+  var restG = el('g', { opacity: 0 }); document.getElementById('s1face').appendChild(restG);
+  var rest1 = makeFace(restG, 'bc', [1020, 60], [1060, 60], [1040, 84], .6);
+  var rest2 = makeFace(restG, 'sw', [1200, 92], [1236, 92], [1218, 114], .55);
+
+  var WH = { L: [192, 155], R: [452, 155], M: [322, 189] };   // wit cut-out (655x420)
+  var BK = { L: [196, 206], R: [471, 206], M: [336, 256] };   // zwart cut-out (683x475)
+  var s2bc = makeFace(document.getElementById('s2bcface'), 'bc', BK.L, BK.R, BK.M, 1.0);
+  var s2sw = makeFace(document.getElementById('s2swface'), 'sw', WH.L, WH.R, WH.M, 1.0);
+  var s3bc = makeFace(document.getElementById('s3bcface'), 'bc', BK.L, BK.R, BK.M, 1.0);
+  var s3sw = makeFace(document.getElementById('s3swface'), 'sw', WH.L, WH.R, WH.M, 1.0);
+  // race-plate is gespiegeld (x' = 1344 - x): Switch wit links, Broadcast zwart rechts
+  var s5sw = makeFace(document.getElementById('s5face'), 'sw', [(1344 - 1047) * K, 444 * K], [(1344 - 922) * K, 447 * K], [(1344 - 975) * K, 470 * K], 1.0);
+  var s5bc = makeFace(document.getElementById('s5face'), 'bc', [(1344 - 439) * K, 446 * K], [(1344 - 322) * K, 446 * K], [(1344 - 400) * K, 468 * K], 1.0);
+
+  // foto's
+  var photosEl = document.getElementById('photos'), photoEls = [];
+  T.photos.forEach(function (p) {
+    var d = document.createElement('div'); d.className = 'photo';
+    d.innerHTML = '<div class="blur" style="background-image:url(' + p.src + ')"></div><div class="img" style="background-image:url(' + p.src + ')"></div><div class="chip">' + p.cap + '</div>';
+    photosEl.appendChild(d); photoEls.push(d);
+  });
+
+  // link-lijn (display → telefoon)
+  var linkSvg = document.getElementById('s3link');
+  var linkPath = el('path', { d: 'M 790 420 C 950 420, 1000 560, 1180 560', fill: 'none', stroke: '#7fc8ff', 'stroke-width': 5, 'stroke-dasharray': '14 18', 'stroke-linecap': 'round', opacity: 0 });
+  var linkDot = el('circle', { r: 12, fill: '#bfe6ff', opacity: 0 });
+  linkSvg.appendChild(linkPath); linkSvg.appendChild(linkDot);
+
+  var scenes = { s1: document.getElementById('s1'), s2a: document.getElementById('s2a'), s2b: document.getElementById('s2b'), s3: document.getElementById('s3'), s5: document.getElementById('s5') };
+  var cap = document.getElementById('cap'), capWho = cap.querySelector('.who'), capTxt = cap.querySelector('.txt');
+  var fade = document.getElementById('fade'), hud = document.getElementById('hud');
+  var cL = document.getElementById('cL'), cR = document.getElementById('cR'), title = document.getElementById('title');
+
+  function show(id) { for (var k in scenes) scenes[k].classList.toggle('on', k === id); }
+  function cam(elm, sc, x, y, rot) { elm.style.transform = 'translate(' + (x || 0) + 'px,' + (y || 0) + 'px) scale(' + sc + ') rotate(' + (rot || 0) + 'deg)'; }
+  function charT(elm, sc, x, y, rot) { elm.style.transform = 'translate(' + (x || 0) + 'px,' + (y || 0) + 'px) rotate(' + (rot || 0) + 'deg) scale(' + sc + ')'; }
+  var wob = function (t, f, a) { return Math.sin(t * f) * a; };
+
+  /* ---------- de tijdlijn ---------- */
+  function seek(t) {
+    t = clamp(t, 0, T.duration);
+    var talkSW = talking(t, 'SW'), talkBC = talking(t, 'BC'), talkREST = talking(t, 'REST');
+    var fadeA = 0;
+
+    if (t < 6.7 || inR(t, 17.6, 20.5)) {
+      /* ---- S1 + S4: koffer ---- */
+      show('s1');
+      if (t < 6.7) {
+        var u = span(t, 0, 6.7);
+        cam(document.getElementById('s1cam'), lerp(1.0, 1.12, u), lerp(0, -40, u) + wob(t, .7, 3), lerp(0, -30, u) + wob(t, .9, 2), wob(t, .5, .15));
+        fadeA = 1 - span(t, 0, .8);
+        restG.setAttribute('opacity', 0);
+        // Switch: kijkt eerst naar Broadcast (links), dan naar de kijker
+        var swLookX = t < 2.0 ? 1 : (t < 3.7 ? .6 : (t < 4.6 ? 1 : 0));
+        s1sw.set({ open: talkSW, blink: blink(t, [1.9, 4.55, 6.4]), lookX: swLookX, lookY: t < 4.6 ? .1 : -.4, mood: t < 3.7 ? -.2 : -.7, squint: inR(t, 3.7, 4.6) ? .5 : 0 });
+        // Broadcast: droog, kijkt naar Switch, dan recht in de camera bij de vraag
+        var bcLookX = t < 2.0 ? -.8 : (t < 3.6 ? -.6 : (t < 4.8 ? -.8 : 0));
+        s1bc.set({ open: talkBC, blink: blink(t, [1.2, 3.55, 5.9]), lookX: bcLookX, lookY: t < 4.8 ? .1 : -.5, mood: .2 });
+      } else {
+        var u4 = span(t, 17.6, 20.5);
+        // koffer trilt kort wanneer "de rest" roept
+        var sh = inR(t, 17.8, 18.35) ? Math.sin((t - 17.8) * 60) * 6 * (1 - span(t, 17.8, 18.35)) : 0;
+        cam(document.getElementById('s1cam'), lerp(1.06, 1.02, u4), sh, sh * .5 + lerp(-20, 0, u4), sh * .08);
+        var ro = span(t, 17.9, 18.3);
+        restG.setAttribute('opacity', ro);
+        rest1.set({ open: talkREST, blink: blink(t, [19.0]), lookX: -.3, lookY: .8, mood: -.3 });
+        rest2.set({ open: talkREST * .8, blink: blink(t, [18.7]), lookX: -.5, lookY: .8, mood: -.5 });
+        // Switch en Broadcast kijken omhoog naar het deksel
+        s1sw.set({ open: talkSW, blink: blink(t, [18.5]), lookX: .6, lookY: -1, mood: t > 19.3 ? -.6 : -.2, squint: t > 19.3 ? .4 : 0 });
+        s1bc.set({ open: 0, blink: blink(t, [18.2, 19.9]), lookX: .3, lookY: -1, mood: .1 });
+      }
+    } else if (t < 8.5) {
+      /* ---- S2a: Broadcast naar voren ---- */
+      show('s2a');
+      var u2 = easeOut(span(t, 6.7, 8.3));
+      cam(document.getElementById('s2cam'), 1, 0, 0, 0);
+      charT(document.getElementById('s2bc'), lerp(.72, 1.0, u2), lerp(60, 0, u2), lerp(80, 0, u2) + wob(t, 1.3, 3), lerp(4, -1.5, u2) + wob(t, .8, .6));
+      s2bc.set({ open: talkBC, blink: blink(t, [6.9, 8.1]), lookX: 0, lookY: -.2, mood: .35 });
+      charT(document.getElementById('s2sw'), 1, lerp(-40, 0, span(t, 6.7, 7.4)), 0, -2);
+      s2sw.set({ open: 0, blink: blink(t, [7.6]), lookX: 1, lookY: -.3, mood: -.5, squint: .3 });
+      fadeA = 0;
+    } else if (t < 12.0) {
+      /* ---- S2b: echte bedieningsfoto's ---- */
+      show('s2b');
+      T.photos.forEach(function (p, i) {
+        var e = photoEls[i], on = inR(t, p.t0 - .12, p.t1);
+        var a = on ? Math.min(1, span(t, p.t0 - .12, p.t0 + .05)) : 0;
+        e.style.opacity = a; e.style.zIndex = on ? 2 : 1;
+        if (on) {
+          var u = span(t, p.t0, p.t1);
+          var img = e.querySelector('.img');
+          var sc = lerp(1.02, 1.12, u), px = lerp(-8, 8, u) * (i % 2 ? -1 : 1), py = lerp(6, -6, u);
+          img.style.transform = 'translate(' + px + 'px,' + py + 'px) scale(' + sc + ')';
+          var chip = e.querySelector('.chip'); var cu = easeOutBack(span(t, p.t0 + .05, p.t0 + .35));
+          chip.style.opacity = cu; chip.style.transform = 'translateY(' + (1 - cu) * 24 + 'px)';
+        }
+      });
+    } else if (t < 17.6) {
+      /* ---- S3: code op display → uitleg op telefoon ---- */
+      show('s3');
+      var u3 = span(t, 12.0, 17.6);
+      cam(document.getElementById('s3cam'), lerp(1.0, 1.04, u3), lerp(0, -20, u3), 0, 0);
+      var cin = easeOutBack(span(t, 12.0, 12.6));
+      var card = document.getElementById('s3card');
+      card.style.transform = 'translateY(' + (1 - cin) * 40 + 'px) scale(' + lerp(.9, 1, cin) + ')'; card.style.opacity = cin;
+      var pin = easeOut(span(t, T.phoneIn, T.phoneIn + .7));
+      var ph = document.getElementById('s3phone');
+      ph.style.transform = 'translate(' + (1 - pin) * 620 + 'px,' + (1 - pin) * 40 + 'px) rotate(' + lerp(-8, -4, pin) + 'deg)';
+      ph.style.opacity = pin > 0 ? 1 : 0;
+      var lo = span(t, T.linkOn, T.linkOn + .5);
+      linkPath.setAttribute('opacity', lo * .9); linkPath.setAttribute('stroke-dashoffset', -(t - T.linkOn) * 90);
+      var lu = (t - T.linkOn) * .8 % 1; if (lu < 0) lu = 0;
+      var pt = linkPath.getTotalLength ? linkPath.getPointAtLength(lu * linkPath.getTotalLength()) : { x: 0, y: 0 };
+      linkDot.setAttribute('cx', pt.x); linkDot.setAttribute('cy', pt.y); linkDot.setAttribute('opacity', lo);
+      // karakters: gluren van onderen
+      var swin = easeOut(span(t, 12.0, 12.5)), bcin = easeOut(span(t, 12.7, 13.2));
+      charT(document.getElementById('s3sw'), 1, 0, (1 - swin) * 260 + wob(t, 2.1, 2), -3 + (inR(t, 12.1, 12.8) ? -3 : 0));
+      charT(document.getElementById('s3bc'), 1, 0, (1 - bcin) * 260 + wob(t, 1.6, 2), 2);
+      s3sw.set({ open: talkSW, blink: blink(t, [13.4, 16.2]), lookX: t < 14.4 ? .4 : 1, lookY: -1, mood: t < 13 ? -.1 : -.5, squint: inR(t, 12.1, 12.9) ? .6 : 0 });
+      s3bc.set({ open: talkBC, blink: blink(t, [14.0, 16.8]), lookX: t < 14.2 ? -.4 : (t < 15.6 ? 1 : .3), lookY: -.8, mood: .3 });
+    } else {
+      /* ---- S5: face-off + race + titelkaart + slot ---- */
+      show('s5');
+      var u5 = span(t, 20.5, 31.0);
+      var pushBack = inR(t, 28.4, 31) ? span(t, 28.4, 29.2) : 0;
+      cam(document.getElementById('s5cam'), lerp(1.0, 1.08, u5) + pushBack * .04, wob(t, .6, 3), lerp(0, -20, u5), 0);
+      // Switch (links, wit): brutaal; Broadcast (rechts, zwart): droog
+      var swMood = t < 23.4 ? -.4 : -.9, swSq = inR(t, 23.4, 24.4) ? .55 : .15;
+      s5sw.set({ open: talkSW, blink: blink(t, [21.2, 23.0, 25.4, 28.3]), lookX: t > 28.5 ? 0 : 1, lookY: t > 28.5 ? -.6 : 0, mood: t > 28.5 ? -.6 : swMood, squint: t > 28.5 ? .3 : swSq });
+      s5bc.set({ open: talkBC, blink: blink(t, [21.7, 24.7, 26.0, 29.7]), lookX: t > 29.6 ? 0 : -1, lookY: t > 29.6 ? -.6 : 0, mood: inR(t, 24.0, 24.6) ? .7 : .25 });
+      // tellers
+      var cs = T.counter, cin5 = easeOutBack(span(t, cs.show, cs.show + .45));
+      var a = 0, b = 0; cs.steps.forEach(function (s) { if (t >= s[0]) { a = s[1]; b = s[2]; } });
+      var vis = t < T.titleCard.t0 ? cin5 : 0;
+      [cL, cR].forEach(function (c, i) { c.style.opacity = vis; c.style.transform = 'translateY(' + (1 - cin5) * -30 + 'px)'; });
+      var bump = 0; cs.steps.forEach(function (s) { if (inR(t, s[0], s[0] + .18)) bump = 1 - span(t, s[0], s[0] + .18); });
+      cL.querySelector('.v').textContent = fmt(a); cR.querySelector('.v').textContent = fmt(b);
+      cL.querySelector('.v').style.transform = cR.querySelector('.v').style.transform = 'scale(' + (1 + bump * .08) + ')';
+      // titelkaart
+      var tc = T.titleCard, ta = inR(t, tc.t0, tc.t1) ? Math.min(span(t, tc.t0, tc.t0 + .3), 1 - span(t, tc.t1 - .3, tc.t1)) : 0;
+      title.style.opacity = ta;
+      var th = title.querySelector('.h'), tin = easeOutBack(span(t, tc.t0 + .05, tc.t0 + .55));
+      th.style.transform = 'scale(' + lerp(.85, 1, tin) + ')';
+      title.querySelector('.s').style.opacity = span(t, tc.t0 + .35, tc.t0 + .7);
+      title.querySelector('.k').style.opacity = span(t, tc.t0 + .7, tc.t0 + 1.0);
+      title.querySelector('.u').style.opacity = span(t, tc.t0 + .9, tc.t0 + 1.2);
+      // cut to black
+      fadeA = t >= T.blackout ? 1 : 0;
+    }
+
+    // captions (dialoog-proxy voor de animatic)
+    var cur = null; T.lines.forEach(function (l) { if (inR(t, l.t0 - .05, l.t1 + .25)) cur = l; });
+    if (cur && t < T.blackout) {
+      var ci = easeOutBack(span(t, cur.t0 - .05, cur.t0 + .18)), co = 1 - span(t, cur.t1 + .1, cur.t1 + .25);
+      cap.style.opacity = Math.min(ci, co);
+      cap.style.transform = 'translateY(' + (1 - ci) * 18 + 'px)';
+      capWho.textContent = T.who[cur.who].label; capWho.style.color = T.who[cur.who].color; capTxt.textContent = cur.text;
+    } else cap.style.opacity = 0;
+
+    fade.style.opacity = fadeA;
+    var sc = T.scenes.filter(function (s) { return inR(t, s.t0, s.t1); })[0];
+    hud.textContent = 'ANIMATIC v0.1  ' + t.toFixed(2).padStart(5, '0') + 's  ' + (sc ? sc.id + ' · ' + sc.naam : '');
+    window.__t = t;
+  }
+  window.seek = seek;
+
+  /* ---------- schaal naar venster + scrub/play ---------- */
+  function fit() { var s = Math.min(innerWidth / 1920, innerHeight / 1080); var st = document.getElementById('stage'); st.style.transform = 'scale(' + s + ')'; st.style.marginLeft = ((innerWidth - 1920 * s) / 2) + 'px'; st.style.marginTop = ((innerHeight - 1080 * s) / 2) + 'px'; st.style.position = 'absolute'; st.style.left = 0; st.style.top = 0; }
+  addEventListener('resize', fit); fit();
+  var scrub = document.getElementById('scrub'), tcEl = document.getElementById('tc'), playing = false, t0 = 0, p0 = 0;
+  scrub.addEventListener('input', function () { playing = false; seek(+scrub.value); tcEl.textContent = (+scrub.value).toFixed(2); });
+  document.getElementById('play').addEventListener('click', function () { playing = !playing; t0 = performance.now(); p0 = +scrub.value >= T.duration - .05 ? 0 : +scrub.value; });
+  function loop() { if (playing) { var t = p0 + (performance.now() - t0) / 1000; if (t >= T.duration) { playing = false; t = T.duration; } scrub.value = t; tcEl.textContent = t.toFixed(2); seek(t); } requestAnimationFrame(loop); }
+  seek(0); if (!document.body.classList.contains('render')) loop();
+  window.__ready = true;
+})();
+</script>
+</body>
+</html>
