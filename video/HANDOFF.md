@@ -1,14 +1,35 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** animatic v0.4 gereed (low-res polish-preview, 39,8 s tot zwart, placeholder-audio).
+**Status:** animatic v0.5 gereed (low-res polish-preview, 42,9 s tot zwart, placeholder-audio).
 **Bijgewerkt:** 2026-09-26.
-**Volgende actor:** Martijn — beoordeel v0.4 (tempo, display-animatie, leesbaarheid eindkaart B op mobiel) en beslis over de punten onder "Nog niet goed genoeg voor high-res".
+**Volgende actor:** Martijn — beoordeel v0.5 (tempo, Rail-cameo, labels, eindkaart B) en beslis over de punten onder "Nog niet goed genoeg voor high-res".
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
 - Higgsfield-karakters zijn de vaste visuele identiteit; geen redesign, geen mensen/armen/benen; gezichtjes subtiel.
-- Lengte: circa 37–40 s is acceptabel (v0.4: 39,8 s); niet inkorten ten koste van bediening, 080 en website-uitleg.
+- Lengte: circa 41–43 s is acceptabel (v0.5: 42,9 s); geen harde maximumduur; leesbaarheid gaat vóór snelheid.
 - Geen betaalde externe video-generaties; geen definitieve high-res export voordat v0.3 beoordeeld is.
+
+## Gewijzigd in v0.5 t.o.v. v0.4
+1. **Tempo nog iets rustiger.** +0,1–0,2 s tussen regels; eindkaart B 33,3–40,7 s: volledig opgebouwd vanaf ± 34,7 s
+   en daarna 6,0 s stil leesbaar. Totaal 39,8 → 42,9 s tot zwart.
+2. **Display-labels rustiger.** *Drukknop 3 s vasthouden* alleen vóór het aftellen; tijdens 3 → 2 → 1 alleen het display;
+   *ULC · ontgrendeld* pas bij ULC, *080 · lichtdrempel* pas bij 080 (vensters in `timeline.js` → `display.chips`).
+3. **Rail-cameo i.p.v. MiniR.** Gecontroleerd aan de echte koffer: in het deksel zitten K03 Rail wit (boven) en K04 Rail
+   zwart (eronder). De witte K03 is de cameo: echte uitsnede uit `koffer-deksel-tray.jpg` in een 300 px dekselverlenging
+   van het koffer-styleframe (`assets/koffer-plate-ext.png`), de getekende donkere balk eronder staat op de plek van K04.
+   Bij "En ik dan?" kantelt de camera duidelijk omhoog (doel y 540 → 205), blauw lichtaccent, gezichtje in dezelfde rig
+   (blauwe ogen, mond, bounce, tilt), label INTUSENS RAIL 1,1 s; daarna zakt de camera iets terug zodat Switch zichtbaar
+   omhoog kijkt en antwoordt; Rail reageert droog tevreden. Scène 2,9 s. Geen technische uitleg toegevoegd.
+4. **Zwarte Broadcast ongewijzigd** (v0.4-cut-out, geen verdere verscherping).
+5. Overig ongewijzigd: website-koppeling 080 → 080, productrace + eindkaart A, gescheiden saleschallenge, slot en cut.
+
+## Zelfcontrole v0.5 (stills + contactvel uit de mp4)
+- Switch wit, Broadcast zwart: ja. Rail-cameo: witte balk bovenin het deksel met label, camera kantelt zichtbaar omhoog.
+- 3 → 2 → 1 → ULC → 080 volledig leesbaar; labels pas na de stap; LED licht aan bij 080.
+- Websitekoppeling: match-cut + lijn 080 → 080, site 1,8 s ingezoomd leesbaar.
+- Eindkaart B 6,0 s volledig opgebouwd; kader "Projectorders tellen niet mee" en URL leesbaar; race en challenge gescheiden.
+- Ondertitels 78 px, 110 px boven de onderrand (± 6 mm op een 6-inch-scherm). Geen redesign, geen nieuwe claims.
 
 ## Gewijzigd in v0.4 t.o.v. v0.3
 1. **Tempo vertraagd.** Ademruimte van 0,3–0,4 s tussen dialoogregels; langere holds op display, telefoon en
@@ -66,11 +87,11 @@
 - Geen redesign: alleen originele renders + weggeretoucheerde ogen + subtiele SVG-gezichtjes.
 
 ## Nog niet goed genoeg voor high-res
-1. **Zwarte Broadcast in S2a** is beter, maar de bronrender heeft scherptediepte en een zachte blauwe rand; bij
-   1920×1080 blijft dat zichtbaar. Echt scherp vraagt een nieuwe Higgsfield-render van de zwarte Broadcast
-   (frontaal, scherp, zonder ogen) of een Higgsfield-videoshot voor S2a.
-2. **MiniR-cameo** is nu alleen een gezichtje in het dekselvak. Voor high-res is een MiniR-karakterrender nodig
-   (zelfde stijl), anders blijft het een suggestie.
+1. **Zwarte Broadcast in S2a**: bewust niet verder softwarematig verscherpt (besluit v0.5). Voor de definitieve versie is
+   waarschijnlijk een **nieuwe scherpe Broadcast-characterstill** nodig (zelfde Higgsfield-stijl, frontaal, scherp, zonder
+   ingebakken ogen) of een Higgsfield-videoshot voor S2a. Geen redesign in code.
+2. **Rail-cameo** is een echte foto-uitsnede in een verlengd styleframe. Voor high-res is een getekende Rail in de
+   Higgsfield-stijl (of een videoshot van het deksel) netter; de dekselverlenging is nu een vlak doorgetrokken paneel.
 3. **Stemmen** ontbreken; placeholder-blips. Timing staat vast in `timeline.js`.
 4. **Sound design** ontbreekt (koffer, knop, UI-clicks, kleine bewegingen).
 5. **Typografie** is systeemfont (Liberation Sans/DejaVu Mono); TRILUX-huisstijlfont nog toepassen.
@@ -82,7 +103,7 @@
 ## Bestanden
 `video/README.md`, `video/HANDOFF.md`, `video/animatic/{index.html,timeline.js,render.js,audio.py,encode.sh}`,
 `video/animatic/assets/*` (o.a. nieuwe `black-plate.png`), `video/reference/higgsfield/*`.
-Renders in `video/out/` (niet in git): `intusens-animatic-v0.4.mp4`.
+Renders in `video/out/` (niet in git): `intusens-animatic-v0.5.mp4`.
 
 ## Open vragen
 Geen blokkerende. Vraag 1 (kleur), 2 (MiniR) en 3 (URL) uit v0.1/v0.2 zijn beantwoord en verwerkt.
