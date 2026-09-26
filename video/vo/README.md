@@ -1,11 +1,12 @@
-# Voice-over — definitieve TTS-masters (higgsfield-v1)
+# Voice-over — V2-set
 
-Stemmen (definitief): **Switch = Skye**, **DALI-2 Broadcast = Orion**, **Rail = Chloe**.
-Bron: `higgsfield-v1-manifest.json` (16 droge TTS-masters + een snellere variant van regel 08).
+Stemmen: **Switch = Skye via ElevenLabs**, **DALI-2 Broadcast = Orion via ElevenLabs**, **Rail = Chloe** (goedgekeurde take).
+Bron: V2-ZIP (zie `README-v2.txt`), 16 bestanden mono 48 kHz. `higgsfield-v1-manifest.json` wordt alleen nog gebruikt voor
+bestandsnamen en ondertitelteksten (de tekst is ongewijzigd). Regel 08 heeft in V2 geen FAST-variant.
 
 ## Status
-De 17 WAV's zijn aangeleverd via een ZIP en staan in deze map (download van de manifest-URL's was door de netwerkpolicy
-geblokkeerd). `proc/` is afgeleid en staat niet in git; `durations.json` wel.
+V2-set staat in deze map. `proc/` is afgeleid en staat niet in git; `durations.json` wel. Let op: 7 bestanden lijken aan
+begin of eind afgekapt (zie `video/HANDOFF.md`); bij heraanlevering graag ≥ 150 ms stilte voor en na elke regel.
 
 ## Bestanden die in deze map moeten staan
 Bestandsnamen exact als in het manifest (`filename`), plus de snellere variant van regel 08 als
@@ -20,7 +21,7 @@ Bestandsnamen exact als in het manifest (`filename`), plus de snellere variant v
 | 5 | `05-BC-zo-moeilijk.wav` | Broadcast (Orion) | Kijk. Zo moeilijk ben ik niet. |
 | 6 | `06-SW-080.wav` | Switch (Skye) | 080? (uitgesproken: "Nul tachtig?") |
 | 7 | `07-BC-even-checken.wav` | Broadcast (Orion) | Even checken? Pak de site erbij. |
-| 8 | `08-BC-code-op-display.wav` + `08-BC-code-op-display-FAST.wav` | Broadcast (Orion) | Code op het display, uitleg op je telefoon. Klaar. |
+| 8 | `08-BC-code-op-display.wav` | Broadcast (Orion) | Code op het display, uitleg op je telefoon. Klaar. |
 | 9 | `09-RL-en-ik-dan.wav` | Rail (Chloe) | En ik dan? |
 | 10 | `10-SW-jij-ook-op-site.wav` | Switch (Skye) | Jij staat ook op de site. |
 | 11 | `11-SW-belangrijkere-vraag.wav` | Switch (Skye) | Maar goed. Belangrijkere vraag… |

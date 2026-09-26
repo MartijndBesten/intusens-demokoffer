@@ -1,12 +1,14 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** v0.9 gereed met Skye/Orion/Chloe. **V2-stemmen (ElevenLabs voor Switch en Broadcast) nog niet verwerkt.**
+**Status:** v0.9 met **V2-stemmen** (Switch = Skye via ElevenLabs, Broadcast = Orion via ElevenLabs, Rail = Chloe, goedgekeurde
+take). Low-res preview `video/out/intusens-preview-v0.9-v2.mp4`, 50.6 s tot zwart, lichte robot-kleur.
 **Bijgewerkt:** 2026-09-26.
-**Blokkade:** de aangeleverde "V2"-ZIP (`e704d139-…zip`) is byte voor byte identiek aan de eerste ZIP (zelfde MD5
-`c71d1c4d…`, alle 17 WAV's gelijk). Er zitten dus geen ElevenLabs-takes in. Niets vervangen, geen nieuwe preview gerenderd.
-**Volgende actor:** Martijn — de juiste V2-ZIP aanleveren (Switch en Broadcast = ElevenLabs, Rail = huidige Chloe-take,
-zelfde bestandsnamen). Daarna: `vo_prepare.py` → `build_timeline.py` → `audio.py --robot` → render (geen handwerk nodig).
-Voor de high-res-punten zijn aanvullende bestanden/besluiten nodig (zie "Open voor high-res — wat nodig is").
+**Let op:** in de V2-set lijken regels **02, 04, 05, 07, 10 en 12 aan het eind afgekapt** en regel **06 aan het begin** (het bestand
+begint/eindigt midden in klank, −18 tot −34 dB t.o.v. piek; bij 02, 04 en 12 zelfs op spraakniveau). Verwerkt met alleen
+een declick-fade (5 ms in / 15 ms uit); afgekapt geluid is daarmee niet hersteld. Niet op gehoor gecontroleerd.
+**Volgende actor:** Martijn — preview beluisteren; als woordeinden hoorbaar ontbreken: die 7 regels opnieuw exporteren met
+≥ 150 ms stilte voor en na, zelfde bestandsnamen. Daarna volstaat de pipeline (`vo_prepare.py` → `build_timeline.py` →
+`audio.py --robot` → render).
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
@@ -15,6 +17,34 @@ Voor de high-res-punten zijn aanvullende bestanden/besluiten nodig (zie "Open vo
 - Stemmen definitief: Switch = Skye, DALI-2 Broadcast = Orion, Rail = Chloe (higgsfield-v1).
 - Rail-cameo, displayanimatie, echte website, productrace en slot zijn definitief voor de animatic (v0.6).
 - Geen betaalde externe video-generaties; geen definitieve high-res export voordat v0.3 beoordeeld is.
+
+## v0.9 V2 — ElevenLabs-stemmen verwerkt (update)
+- Alle oude WAV's in `video/vo/` vervangen door de V2-set (16 bestanden, mono 48 kHz; README uit de ZIP als `README-v2.txt`).
+  Geen FAST-variant meer voor regel 08; de V2-regel 08 is 3,28 s.
+- Alleen echte begin/eindstilte getrimd; geen interne pauze > 0,75 s, dus niets ingekort; tempo nergens aangepast.
+- Tijdlijn opnieuw gesynchroniseerd op de echte spreekduur: 50.63 s tot zwart, pauzefactor 0.90.
+  Race-beats, display, website-hold en saleskaart ongewijzigd.
+- Robot-kleur: lichte v0.9b-instelling (verstaanbaarheid voor effect).
+- Randcontrole (`vo_prepare.py`, kolom *rand*): meldt bestanden die midden in klank beginnen of eindigen.
+
+| Regel | Ruw (s) | Actief (s) | Tempo | Rand |
+|---|---|---|---|---|
+| 01-SW-he-collega | 1.36 | 1.15 | 1.00 | ok |
+| 02-BC-al-best-lang | 1.28 | 1.24 | 1.00 | EIND-AFGEKAPT? |
+| 03-SW-veel-te-lang | 1.28 | 0.92 | 1.00 | ok |
+| 04-BC-neem-ons-mee | 1.92 | 1.89 | 1.00 | EIND-AFGEKAPT? |
+| 05-BC-zo-moeilijk | 2.00 | 2.00 | 1.00 | EIND-AFGEKAPT? |
+| 06-SW-080 | 0.96 | 0.96 | 1.00 | BEGIN-AFGEKAPT?  |
+| 07-BC-even-checken | 2.08 | 2.08 | 1.00 | EIND-AFGEKAPT? |
+| 08-BC-code-op-display | 3.28 | 3.27 | 1.00 | ok |
+| 09-RL-en-ik-dan | 2.35 | 0.73 | 1.00 | ok |
+| 10-SW-jij-ook-op-site | 1.28 | 1.28 | 1.00 | EIND-AFGEKAPT? |
+| 11-SW-belangrijkere-vraag | 2.24 | 2.24 | 1.00 | ok |
+| 12-BC-wie-eerste-vijftig | 2.24 | 2.24 | 1.00 | EIND-AFGEKAPT? |
+| 13-SW-ik | 0.64 | 0.45 | 1.00 | ok |
+| 14-BC-succes | 0.96 | 0.89 | 1.00 | ok |
+| 15-SW-pak-die-koffer | 2.00 | 1.85 | 1.00 | ok |
+| 16-BC-alsjeblieft | 0.96 | 0.75 | 1.00 | ok |
 
 ## v0.9b — voorbereiding V2 (update)
 - Robot-kleur verlaagd op verzoek (verstaanbaarheid gaat voor effect): chorus-mix 0,20–0,24 → 0,10–0,11, elektronisch randje
@@ -320,7 +350,7 @@ tellers 35.04; kaart A 36.59; kaart B 38.59–46.99; zwart 50.54):
 ## Bestanden
 `video/README.md`, `video/HANDOFF.md`, `video/animatic/{index.html,timeline.js,render.js,audio.py,encode.sh}`,
 `video/animatic/assets/*` (o.a. nieuwe `black-plate.png`), `video/reference/higgsfield/*`.
-Renders in `video/out/` (niet in git): `intusens-preview-v0.9.mp4`.
+Renders in `video/out/` (niet in git): `intusens-preview-v0.9-v2.mp4` (V2) en `intusens-preview-v0.9.mp4` (V1).
 
 ## Open vragen
 Geen blokkerende. Vraag 1 (kleur), 2 (MiniR) en 3 (URL) uit v0.1/v0.2 zijn beantwoord en verwerkt.

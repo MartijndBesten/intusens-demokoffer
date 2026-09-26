@@ -89,7 +89,8 @@ def main(argv):
         name = f['filename'][:-4]; src = os.path.join(VO, f['filename'])
         if not os.path.exists(src): missing.append(f['filename']); continue
         variant = 'normaal'
-        x, _, _ = trim(read(src))
+        full = read(src); raw_len = len(full) / SR
+        x, _, _ = trim(full)
         fast = next((p for p in (os.path.join(VO, name + '-FAST.wav'), os.path.join(VO, name + '-fast.wav')) if os.path.exists(p)), None)
         if name.startswith('08-') and fast and force08 != 'normaal':
             # Martijn: eerst de FAST-versie; normaal alleen als die natuurlijker past (--08=normaal)
@@ -99,11 +100,17 @@ def main(argv):
         slow = 0.45 * words + 0.6; active = len(x) / SR; tempo = 1.0
         if active > slow: tempo = min(MAX_TEMPO, active / slow)
         if tempo > 1.0: x, _, _ = trim(read(src, tempo))
+        # randcontrole: begint/eindigt het BRONbestand midden in klank? (dan is er waarschijnlijk iets afgekapt)
+        src_full = read(src); dbr = lambda s_: 20 * math.log10(math.sqrt(float(np.mean(s_ ** 2))) + 1e-12)
+        pk = max(dbr(src_full[i:i + 480]) for i in range(0, len(src_full) - 480, 480))
+        edge = ('BEGIN-AFGEKAPT? ' if dbr(src_full[:int(.02 * SR)]) > pk - 30 else '') + ('EIND-AFGEKAPT?' if dbr(src_full[-int(.02 * SR):]) > pk - 30 else '')
+        # declick: 5 ms fade-in, 15 ms fade-out (herstelt geen afgekapt geluid, voorkomt alleen een tik)
+        fi, fo = int(.005 * SR), int(.015 * SR); x = x.copy(); x[:fi] *= np.linspace(0, 1, fi); x[-fo:] *= np.linspace(1, 0, fo)
         rms = math.sqrt(float(np.mean(x ** 2)) + 1e-12)
         write(os.path.join(PROC, name + '.wav'), x)
-        res[name] = {'actief_s': round(len(x) / SR, 3), 'ruw_s': round(f['duration'], 3), 'tempo': round(tempo, 3), 'variant': variant,
+        res[name] = {'actief_s': round(len(x) / SR, 3), 'ruw_s': round(raw_len, 3), 'rand': edge, 'tempo': round(tempo, 3), 'variant': variant,
                      'woorden': words, 'rms_dbfs': round(20 * math.log10(rms), 1), 'env': envelope(x)}
-        print(f"{name:32s} ruw {f['duration']:5.2f}s → actief {len(x)/SR:5.2f}s  tempo {tempo:4.2f}  {variant}")
+        print(f"{name:32s} ruw {raw_len:5.2f}s → actief {len(x)/SR:5.2f}s  tempo {tempo:4.2f}  {variant:7s} {edge}")
     json.dump(res, open(os.path.join(VO, 'durations.json'), 'w'), indent=1)
     if missing: print('ONTBREEKT:', ', '.join(missing))
     print(f'{len(res)} verwerkt → {PROC}; durations.json geschreven')
