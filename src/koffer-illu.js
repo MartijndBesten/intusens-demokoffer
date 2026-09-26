@@ -67,18 +67,15 @@
     }
     return { body: s, halo: circle(cx, cy, r + 7, 'none', C.accent, 2), lx: cx, ly: cy + r + 15 };
   }
-  function miniS(cx, cy, variant) {
-    var w = 107, h = 42, x = cx - w / 2, y = cy - h / 2, fill, edge, det, dotFill, s;
-    if (variant === 'wit') { fill = C.wFill; edge = C.wEdge; det = '#bdbdb8'; dotFill = '#4b4b4b'; }
-    else if (variant === 'grijs') { fill = C.gFill; edge = C.gEdge; det = '#83878b'; dotFill = '#3f4245'; }
-    else { fill = '#2d2c29'; edge = '#5c5a54'; det = '#74726c'; dotFill = '#8b8983'; }
+  function miniS(cx, cy, variant) { // drie kleuren, één en dezelfde indeling en richting (Martijn 26-09-2026): drie puntjes links, kleine sensor, PIR-lens rechts
+    var w = 107, h = 42, x = cx - w / 2, y = cy - h / 2, fill, edge, det, dotFill, lensFill, s;
+    if (variant === 'wit') { fill = C.wFill; edge = C.wEdge; det = '#bdbdb8'; dotFill = '#4b4b4b'; lensFill = '#fafaf8'; }
+    else if (variant === 'grijs') { fill = C.gFill; edge = C.gEdge; det = '#83878b'; dotFill = '#3f4245'; lensFill = '#c9ccce'; }
+    else { fill = '#2d2c29'; edge = '#5c5a54'; det = '#8a8882'; dotFill = '#9a9892'; lensFill = '#3a3a38'; }
     s = rect(x, y, w, h, 4, fill, edge, 1.2) + rect(x + 4, y + 4, w - 8, h - 8, 3, 'none', det, 0.7);
-    var dotsLeft = variant !== 'grijs';
-    var dx = dotsLeft ? x + 12 : x + w - 12;
-    for (var i = -1; i <= 1; i++) s += circle(dx, cy + i * 10, 3, dotFill, 'none');
-    var smallX = dotsLeft ? x + 30 : x + w - 32, lensX = dotsLeft ? x + w * 0.62 : x + w * 0.4;
-    s += circle(smallX, cy, 5, variant === 'zwart' ? '#5b5a55' : '#3c3c3c', 'none');
-    s += variant === 'zwart' ? circle(x + w * 0.78, cy, 10, '#3a3a38', '#7a7872', 1) + circle(x + w * 0.78, cy, 5, '#56544f', 'none') : pirFlower(lensX, cy, 10, variant === 'wit' ? '#fafaf8' : '#c9ccce', det);
+    for (var i = -1; i <= 1; i++) s += circle(x + 12, cy + i * 10, 3, dotFill, 'none');
+    s += circle(x + 30, cy, 5, variant === 'zwart' ? '#6a6862' : '#3c3c3c', 'none');
+    s += pirFlower(x + w * 0.62, cy, 10, lensFill, det);
     return { body: s, halo: rect(x - 6, y - 6, w + 12, h + 12, 8, 'none', C.accent, 2), lx: cx, ly: cy + h / 2 + 15 };
   }
   function rail(cx, cy, variant) {
