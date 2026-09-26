@@ -116,14 +116,14 @@
 
   var PARTS = {
     deksel: [
-      ['K08', 'MiniR · HB 01', function () { return miniR(228, 104, 'wit'); }],
+      ['K08', 'MiniR · HB 01', function () { return miniR(228, 106, 'wit'); }],
       ['K09', 'MiniR · HB 05 NO L', function () { return miniR(374, 106, 'zwart'); }],
-      ['K10', 'MiniR · HB 05', function () { return miniR(515, 110, 'helder'); }],
+      ['K10', 'MiniR · HB 05', function () { return miniR(515, 106, 'helder'); }],
       ['K11', 'Zhaga · HB', function () { return zhaga(160, 215, 'facet'); }],
       ['K12', 'Zhaga · HB Corr', function () { return zhaga(160, 361, 'dome'); }],
-      ['K05', 'MiniS · wit', function () { return miniS(278, 204, 'wit'); }],
+      ['K05', 'MiniS · wit', function () { return miniS(278, 206, 'wit'); }],
       ['K06', 'MiniS · grijs', function () { return miniS(425, 206, 'grijs'); }],
-      ['K07', 'MiniS · zwart', function () { return miniS(569, 209, 'zwart'); }],
+      ['K07', 'MiniS · zwart', function () { return miniS(569, 206, 'zwart'); }],
       ['K03', 'Rail · wit', function () { return rail(428, 296, 'wit'); }],
       ['K04', 'Rail · zwart', function () { return rail(428, 361, 'zwart'); }],
       ['A03', 'Stekker', function () { return plug(73, 152); }],
