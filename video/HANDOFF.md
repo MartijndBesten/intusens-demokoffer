@@ -1,10 +1,12 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** v0.9 gereed — low-res polish-preview **met de echte Nederlandse stemmen** (Skye/Orion/Chloe), subtiele
-robot-kleur, losse karakterlagen met micro-acting, lichte tech-groove en fysieke cues. 50.5 s tot zwart.
+**Status:** v0.9 gereed met Skye/Orion/Chloe. **V2-stemmen (ElevenLabs voor Switch en Broadcast) nog niet verwerkt.**
 **Bijgewerkt:** 2026-09-26.
-**Volgende actor:** Martijn — v0.9 beoordelen (vooral verstaanbaarheid, robot-kleur en race-timing op gehoor).
-Daarna pas high-res final. Open punten voor final: zie "Nog niet goed genoeg voor high-res".
+**Blokkade:** de aangeleverde "V2"-ZIP (`e704d139-…zip`) is byte voor byte identiek aan de eerste ZIP (zelfde MD5
+`c71d1c4d…`, alle 17 WAV's gelijk). Er zitten dus geen ElevenLabs-takes in. Niets vervangen, geen nieuwe preview gerenderd.
+**Volgende actor:** Martijn — de juiste V2-ZIP aanleveren (Switch en Broadcast = ElevenLabs, Rail = huidige Chloe-take,
+zelfde bestandsnamen). Daarna: `vo_prepare.py` → `build_timeline.py` → `audio.py --robot` → render (geen handwerk nodig).
+Voor de high-res-punten zijn aanvullende bestanden/besluiten nodig (zie "Open voor high-res — wat nodig is").
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
@@ -13,6 +15,21 @@ Daarna pas high-res final. Open punten voor final: zie "Nog niet goed genoeg voo
 - Stemmen definitief: Switch = Skye, DALI-2 Broadcast = Orion, Rail = Chloe (higgsfield-v1).
 - Rail-cameo, displayanimatie, echte website, productrace en slot zijn definitief voor de animatic (v0.6).
 - Geen betaalde externe video-generaties; geen definitieve high-res export voordat v0.3 beoordeeld is.
+
+## v0.9b — voorbereiding V2 (update)
+- Robot-kleur verlaagd op verzoek (verstaanbaarheid gaat voor effect): chorus-mix 0,20–0,24 → 0,10–0,11, elektronisch randje
+  0,05–0,08 → 0,02–0,03, klankkleur-accenten gehalveerd. Correlatie droog ↔ bewerkt nu 0,94 (Broadcast), 0,97 (Switch),
+  0,99 (Rail). Geldt automatisch voor de V2-stemmen.
+- V2 niet verwerkt: aangeleverde ZIP is identiek aan V1 (zie Blokkade).
+
+## Open voor high-res — wat nodig is
+| Punt | Kan nu? | Wat nodig is |
+|---|---|---|
+| Scherpe zwarte Broadcast-still (scène 2) | Nee | Nieuwe scherpe Broadcast-render in dezelfde Higgsfield-stijl, frontaal, zonder ingebakken ogen, ≥ 1920 px breed. |
+| Getekende Rail i.p.v. foto-uitsnede | Nee | Rail-render (wit, K03) in dezelfde stijl, liggend zoals in het deksel, met transparante of effen achtergrond. |
+| TRILUX-huisstijlfont | Nee | Fontbestanden (woff2/otf) met gebruikslicentie. Niet in de repo en niet in de TRILUX NL-ontwerpregels; site gebruikt systeemfonts. |
+| Diepte in koffer- en raceplaat | Deels (lagen + parallax zitten er al in) | Echte diepte vraagt twee Higgsfield-videoshots (opening, race); betaald, daarom niet gedaan. |
+| Stembestanden in publieke repo | Besluit | De repo is publiek; de WAV's staan op de videobranch (niet op de site). Laten staan of verwijderen/verplaatsen? |
 
 ## v0.9 — stemmen verwerkt (update)
 

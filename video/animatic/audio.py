@@ -68,9 +68,10 @@ def robotize(x, who):
     - klein elektronisch randje: zachte ringmodulatie alleen boven 1,8 kHz;
     - lichte klankkleur: Switch iets helderder, Broadcast iets voller/droger, Rail helder en kort.
     Geen vocoder, geen pitch-effect, geen piepjes."""
-    P = {'SW': dict(d=6.0, mix=.22, ring=.07, rf=95, bright=.10, body=0.0),
-         'BC': dict(d=8.5, mix=.24, ring=.05, rf=60, bright=0.0, body=.12),
-         'RL': dict(d=4.5, mix=.20, ring=.08, rf=120, bright=.14, body=0.0)}[who]
+    # v0.9b (Martijn): verstaanbaarheid gaat voor effect → robot-kleur verder verlaagd (was mix .20–.24 / ring .05–.08)
+    P = {'SW': dict(d=6.0, mix=.10, ring=.025, rf=95, bright=.04, body=0.0),
+         'BC': dict(d=8.5, mix=.11, ring=.02, rf=60, bright=0.0, body=.05),
+         'RL': dict(d=4.5, mix=.10, ring=.03, rf=120, bright=.06, body=0.0)}[who]
     n = len(x); tt = np.arange(n) / SR
     d = int(P['d'] * SR / 1000); mod = (0.5 * SR / 1000 * np.sin(2 * math.pi * 0.6 * tt)).astype(int)
     comb = x[np.clip(np.arange(n) - d - mod, 0, n - 1)]
