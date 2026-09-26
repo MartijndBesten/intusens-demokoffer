@@ -1,12 +1,9 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** v0.9d — **audio freeze** + laatste visuele polish-pass. Low-res eindpreview `video/out/intusens-eindpreview-lowres.mp4`
-(50,6 s tot zwart), zonder preview-/debug-overlaytekst.
+**Status:** **FINAL** — high-res render `video/out/intusens-promofilm-final-1080p.mp4` (1920×1080, 24 fps, H.264 High CRF 16,
+AAC 256 kbit/s), 50,6 s tot zwart. Audio freeze gerespecteerd: de bevroren mix is ongewijzigd gebruikt (checksum gecontroleerd).
 **Bijgewerkt:** 2026-09-26.
-**Audio freeze (Martijn):** geen stemmen, pitch, tempo of timing meer wijzigen. Broadcast = Andre (definitief). Switch en Rail
-blijven exact zoals ze zijn, tenzij Martijn meldt dat regel 06 of 10 hoorbaar afgekapt is. `video/vo/`, `timeline.js` en de mix
-zijn in v0.9d niet aangeraakt (checksum gecontroleerd).
-**Volgende actor:** Martijn — eindpreview beoordelen. Daarna eventueel high-res final (zie "Open voor high-res").
+**Volgende actor:** Martijn — final beoordelen en verspreiden. De mp4 staat niet in git (te groot); bewaar hem buiten de repo.
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
@@ -16,6 +13,21 @@ zijn in v0.9d niet aangeraakt (checksum gecontroleerd).
 - **Audio freeze** (v0.9d): stemmen, pitch, tempo, timing en mix liggen vast.
 - Rail-cameo, displayanimatie, echte website, productrace en slot zijn definitief voor de animatic (v0.6).
 - Geen betaalde externe video-generaties; geen definitieve high-res export voordat v0.3 beoordeeld is.
+
+## Final — laatste polish + high-res (update)
+1. **Vinger bij de Broadcast-bediening: bewust laten staan.** Alle zes echte bedieningsfoto's (`bediening-broadcast-01…06`)
+   tonen de vinger op de knop; de enige vingerloze Broadcast-foto (`k02-broadcast.jpg`) is 430 px breed (te zacht voor de
+   zoom in deze scène) en laat de knopdruk niet zien. Wegretoucheren zou de positie van de drukknop moeten raden en
+   "Drukknop 3 s vasthouden" minder duidelijk maken. Technische duidelijkheid gaat voor.
+2. **RACE NAAR 50 vóór de score.** Nieuwe aankondiging bovenin tussen de tellers: verschijnt 0,15 s vóór de tellers
+   (35,15 s), de tellers komen op hun oude tijd (00/00 op 35,30 s, eerste score 35,75 s) en de kop verdwijnt onder kaart A
+   (36,85 s). Geen andere timing of inhoud gewijzigd; kaart A (RACE NAAR 50 + "Welk product is als eerste vijftig keer
+   verkocht?") en de verkoopkaart zijn ongewijzigd. De tellerklikken in de bevroren audio blijven daardoor synchroon.
+3. **Scherpere assets/font: niet vervangen.** Er is niets aantoonbaar beters: in beeld staan al de hoogste resoluties
+   (Higgsfield-platen 1344 px, dekselfoto 1280 px; productfoto's in de repo zijn 390–640 px). Geen TRILUX-font met licentie
+   beschikbaar (alleen Liberation/DejaVu/Free-fonts). Geen redesign.
+4. **High-res render:** `render.js --scale 1 --pipe … --audio …` streamt 1080p-frames rechtstreeks naar ffmpeg. Geen
+   preview-/debug-overlaytekst.
 
 ## v0.9d — visuele polish-pass (update)
 - Alleen `animatic/index.html` (beweging) en `animatic/render.js` (geen overlay) gewijzigd. Verkoopkaart inhoudelijk ongewijzigd.
@@ -382,7 +394,7 @@ tellers 35.04; kaart A 36.59; kaart B 38.59–46.99; zwart 50.54):
 ## Bestanden
 `video/README.md`, `video/HANDOFF.md`, `video/animatic/{index.html,timeline.js,render.js,audio.py,encode.sh}`,
 `video/animatic/assets/*` (o.a. nieuwe `black-plate.png`), `video/reference/higgsfield/*`.
-Renders in `video/out/` (niet in git): `intusens-eindpreview-lowres.mp4` (actueel).
+Renders in `video/out/` (niet in git): `intusens-promofilm-final-1080p.mp4` (final) en `intusens-eindpreview-lowres.mp4`.
 
 ## Open vragen
 Geen blokkerende. Vraag 1 (kleur), 2 (MiniR) en 3 (URL) uit v0.1/v0.2 zijn beantwoord en verwerkt.

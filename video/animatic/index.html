@@ -57,6 +57,9 @@
   .counter .v { font: 700 130px/1 "DejaVu Sans Mono", monospace; color: #fff; margin-top: 8px; letter-spacing: .04em; }
   .counter.l { left: 110px; } .counter.r { right: 110px; text-align: right; }
   .counter.r .v { color: var(--blue2); }
+  /* final: aankondiging 'RACE NAAR 50' nét vóór de eerste tellerstand (tussen de twee tellers, zelfde typografie als kaart A) */
+  #raceHead { position: absolute; left: 0; right: 0; top: 118px; text-align: center; opacity: 0; font: 800 66px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .05em; color: #fff; text-shadow: 0 6px 30px rgba(0,0,0,.7); }
+  #raceHead b { color: var(--blue); font-weight: 800; }
   /* titelkaart */
   .card-end { position: absolute; inset: 0; background: rgba(3,6,14,.94); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0; padding: 0 120px; }
   .card-end .pre { font: 700 34px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .34em; text-transform: uppercase; color: #7fc8ff; margin-bottom: 30px; }
@@ -133,6 +136,7 @@
     </div>
     <div class="counter l" id="cL"><div class="n">Switch</div><div class="v">00</div></div>
     <div class="counter r" id="cR"><div class="n">Broadcast</div><div class="v">00</div></div>
+    <div id="raceHead">RACE NAAR <b>50</b></div>
     <div class="card-end" id="cardA">
       <div class="pre">Switch vs Broadcast</div>
       <div class="h">RACE NAAR <b>50</b></div>
@@ -529,6 +533,9 @@
         if (t >= s[0] + .22) { pa = s[1]; pb = s[2]; }
       });
       var vis = t < T.cardA.t0 ? cin5 : 0;
+      // final: 'RACE NAAR 50' verschijnt 0,15 s vóór de tellers (0,6 s vóór de eerste score) en verdwijnt onder kaart A; geen andere timing gewijzigd
+      var rh = document.getElementById('raceHead'), rhu = easeOutBack(span(t, cs.show - .15, cs.show + .15));
+      rh.style.opacity = t < T.cardA.t0 ? span(t, cs.show - .15, cs.show + .05) : 0; rh.style.transform = 'scale(' + lerp(.9, 1, rhu) + ')';
       [cL, cR].forEach(function (c, i) { c.style.opacity = vis; c.style.transform = 'translateY(' + (1 - cin5) * -30 + 'px) rotate(' + (i ? -1 : 1) * shake * 1.2 + 'deg)'; });
       cL.querySelector('.v').textContent = fmt(a); cR.querySelector('.v').textContent = fmt(b);
       cL.querySelector('.v').style.transform = cR.querySelector('.v').style.transform = 'scale(' + (1 + bump * .14) + ')';

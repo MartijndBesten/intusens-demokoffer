@@ -96,6 +96,8 @@ node render.js --stills 1.0,7.6,12.4 --out ../out/stills     # compositiecheck
 node render.js --out ../out/frames --scale 0.5                # 960x540, 24 fps
 python3 audio.py ../out/animatic-audio.wav
 ./encode.sh ../out/frames ../out/animatic-audio.wav ../out/intusens-preview-v0.9.mp4
+# final 1080p (frames direct naar ffmpeg, bevroren audio):
+node render.js --scale 1 --pipe ../out/intusens-promofilm-final-1080p.mp4 --audio ../out/animatic-audio.wav
 ```
 
 Vereist: Playwright (Chromium), Python 3 met Pillow/numpy (alleen voor assets), ffmpeg

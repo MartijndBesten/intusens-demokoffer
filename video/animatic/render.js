@@ -16,6 +16,8 @@ for (let i = 0; i < args.length; i++) {
   else if (args[i] === '--scale') opt.scale = +args[++i];
   else if (args[i] === '--stills') opt.stills = args[++i].split(',').map(Number);
   else if (args[i] === '--port') opt.port = +args[++i];
+  else if (args[i] === '--pipe') opt.pipe = args[++i];      // final: frames direct naar ffmpeg (geen PNG's op schijf)
+  else if (args[i] === '--audio') opt.audio = args[++i];
 }
 const outDir = path.resolve(__dirname, opt.out);
 fs.mkdirSync(outDir, { recursive: true });
@@ -35,7 +37,28 @@ fs.mkdirSync(outDir, { recursive: true });
     await page.screenshot({ path: file, type: 'png', clip: { x: 0, y: 0, width: 1920, height: 1080 } });
   };
 
-  if (opt.stills) {
+  if (opt.pipe) {
+    // final: H.264 High, CRF 16, yuv420p, faststart; audio = het bevroren mix-bestand, alleen AAC-gecodeerd (256 kbit/s)
+    const { spawn, execSync } = require('child_process');
+    const ff = execSync("python3 -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())'").toString().trim();
+    const outFile = path.resolve(process.cwd(), opt.pipe);
+    const ffArgs = ['-y', '-hide_banner', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(T.fps), '-i', '-'];
+    if (opt.audio) ffArgs.push('-i', path.resolve(process.cwd(), opt.audio));
+    ffArgs.push('-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-movflags', '+faststart');
+    if (opt.audio) ffArgs.push('-c:a', 'aac', '-b:a', '256k', '-shortest');
+    ffArgs.push(outFile);
+    const proc = spawn(ff, ffArgs, { stdio: ['pipe', 'inherit', 'inherit'] });
+    const n = Math.round(T.duration * T.fps), t0 = Date.now();
+    for (let i = 0; i < n; i++) {
+      await page.evaluate((tt) => window.seek(tt), i / T.fps);
+      await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+      const buf = await page.screenshot({ type: 'png', clip: { x: 0, y: 0, width: 1920, height: 1080 } });
+      if (!proc.stdin.write(buf)) await new Promise((r) => proc.stdin.once('drain', r));
+      if (i % 48 === 0) console.log(`frame ${i}/${n}  ${((Date.now() - t0) / 1000).toFixed(1)}s`);
+    }
+    proc.stdin.end(); await new Promise((r) => proc.on('close', r));
+    console.log('final geschreven:', outFile);
+  } else if (opt.stills) {
     for (const t of opt.stills) {
       const f = path.join(outDir, `still-${t.toFixed(2).replace('.', '_')}.png`);
       await shot(t, f); console.log('still', t, f);
