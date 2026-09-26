@@ -30,7 +30,8 @@ Daarna pas high-res final. Open punten voor final: zie "Nog niet goed genoeg voo
   0,35 s na "Belangrijkere vraag…", 0,30 s na de vraag, 0,65 s na "Ik.", 0,45 s droge blik na "Succes.", dan tellers.
 - **Robot-kleur** (`audio.py --robot`): korte chorus/doubling + klein elektronisch randje boven 1,8 kHz; Switch iets
   helderder, Broadcast iets voller, Rail helder. Correlatie droog ↔ bewerkt 0,92–0,94: de stem blijft voorop.
-- **Controle (objectief):** onsets in de mix 0–30 ms na de ondertitelstart (= 40 ms voorloop), spraak 14–18 dB boven de
+- **Controle (objectief):** in de gerenderde mp4 staat elke regel op 0 ms afwijking van zijn geplande positie
+  (kruiscorrelatie mp4-audio ↔ stemtrack, alle 16 regels); onsets 0–30 ms na de ondertitelstart (= 40 ms voorloop), spraak 14–18 dB boven de
   achtergrond, geen clipping (piek −1 dBFS). Lipsync volgt de amplitude van de echte stem. Verstaanbaarheid en robot-kleur
   zijn **niet op gehoor** gecontroleerd (geen afspeelmogelijkheid in deze omgeving).
 
