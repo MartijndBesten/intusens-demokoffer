@@ -1,0 +1,17 @@
+bestand;karakter;naam;start_s;max_duur_s;tekst
+01-SW-he-collega.wav;SW;IntuSens Switch;0.50;0.80;Hé collega?
+02-BC-al-best-lang.wav;BC;IntuSens DALI-2 Broadcast;1.60;1.30;We zitten hier al best lang.
+03-SW-veel-te-lang.wav;SW;IntuSens Switch;3.20;0.70;Veel te lang.
+04-BC-neem-ons-mee.wav;BC;IntuSens DALI-2 Broadcast;4.20;1.70;Neem ons eens mee naar een installateur.
+05-BC-zo-moeilijk.wav;BC;IntuSens DALI-2 Broadcast;6.60;1.30;Kijk. Zo moeilijk ben ik niet.
+06-SW-080.wav;SW;IntuSens Switch;13.90;0.80;080?
+07-BC-even-checken.wav;BC;IntuSens DALI-2 Broadcast;15.00;1.50;Even checken? Pak de site erbij.
+08-BC-code-op-display.wav;BC;IntuSens DALI-2 Broadcast;17.30;2.40;Code op het display, uitleg op je telefoon. Klaar.
+09-RL-en-ik-dan.wav;RL;IntuSens Rail;22.40;0.80;En ik dan?
+10-SW-jij-ook-op-site.wav;SW;IntuSens Switch;23.50;1.00;Jij staat ook op de site.
+11-SW-belangrijkere-vraag.wav;SW;IntuSens Switch;25.50;1.30;Maar goed. Belangrijkere vraag…
+12-BC-wie-eerste-vijftig.wav;BC;IntuSens DALI-2 Broadcast;27.10;1.80;Wie van ons is als eerste vijftig keer verkocht?
+13-SW-ik.wav;SW;IntuSens Switch;29.15;0.40;Ik.
+14-BC-succes.wav;BC;IntuSens DALI-2 Broadcast;30.15;0.50;Succes.
+15-SW-pak-die-koffer.wav;SW;IntuSens Switch;43.50;0.90;Dus… pak die koffer.
+16-BC-alsjeblieft.wav;BC;IntuSens DALI-2 Broadcast;44.60;0.50;Alsjeblieft.

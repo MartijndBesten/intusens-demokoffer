@@ -1,0 +1,26 @@
+IntuSens DALI-2 Broadcast — stemrichting: wat lager, droog, rustig maar niet sloom, zelfverzekerd; subtiele robotische verwerking
+
+02-BC-al-best-lang.wav  (max 1.30 s)
+We zitten hier al best lang.
+
+04-BC-neem-ons-mee.wav  (max 1.70 s)
+Neem ons eens mee naar een installateur.
+
+05-BC-zo-moeilijk.wav  (max 1.30 s)
+Kijk. Zo moeilijk ben ik niet.
+
+07-BC-even-checken.wav  (max 1.50 s)
+Even checken? Pak de site erbij.
+
+08-BC-code-op-display.wav  (max 2.40 s)
+Code op het display, uitleg op je telefoon. Klaar.
+
+12-BC-wie-eerste-vijftig.wav  (max 1.80 s)
+Wie van ons is als eerste vijftig keer verkocht?
+
+14-BC-succes.wav  (max 0.50 s)
+Succes.
+
+16-BC-alsjeblieft.wav  (max 0.50 s)
+Alsjeblieft.
+

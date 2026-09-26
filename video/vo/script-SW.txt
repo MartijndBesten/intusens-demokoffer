@@ -1,0 +1,23 @@
+IntuSens Switch — stemrichting: iets hoger, sneller, licht brutaal, energiek; subtiele elektronische/robotische verwerking; niet kinderachtig
+
+01-SW-he-collega.wav  (max 0.80 s)
+Hé collega?
+
+03-SW-veel-te-lang.wav  (max 0.70 s)
+Veel te lang.
+
+06-SW-080.wav  (max 0.80 s)
+080?
+
+10-SW-jij-ook-op-site.wav  (max 1.00 s)
+Jij staat ook op de site.
+
+11-SW-belangrijkere-vraag.wav  (max 1.30 s)
+Maar goed. Belangrijkere vraag…
+
+13-SW-ik.wav  (max 0.40 s)
+Ik.
+
+15-SW-pak-die-koffer.wav  (max 0.90 s)
+Dus… pak die koffer.
+

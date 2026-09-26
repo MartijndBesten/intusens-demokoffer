@@ -1,15 +1,49 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** v0.7 gereed — timing- en audio-polishpreview op v0.6 (low-res, 47,5 s tot zwart). Inhoud/tekst/opbouw ongewijzigd t.o.v. v0.6. Dit is de versie om te versturen.
+**Status:** v0.8 gereed — polish-preview met vlottere timing, lichte tech-soundbed, fysieke cues en **lege voice-over-slots** (low-res, 45,5 s tot zwart). Beeld/tekst/opbouw ongewijzigd t.o.v. v0.6. **Blokkade:** geen acceptabele Nederlandse TTS in deze omgeving; stemmen extern genereren (zie `video/vo/README.md`).
 **Bijgewerkt:** 2026-09-26.
-**Volgende actor:** Martijn — v0.7 beoordelen/versturen; daarna polish-fase: scherpe Broadcast-still, echte stemmen, definitief sound design, typografie, eventueel twee Higgsfield-videoshots.
+**Volgende actor:** Martijn — 16 Nederlandse robotstemmen (extern) aanleveren volgens `video/vo/cues.csv`; daarna `audio.py --robot` + render → v0.8-vo. Daarna polish: scherpe Broadcast-still, definitief sound design, typografie, eventueel twee Higgsfield-videoshots.
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
 - Higgsfield-karakters zijn de vaste visuele identiteit; geen redesign, geen mensen/armen/benen; gezichtjes subtiel.
-- Lengte: v0.7 47,5 s tot zwart (v0.6 45,3 s + landingspauzes); geen harde maximumduur; leesbaarheid gaat vóór snelheid.
+- Lengte: v0.8 45,5 s tot zwart (doel 44–45 s); display, website-uitleg en leesduur saleskaart niet ingekort.
 - Rail-cameo, displayanimatie, echte website, productrace en slot zijn definitief voor de animatic (v0.6).
 - Geen betaalde externe video-generaties; geen definitieve high-res export voordat v0.3 beoordeeld is.
+
+## Gewijzigd in v0.8 t.o.v. v0.7
+
+### Voice-over: waarom geen stemmen in deze preview
+- Getest: Piper-TTS installeert vanaf PyPI, maar alle Nederlandse stemmodellen (HuggingFace incl. mirrors, GitHub
+  releases) zijn door de netwerkproxy geblokkeerd (403/geen verbinding). Google-TTS is geblokkeerd. espeak-ng is via apt
+  beschikbaar, maar dat is formant-synthese met onnatuurlijke Nederlandse prosodie: afgewezen als kwaliteitsconcessie.
+- Conform de opdracht zijn er dus geen nepstemmen meer. Elke regel is een **voice-over-slot** (t0 = start, t1 = max. einde)
+  met een vaste bestandsnaam (`timeline.js` → `lines[].vo`). `audio.py` plaatst `video/vo/<naam>.wav` automatisch op t0,
+  normaliseert op -16 dBFS rms, voegt met `--robot` een lichte robot-kleur toe (korte chorus/comb + klein elektronisch
+  randje; stem blijft stem) en meldt regels die langer zijn dan hun slot.
+- **Benodigde bestanden (16):** zie `video/vo/README.md` (tabel met bestand, karakter, start, max. duur, tekst) en
+  `video/vo/script-SW.txt`, `script-BC.txt`, `script-RL.txt` (opnamescripts per karakter incl. stemrichting).
+- In deze preview zijn de slots stil; de ondertitels zijn leidend. Mondanimatie loopt wel mee met de slots.
+
+### Timing (vlotter, exact)
+- Opening 6,9 → 6,3 s: SW 0,5–1,3 · BC 1,6–2,9 · SW 3,2–3,9 · BC 4,2–5,9 (gaps 0,3 s). Overgangen daarna compacter:
+  S2a 6,3–7,9; display 7,9–13,7 (zelfde lengte); S3 13,7–22,1 (zelfde lengte, gaps 0,3/0,8 s); Rail-cameo 22,1–25,2 (3,1 s).
+- Race: SW 25,5–26,8 · 0,3 s · BC 27,1–28,9 · 0,25 s · "Ik." 29,15–29,55 · 0,6 s beat · "Succes." 30,15–30,65 · 0,45 s droge blik
+  (Broadcast kijkt Switch, dan kijker) · tellers 31,1 / 31,7 / 32,1 / 32,5. Eindkaart A 32,9–34,9; B 34,9–43,3 (7,0 s stil).
+  Slot 43,5–45,1, blik 45,2, zwart 45,5. Totaal 47,5 → 45,5 s.
+
+### Audio (exact)
+- Pseudo-spraak volledig verwijderd; donkere ambient-pad verwijderd.
+- Nieuwe soundbed: lichte tech-pulse op 104 bpm: zachte gefilterde pulse op de achtsten (octaaf boven het akkoord), ronde
+  korte bas op tel 1 en 3, majeur-akkoordtonen A → D → E → A in het middenregister, heel zachte off-beat tik. Niveau ≈ -25 dBFS,
+  duckt ≈ -5 dB onder elk voice-over-slot en ≈ -6 dB tijdens de saleskaart, fade-in 1,2 s, uit bij zwart.
+- Fysieke cues behouden en verschoven naar de nieuwe tijden: koffer 0,15; kunststof-klik 0,5 / 1,6; drukknop 8,0; display-clicks
+  8,8 / 9,4 / 10,0 / 10,6 / 11,8 + bevestiging 080; swipe 15,7; Rail-klik 22,4; thumps 7,9 / 13,7 / 25,2 / 32,9 / 34,9;
+  tellerklikken 31,1 / 31,7 / 32,1 / 32,5; slot-klik 45,35; koffer-dicht 45,5. Cues ≈ -23 dBFS, altijd onder voice-over-niveau.
+
+### Pas definitief bij echte stemmen
+- Slotlengtes (t1) en gaps; `audio.py` meldt te lange regels, daarna `timeline.js` bijstellen (beeld volgt automatisch).
+- Robot-kleur per karakter fijnregelen op de echte stem; ducking-diepte van de soundbed.
 
 ## Gewijzigd in v0.7 t.o.v. v0.6 (timing + audio, geen inhoud)
 
@@ -163,7 +197,7 @@
 ## Bestanden
 `video/README.md`, `video/HANDOFF.md`, `video/animatic/{index.html,timeline.js,render.js,audio.py,encode.sh}`,
 `video/animatic/assets/*` (o.a. nieuwe `black-plate.png`), `video/reference/higgsfield/*`.
-Renders in `video/out/` (niet in git): `intusens-animatic-v0.7.mp4`.
+Renders in `video/out/` (niet in git): `intusens-preview-v0.8.mp4`.
 
 ## Open vragen
 Geen blokkerende. Vraag 1 (kleur), 2 (MiniR) en 3 (URL) uit v0.1/v0.2 zijn beantwoord en verwerkt.
