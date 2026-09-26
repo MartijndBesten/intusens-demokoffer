@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8">
-<title>IntuSens promofilm — animatic v0.2</title>
+<title>IntuSens promofilm — animatic v0.3</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
   :root { --navy: #050a16; --navy2: #0b1730; --blue: #4fb3ff; --blue2: #7fc8ff; --white: #f3f7fb; }
@@ -27,7 +27,7 @@
   .photo { position: absolute; inset: 0; opacity: 0; }
   .photo .blur { position: absolute; inset: -60px; background-size: cover; background-position: center; filter: blur(40px) brightness(.45); }
   .photo .img { position: absolute; left: 50%; top: 50%; width: 1000px; height: 1000px; margin: -500px 0 0 -500px; background-size: cover; background-position: center; transform-origin: 50% 50%; box-shadow: 0 40px 120px rgba(0,0,0,.6); }
-  .chip { position: absolute; left: 120px; bottom: 150px; padding: 18px 30px; border-radius: 12px; background: rgba(5,10,22,.82); border: 1px solid rgba(127,200,255,.35); font: 600 40px "DejaVu Sans Mono", monospace; letter-spacing: .04em; color: #dff1ff; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+  .chip { position: absolute; left: 120px; bottom: 150px; padding: 14px 24px; border-radius: 12px; background: rgba(5,10,22,.82); border: 1px solid rgba(127,200,255,.35); font: 600 34px "DejaVu Sans Mono", monospace; letter-spacing: .04em; color: #dff1ff; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
   .kicker { position: absolute; left: 120px; top: 90px; font: 700 30px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .28em; text-transform: uppercase; color: #9fc6ea; opacity: .9; }
   /* scène 3 */
   .card { position: absolute; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.65), 0 0 0 1px rgba(127,200,255,.25); background: #111; }
@@ -38,8 +38,8 @@
   .phone .notch { position: absolute; left: 50%; top: 30px; width: 150px; height: 34px; margin-left: -75px; border-radius: 20px; background: #05070a; }
   .link { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
   /* captions (animatic-dialoog) */
-  #cap { position: absolute; left: 80px; right: 80px; bottom: 56px; text-align: center; opacity: 0; }
-  #cap .who { font: 700 30px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .3em; text-transform: uppercase; margin-bottom: 14px; text-shadow: 0 2px 12px rgba(0,0,0,.9); }
+  #cap { position: absolute; left: 80px; right: 80px; bottom: 110px; text-align: center; opacity: 0; }
+  #cap .who { font: 700 26px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .3em; text-transform: uppercase; margin-bottom: 12px; opacity: .75; text-shadow: 0 2px 12px rgba(0,0,0,.9); }
   #cap .txt { display: inline-block; max-width: 1560px; font: 700 78px/1.15 "Liberation Sans", Arial, sans-serif; padding: 16px 44px; border-radius: 18px; background: rgba(3,6,14,.84); color: #fff; box-shadow: 0 10px 40px rgba(0,0,0,.6); text-shadow: 0 2px 6px rgba(0,0,0,.6); }
   /* tellers */
   .counter { position: absolute; top: 90px; width: 520px; padding: 26px 34px; border-radius: 18px; background: rgba(5,10,22,.78); border: 1px solid rgba(127,200,255,.35); box-shadow: 0 20px 60px rgba(0,0,0,.5); opacity: 0; }
@@ -80,7 +80,7 @@
     <div class="cam" id="s2cam">
       <div class="world"><div class="glow"></div><div class="floor"></div><div class="lightbar"></div></div>
       <div class="char" id="s2sw" style="width:520px;left:-120px;top:600px"><img src="assets/white-plate.png" alt=""><svg viewBox="0 0 655 420" id="s2swface"></svg></div>
-      <div class="char" id="s2bc" style="width:900px;left:510px;top:300px"><img src="assets/black-plate.png" alt=""><svg viewBox="0 0 683 475" id="s2bcface"></svg></div>
+      <div class="char" id="s2bc" style="width:780px;left:570px;top:350px"><img src="assets/black-plate.png" alt=""><svg viewBox="0 0 679 471" id="s2bcface"></svg></div>
     </div>
   </div>
 
@@ -98,7 +98,7 @@
       <svg class="link" id="s3link" viewBox="0 0 1920 1080"></svg>
       <div class="phone" id="s3phone" style="left:1180px;top:80px"><div class="screen"><img src="assets/site-phone-080.png" alt=""></div><div class="notch"></div></div>
       <div class="char" id="s3sw" style="width:430px;left:30px;top:800px"><img src="assets/white-plate.png" alt=""><svg viewBox="0 0 655 420" id="s3swface"></svg></div>
-      <div class="char" id="s3bc" style="width:470px;left:410px;top:770px"><img src="assets/black-plate.png" alt=""><svg viewBox="0 0 683 475" id="s3bcface"></svg></div>
+      <div class="char" id="s3bc" style="width:470px;left:410px;top:770px"><img src="assets/black-plate.png" alt=""><svg viewBox="0 0 679 471" id="s3bcface"></svg></div>
     </div>
   </div>
 
@@ -117,8 +117,8 @@
     </div>
     <div class="card-end" id="cardB">
       <div class="pre">En voor jou</div>
-      <div class="h">VERKOOP <b>50</b> LOSSE SENSOREN</div>
-      <div class="s">voor de grijpvoorraad van installateurs.<br>Dan ligt er voor jou ook iets te grijpen.</div>
+      <div class="h">VERKOOP <b>50</b> SENSOREN LOS</div>
+      <div class="s">voor de grijpvoorraad van installateurs.<br>Verdeeld over meerdere installateurs telt ook.<br>Dan ligt er voor jou ook iets te grijpen.</div>
       <div class="k">Projectorders tellen niet mee</div>
       <div class="u">intusens-demokoffer.nl</div>
     </div>
@@ -129,7 +129,7 @@
   <div id="hud"></div>
 </div>
 </div>
-<div id="ctl"><input type="range" id="scrub" min="0" max="34" step="0.02" value="0"> <span id="tc">0.00</span> <button id="play">play</button></div>
+<div id="ctl"><input type="range" id="scrub" min="0" max="33.5" step="0.02" value="0"> <span id="tc">0.00</span> <button id="play">play</button></div>
 
 <script src="timeline.js"></script>
 <script>
@@ -182,7 +182,7 @@
     var mouthFill = el('ellipse', { cx: M[0], cy: M[1], rx: 0, ry: 0, fill: style === 'bc' ? '#0a0d12' : '#2a3038', opacity: .95 });
     g.appendChild(mouthFill); g.appendChild(mouth);
     svg.appendChild(g);
-    var st = { open: 0, blink: 0, lookX: 0, lookY: 0, mood: 0, squint: 0 };
+    var st = { open: 0, blink: 0, lookX: 0, lookY: 0, mood: 0, squint: 0, tilt: 0, dy: 0 };
     function set(o) {
       for (var k in o) st[k] = o[k];
       var bl = 1 - clamp(st.blink, 0, 1) * .92 - st.squint * .45;
@@ -196,6 +196,8 @@
       mouth.setAttribute('d', 'M ' + (M[0] - w) + ' ' + y + ' Q ' + M[0] + ' ' + (y + curve + op * 4 * s) + ' ' + (M[0] + w) + ' ' + y);
       mouthFill.setAttribute('cx', M[0]); mouthFill.setAttribute('cy', y + 2 * s + op * 2 * s);
       mouthFill.setAttribute('rx', lerp(0, 13, op) * s); mouthFill.setAttribute('ry', lerp(0, 9, op) * s);
+      // kantelen/bounce van het hele gezichtje (suggereert een 'hoofd'-beweging zonder de render te vervormen)
+      g.setAttribute('transform', 'translate(0 ' + st.dy + ') rotate(' + st.tilt + ' ' + M[0] + ' ' + M[1] + ')');
     }
     set({});
     return { set: set, st: st };
@@ -217,13 +219,12 @@
   // Technische waarheid (assets/processed, src/data.js): Switch = wit (K01), DALI-2 Broadcast = zwart (K02).
   var s1sw = makeFace(document.getElementById('s1face'), 'sw', [447 * K, 425 * K], [556 * K, 433 * K], [490 * K, 455 * K], 1.05);
   var s1bc = makeFace(document.getElementById('s1face'), 'bc', [822 * K, 480 * K], [944 * K, 492 * K], [880 * K, 512 * K], 1.0);
-  // "de rest": twee kleine oogparen in het dekselvak (S4)
+  // MiniR-cameo: klein gezichtje dat uit het dekselvak gluurt (S4). Geen aparte render beschikbaar; alleen ogen/mond.
   var restG = el('g', { opacity: 0 }); document.getElementById('s1face').appendChild(restG);
-  var rest1 = makeFace(restG, 'bc', [1020, 60], [1060, 60], [1040, 84], .6);
-  var rest2 = makeFace(restG, 'sw', [1200, 92], [1236, 92], [1218, 114], .55);
+  var mr = makeFace(restG, 'bc', [1092, 72], [1136, 72], [1114, 96], .62);
 
   var WH = { L: [192, 155], R: [452, 155], M: [322, 189] };   // wit cut-out (655x420)
-  var BK = { L: [196, 206], R: [471, 206], M: [336, 256] };   // zwart cut-out (683x475)
+  var BK = { L: [194, 204], R: [469, 204], M: [334, 254] };   // zwart cut-out (679x471, v0.3 scherper)
   var s2bc = makeFace(document.getElementById('s2bcface'), 'bc', BK.L, BK.R, BK.M, 1.0);
   var s2sw = makeFace(document.getElementById('s2swface'), 'sw', WH.L, WH.R, WH.M, 1.0);
   var s3bc = makeFace(document.getElementById('s3bcface'), 'bc', BK.L, BK.R, BK.M, 1.0);
@@ -260,7 +261,7 @@
   /* ---------- de tijdlijn ---------- */
   function seek(t) {
     t = clamp(t, 0, T.duration);
-    var talkSW = talking(t, 'SW'), talkBC = talking(t, 'BC'), talkREST = talking(t, 'REST');
+    var talkSW = talking(t, 'SW'), talkBC = talking(t, 'BC'), talkMR = talking(t, 'MR');
     var fadeA = 0;
 
     if (t < C.s2a || inR(t, C.s4, C.s5)) {
@@ -268,27 +269,32 @@
       show('s1');
       if (t < C.s2a) {
         var u = span(t, 0, C.s2a);
-        cam(document.getElementById('s1cam'), lerp(1.0, 1.12, u), lerp(0, -40, u) + wob(t, .7, 3), lerp(0, -30, u) + wob(t, .9, 2), wob(t, .5, .15));
+        // camera: rustige push-in, verder vrijwel stil
+        cam(document.getElementById('s1cam'), lerp(1.0, 1.10, ease(u)), lerp(0, -30, u) + wob(t, .5, 2), lerp(0, -24, u) + wob(t, .7, 1.5), wob(t, .4, .1));
         fadeA = 1 - span(t, 0, .8);
         restG.setAttribute('opacity', 0);
-        // Switch: kijkt eerst naar Broadcast (links), dan naar de kijker
-        var swLookX = t < 1.5 ? 1 : (t < 3.0 ? .6 : (t < 3.8 ? 1 : 0));
-        s1sw.set({ open: talkSW, blink: blink(t, [1.4, 3.75, 5.5]), lookX: swLookX, lookY: t < 3.8 ? .1 : -.4, mood: t < 3.0 ? -.2 : -.7, squint: inR(t, 3.0, 3.8) ? .5 : 0 });
-        // Broadcast: droog, kijkt naar Switch, dan recht in de camera bij de vraag
-        var bcLookX = t < 1.5 ? -.8 : (t < 2.9 ? -.6 : (t < 3.9 ? -.8 : 0));
-        s1bc.set({ open: talkBC, blink: blink(t, [1.0, 2.95, 5.0]), lookX: bcLookX, lookY: t < 3.9 ? .1 : -.5, mood: .2 });
+        // Switch: kijkt bij "Hé collega?" naar Broadcast, houdt die blik; bij "Veel te lang" kort naar de kijker, tilt + mini-bounce
+        var swLX = t < .4 ? 0 : (t < 3.1 ? 1 : (t < 3.6 ? 0 : (t < 4.4 ? 1 : 0)));
+        var swLY = t < 3.1 ? .1 : (t < 3.6 ? -.5 : (t < 4.4 ? .1 : -.4));
+        var swTilt = inR(t, .5, 1.5) ? -2.5 * easeOut(span(t, .5, .8)) : (inR(t, 3.3, 4.1) ? 2.5 * easeOut(span(t, 3.3, 3.5)) : 0);
+        var swBounce = inR(t, 3.3, 3.55) ? -Math.sin(span(t, 3.3, 3.55) * Math.PI) * 6 : 0;
+        s1sw.set({ open: talkSW, blink: blink(t, [1.5, 2.6, 4.7, 5.6]), lookX: swLX, lookY: swLY, mood: t < 3.3 ? -.15 : -.6, squint: inR(t, 3.3, 4.1) ? .5 : 0, tilt: swTilt, dy: swBounce });
+        // Broadcast: reageert vertraagd, draait blik traag naar Switch; pas bij de vraag recht naar de kijker
+        var bcLX = t < 1.0 ? 0 : (t < 4.1 ? -.8 * ease(span(t, 1.0, 1.6)) : -lerp(.8, 0, ease(span(t, 4.1, 4.6))));
+        var bcLY = t < 4.1 ? .1 : lerp(.1, -.5, ease(span(t, 4.1, 4.6)));
+        var bcTilt = inR(t, 1.6, 3.0) ? 1.5 * easeOut(span(t, 1.6, 1.9)) : (t >= 4.2 ? -1.5 * easeOut(span(t, 4.2, 4.6)) : 0);
+        s1bc.set({ open: talkBC, blink: blink(t, [.9, 3.1, 5.2]), lookX: bcLX, lookY: bcLY, mood: t < 4.2 ? .15 : .3, tilt: bcTilt, dy: 0 });
       } else {
         var u4 = span(t, C.s4, C.s5);
-        // koffer trilt kort wanneer "de rest" roept
-        var sh = inR(t, 19.6, 20.15) ? Math.sin((t - 19.6) * 60) * 6 * (1 - span(t, 19.6, 20.15)) : 0;
+        // koffer trilt kort wanneer MiniR roept
+        var sh = inR(t, 19.9, 20.45) ? Math.sin((t - 19.9) * 60) * 6 * (1 - span(t, 19.9, 20.45)) : 0;
         cam(document.getElementById('s1cam'), lerp(1.06, 1.02, u4), sh, sh * .5 + lerp(-20, 0, u4), sh * .08);
-        var ro = span(t, 19.7, 20.1);
+        var ro = span(t, 19.95, 20.3);
         restG.setAttribute('opacity', ro);
-        rest1.set({ open: talkREST, blink: blink(t, [20.7]), lookX: -.3, lookY: .8, mood: -.3 });
-        rest2.set({ open: talkREST * .8, blink: blink(t, [20.4]), lookX: -.5, lookY: .8, mood: -.5 });
-        // Switch en Broadcast kijken omhoog naar het deksel
-        s1sw.set({ open: talkSW, blink: blink(t, [20.3]), lookX: .6, lookY: -1, mood: t > 20.9 ? -.6 : -.2, squint: t > 20.9 ? .4 : 0 });
-        s1bc.set({ open: 0, blink: blink(t, [20.0, 21.5]), lookX: .3, lookY: -1, mood: .1 });
+        mr.set({ open: talkMR, blink: blink(t, [20.75]), lookX: -.3, lookY: .8, mood: -.2, tilt: 0, dy: 0 });
+        // Switch en Broadcast kijken omhoog naar het deksel; Switch antwoordt droog
+        s1sw.set({ open: talkSW, blink: blink(t, [20.5]), lookX: .6, lookY: -1, mood: t > 20.9 ? -.6 : -.2, squint: t > 20.9 ? .4 : 0, tilt: t > 20.9 ? 1.5 : 0, dy: 0 });
+        s1bc.set({ open: 0, blink: blink(t, [20.2, 21.7]), lookX: .3, lookY: -1, mood: .1, tilt: 0, dy: 0 });
       }
     } else if (t < C.s2b) {
       /* ---- S2a: Broadcast naar voren ---- */
@@ -296,9 +302,9 @@
       var u2 = easeOut(span(t, C.s2a, C.s2b - .2));
       cam(document.getElementById('s2cam'), 1, 0, 0, 0);
       charT(document.getElementById('s2bc'), lerp(.72, 1.0, u2), lerp(60, 0, u2), lerp(80, 0, u2) + wob(t, 1.3, 3), lerp(4, -1.5, u2) + wob(t, .8, .6));
-      s2bc.set({ open: talkBC, blink: blink(t, [5.95, 7.1]), lookX: 0, lookY: -.2, mood: .35 });
+      s2bc.set({ open: talkBC, blink: blink(t, [6.25, 7.4]), lookX: 0, lookY: -.2, mood: .35 });
       charT(document.getElementById('s2sw'), 1, lerp(-40, 0, span(t, C.s2a, C.s2a + .7)), 0, -2);
-      s2sw.set({ open: 0, blink: blink(t, [6.7]), lookX: 1, lookY: -.3, mood: -.5, squint: .3 });
+      s2sw.set({ open: 0, blink: blink(t, [7.0]), lookX: 1, lookY: -.3, mood: -.5, squint: .3 });
       fadeA = 0;
     } else if (t < C.s3) {
       /* ---- S2b: echte bedieningsfoto's ---- */
@@ -321,7 +327,7 @@
       show('s3');
       var u3 = span(t, C.s3, T.phoneZoom.t0);
       // na de laatste regel duwt de camera naar de telefoon: de echte site blijft langer en groter leesbaar
-      var z = ease(span(t, T.phoneZoom.t0, T.phoneZoom.t0 + 1.1)), zs = lerp(1.04, 1.42, z);
+      var z = ease(span(t, T.phoneZoom.t0, T.phoneZoom.t0 + 1.1)), zs = lerp(1.04, T.phoneZoom.scale, z);
       // doelpunt: het display + stap '2 Lichtdrempel' op de telefoon (stage-coördinaat ≈ 1400, 400)
       cam(document.getElementById('s3cam'), z > 0 ? zs : lerp(1.0, 1.04, u3), z > 0 ? lerp(-20, -(1400 - 960) * zs, z) : lerp(0, -20, u3), z > 0 ? lerp(0, -(400 - 540) * zs, z) : 0, 0);
       var cin = easeOutBack(span(t, C.s3, C.s3 + .6));
@@ -338,10 +344,10 @@
       linkDot.setAttribute('cx', pt.x); linkDot.setAttribute('cy', pt.y); linkDot.setAttribute('opacity', lo);
       // karakters: gluren van onderen
       var swin = easeOut(span(t, C.s3, C.s3 + .5)), bcin = easeOut(span(t, C.s3 + .7, C.s3 + 1.2));
-      charT(document.getElementById('s3sw'), 1, 0, (1 - swin) * 260 + wob(t, 2.1, 2), -3 + (inR(t, 12.2, 12.9) ? -3 : 0));
+      charT(document.getElementById('s3sw'), 1, 0, (1 - swin) * 260 + wob(t, 2.1, 2), -3 + (inR(t, 12.5, 13.2) ? -3 : 0));
       charT(document.getElementById('s3bc'), 1, 0, (1 - bcin) * 260 + wob(t, 1.6, 2), 2);
-      s3sw.set({ open: talkSW, blink: blink(t, [13.5, 16.3, 18.4]), lookX: t < 14.0 ? .4 : 1, lookY: -1, mood: t < 13.1 ? -.1 : -.5, squint: inR(t, 12.2, 13.0) ? .6 : 0 });
-      s3bc.set({ open: talkBC, blink: blink(t, [14.1, 16.9]), lookX: t < 13.7 ? -.4 : (t < 15.3 ? 1 : .3), lookY: -.8, mood: .3 });
+      s3sw.set({ open: talkSW, blink: blink(t, [13.8, 16.6, 18.7]), lookX: t < 14.3 ? .4 : 1, lookY: -1, mood: t < 13.4 ? -.1 : -.5, squint: inR(t, 12.5, 13.3) ? .6 : 0 });
+      s3bc.set({ open: talkBC, blink: blink(t, [14.4, 17.2]), lookX: t < 14.0 ? -.4 : (t < 15.6 ? 1 : .3), lookY: -.8, mood: .3 });
     } else {
       /* ---- S5: face-off + race + titelkaart + slot ---- */
       show('s5');
@@ -349,9 +355,11 @@
       var pushBack = t >= T.cardB.t1 ? span(t, T.cardB.t1, T.cardB.t1 + .8) : 0;
       cam(document.getElementById('s5cam'), lerp(1.0, 1.08, u5) + pushBack * .04, wob(t, .6, 3), lerp(0, -20, u5), 0);
       // Switch (links, wit): brutaal; Broadcast (rechts, zwart): droog
-      var slot = T.cardB.t1, swMood = t < 24.5 ? -.4 : -.9, swSq = inR(t, 24.5, 25.5) ? .55 : .15;
-      s5sw.set({ open: talkSW, blink: blink(t, [22.4, 24.1, 26.5, slot + .2]), lookX: t > slot ? 0 : 1, lookY: t > slot ? -.6 : 0, mood: t > slot ? -.6 : swMood, squint: t > slot ? .3 : swSq });
-      s5bc.set({ open: talkBC, blink: blink(t, [22.9, 25.8, 27.1, slot + 1.4]), lookX: t > slot + 1.1 ? 0 : -1, lookY: t > slot + 1.1 ? -.6 : 0, mood: inR(t, 25.0, 25.6) ? .7 : .25 });
+      var slot = T.cardB.t1, swMood = t < 24.7 ? -.4 : -.9, swSq = inR(t, 24.7, 25.7) ? .55 : .15;
+      s5sw.set({ open: talkSW, blink: blink(t, [22.6, 24.3, 26.3, slot + .2]), lookX: t > slot ? 0 : 1, lookY: t > slot ? -.6 : 0, mood: t > slot ? -.6 : swMood, squint: t > slot ? .3 : swSq, tilt: inR(t, 24.7, 25.2) ? -2 : 0 });
+      // Broadcast: bij "Alsjeblieft" naar de kijker, daarna nog één droge blik terug naar Switch (endLook) tot de cut
+      var bcEnd = t >= T.endLook, bcCam = t > slot + 1.1 && !bcEnd;
+      s5bc.set({ open: talkBC, blink: blink(t, [23.1, 25.9, 26.9, slot + 1.4]), lookX: bcCam ? 0 : -1, lookY: bcCam ? -.6 : 0, mood: inR(t, 25.2, 25.8) ? .7 : (bcEnd ? .05 : .25), tilt: bcEnd ? -2 * easeOut(span(t, T.endLook, T.endLook + .2)) : 0, squint: bcEnd ? .25 : 0 });
       // tellers
       var cs = T.counter, cin5 = easeOutBack(span(t, cs.show, cs.show + .45));
       var a = 0, b = 0; cs.steps.forEach(function (s) { if (t >= s[0]) { a = s[1]; b = s[2]; } });
@@ -387,7 +395,7 @@
 
     fade.style.opacity = fadeA;
     var sc = T.scenes.filter(function (s) { return inR(t, s.t0, s.t1); })[0];
-    hud.textContent = 'ANIMATIC v0.2  ' + t.toFixed(2).padStart(5, '0') + 's  ' + (sc ? sc.id + ' · ' + sc.naam : '');
+    hud.textContent = 'ANIMATIC v0.3  ' + t.toFixed(2).padStart(5, '0') + 's  ' + (sc ? sc.id + ' · ' + sc.naam : '');
     window.__t = t;
   }
   window.seek = seek;

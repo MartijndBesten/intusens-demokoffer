@@ -4,11 +4,17 @@ Korte film (± 30 s) waarin de **IntuSens Switch** en de **IntuSens DALI-2 Broad
 demokoffer met elkaar praten. Toon: intern grapje dat toevallig ook echte productuitleg geeft.
 Stijl: premium TRILUX corporate animation, donkerblauw / zwart / wit / koelblauw, 2.5D/3D, droog.
 
-Status: **animatic v0.2** (low-res bewegende preview: timing, dialoog, eenvoudige mond-/oog-/kantelbewegingen). Nog géén polish.
+Status: **animatic v0.3** (low-res polish-preview: timing, dialoog, mond-/oog-/kantelbewegingen, MiniR-cameo).
+Nog géén high-res, geen stemmen, geen externe video-generaties.
 
-v0.2 t.o.v. v0.1 (na akkoord op storyboard): ondertitels groter (mobiel leesbaar), meer schermtijd voor
-bediening → 080 → website incl. camera-push naar de telefoon, twee gescheiden eindkaarten (grapwedstrijd vs.
-persoonlijke saleschallenge) met groot leesbaar *Projectorders tellen niet mee*.
+Vaste besluiten (niet meer wijzigen):
+- **IntuSens Switch = wit, IntuSens DALI-2 Broadcast = zwart** (koffer, `src/data.js`, echte foto's zijn leidend;
+  de bestandsnamen in het Higgsfield-pakket zijn verwisseld en worden genegeerd).
+- Higgsfield-karakters zijn de vaste visuele identiteit: geen redesign, geen mensen/armen/benen, gezichtjes subtiel.
+- Bediening, telefoon, website, teksten en tellers blijven gecontroleerde montage. Alleen twee karaktershots zijn
+  later eventueel door hoogwaardige Higgsfield-video te vervangen: **S1 opening in de koffer (0,0–6,1 s)** en
+  **S5 face-off vlak vóór de race (22,0–26,5 s)**. Beide zijn in `index.html` losse scènes met één achtergrondplaat
+  (`assets/koffer-plate.png`, `assets/race-plate.png`) plus de gezichts-rig eroverheen.
 
 ## Mappen
 
@@ -28,29 +34,26 @@ Technische waarheid komt uit de repo zelf: `assets/processed/*` (echte foto's) e
 (`#/bediening/broadcast`, stap 2 Lichtdrempel) — dezelfde code die op
 [intusens-demokoffer.nl](https://intusens-demokoffer.nl) draait.
 
-## Script en timing (v0.2, ± 33,6 s)
+## Script en timing (v0.3, 33,2 s tot zwart)
 
 | t (s) | Scène | Beeld | Dialoog |
 |---|---|---|---|
-| 0,0–5,8 | S1 Koffer | Higgsfield-koffer-styleframe, langzame push-in, live gezichten | SW *Hé collega?* · BC *We zitten hier al best lang.* · SW *Veel te lang.* · BC *Neem ons eens mee naar een installateur.* |
-| 5,8–7,3 | S2a | Broadcast (zwart) komt naar voren, Switch (wit) gluurt links | BC *Kijk. Zo moeilijk ben ik niet.* |
-| 7,3–12,1 | S2b | Echte bedieningsfoto's 03 → 01 → 04 → 05 (vasthouden · 3→2→1 · ULC · 080), elk 1,0–1,5 s | — |
-| 12,1–19,4 | S3 Website | Display-crop "080" links, echte site op telefoon rechts (vanaf 13,7), verbindingslijn (14,7), camera-push naar de telefoon (17,5–19,4) | SW *080?* · BC *Even checken? Pak de site erbij.* · BC *Code op het display, uitleg op je telefoon. Klaar.* |
-| 19,4–21,8 | S4 | Terug in de koffer, koffer trilt, twee oogparen in het dekselvak | REST *Hallo? Wij zitten er óók nog in.* · SW *Jullie komen ook op de site.* |
-| 21,8–26,9 | S5 Face-off | Race-styleframe, tellers 00/00 → 12/18 → 27/31 → 43/46 | SW *Maar goed. Belangrijkere vraag…* · BC *Wie haalt als eerste de vijftig?* · SW *Ik.* · BC *Succes.* |
-| 26,9–29,0 | Eindkaart A | **Switch vs Broadcast — RACE NAAR 50 — Wie haalt als eerste de vijftig?** (de grap) | — |
-| 29,0–31,6 | Eindkaart B | **En voor jou — VERKOOP 50 LOSSE SENSOREN — voor de grijpvoorraad van installateurs. Dan ligt er voor jou ook iets te grijpen.** + groot: **PROJECTORDERS TELLEN NIET MEE** (de challenge) | — |
-| 31,6–33,6 | Slot | Face-off | SW *Dus… pak die koffer.* · BC *Alsjeblieft.* |
-| 33,6 | | Cut naar zwart | |
-
-De totale lengte is ± 3,6 s boven de richtlijn van 30 s; dat zit vrijwel volledig in de extra schermtijd voor
-bediening → 080 → website en de tweede eindkaart. Inkorten kan alleen door daar weer op in te leveren.
+| 0,0–6,1 | S1 Koffer | Koffer-styleframe, rustige push-in; Switch kijkt naar Broadcast, Broadcast reageert vertraagd; beat vóór "Veel te lang" met tilt + mini-bounce; bij de vraag kijken beide naar de kijker | SW *Hé collega?* · BC *We zitten hier al best lang.* · SW *Veel te lang.* · BC *Neem ons eens mee naar een installateur.* |
+| 6,1–7,6 | S2a | Broadcast (zwart) komt naar voren, Switch (wit) gluurt links | BC *Kijk. Zo moeilijk ben ik niet.* |
+| 7,6–12,4 | S2b | Echte bedieningsfoto's 03 → 01 → 04 → 05: vasthouden · 3→2→1 · ULC · 080 (1,1 / 1,0 / 1,2 / 1,5 s) | — |
+| 12,4–19,7 | S3 Website | Display-crop "080" links, echte site op telefoon rechts (14,0), verbindingslijn (15,0), camera-push naar de telefoon (17,8–19,7, schaal 1,6 = ± 13 % groter dan v0.2) | SW *080?* · BC *Even checken? Pak de site erbij.* · BC *Code op het display, uitleg op je telefoon. Klaar.* |
+| 19,7–22,0 | S4 MiniR-cameo | Terug in de koffer, koffer trilt, MiniR-gezichtje gluurt uit het dekselvak | MR *En ik dan?* · SW *Jij staat ook op de site.* |
+| 22,0–26,5 | S5 Face-off | Race-styleframe, tellers 00/00 → 12/18 → 27/31 → 43/46 (25,5 / 25,8 / 26,1) | SW *Maar goed. Belangrijkere vraag…* · BC *Wie haalt als eerste de vijftig?* · SW *Ik.* · BC *Succes.* |
+| 26,5–28,4 | Eindkaart A | **Switch vs Broadcast — RACE NAAR 50 — Wie haalt als eerste de vijftig?** (de grap) | — |
+| 28,4–31,1 | Eindkaart B | **En voor jou — VERKOOP 50 SENSOREN LOS — voor de grijpvoorraad van installateurs. Verdeeld over meerdere installateurs telt ook. Dan ligt er voor jou ook iets te grijpen.** + kader **PROJECTORDERS TELLEN NIET MEE** + klein `intusens-demokoffer.nl` | — |
+| 31,1–33,2 | Slot | Face-off; Broadcast kijkt bij "Alsjeblieft" naar de kijker en geeft daarna nog één droge blik naar Switch | SW *Dus… pak die koffer.* · BC *Alsjeblieft.* |
+| 33,2 | | Cut naar zwart | |
 
 Bedieningsteksten in beeld (chips) zijn letterlijk uit `src/data.js` (`bediening.sales.broadcast.flow`):
 3 s vasthouden · 3 → 2 → 1 → ULC · ULC = ontgrendeld · 080 = lichtdrempel, fabrieksinstelling 80 %.
 Er is geen bedieningsstap toegevoegd die niet op de foto's of in de site staat.
 
-## Belangrijke keuze: productkleur
+## Productkleur (definitief)
 
 In het Higgsfield-pakket heet de **witte** sensor "broadcast-character" en de **zwarte** "switch-character".
 De repo (en de koffer zelf) zegt het omgekeerde: **K01 Switch = wit, opbouw; K02 DALI-2 Broadcast = zwart, inbouw**
@@ -60,7 +63,7 @@ Styleframe 04 van het pakket zelf toont de Broadcast ook als donkere sensor met 
 De animatic volgt de technische waarheid: **Switch = witte karakter-render, Broadcast = zwarte
 karakter-render.** Persoonlijkheden blijven bij de naam (Switch bijdehand, Broadcast droog).
 Het race-styleframe is daarvoor horizontaal gespiegeld zodat Switch links staat, net als in de koffer.
-Zie VRAGEN in `HANDOFF.md` als dit anders moet.
+Door Martijn bevestigd als definitief (v0.3).
 
 ## Lokaal draaien
 
@@ -73,7 +76,7 @@ cd video/animatic
 node render.js --stills 1.0,7.6,12.4 --out ../out/stills     # compositiecheck
 node render.js --out ../out/frames --scale 0.5                # 960x540, 24 fps
 python3 audio.py ../out/animatic-audio.wav
-./encode.sh ../out/frames ../out/animatic-audio.wav ../out/intusens-animatic-v0.2.mp4
+./encode.sh ../out/frames ../out/animatic-audio.wav ../out/intusens-animatic-v0.3.mp4
 ```
 
 Vereist: Playwright (Chromium), Python 3 met Pillow/numpy (alleen voor assets), ffmpeg
@@ -82,8 +85,8 @@ Vereist: Playwright (Chromium), Python 3 met Pillow/numpy (alleen voor assets), 
 ## Volgende stappen (pas na akkoord op dialoog en timing)
 
 1. Echte stemmen (of TTS-proef) op de regels uit `timeline.js`; blips vervangen.
-2. Premium belichting: karakter-cut-outs vervangen door schone renders zonder ingebakken ogen
-   (nu weggeretoucheerd), diepte-lagen voor parallax, reflecties.
+2. Premium belichting: schone Higgsfield-renders zonder ingebakken ogen (nu weggeretoucheerd), diepte-lagen voor
+   parallax, reflecties; MiniR-cameo met een echte MiniR-render i.p.v. alleen ogen in het dekselvak.
 3. Meer motion: ademen, ring-"draai" bij Broadcast op de bedieningsfoto's, lichtsweeps.
 4. Sound design: kofferklik, display-piep, ring-ratel, tellertikken, roomtone.
 5. Definitieve typografie (TRILUX-huisstijlfont) en eindkaart.

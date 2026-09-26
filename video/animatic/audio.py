@@ -45,7 +45,7 @@ def thump(buf, t0, gain=0.5):
 def tick(buf, t0, gain=0.35):
     blip(buf, t0, 0.035, 1400, gain)
 
-VOICE = {'SW': (560, 'saw', 0.28), 'BC': (270, 'sine', 0.32), 'REST': (430, 'sine', 0.22)}
+VOICE = {'SW': (560, 'saw', 0.28), 'BC': (270, 'sine', 0.32), 'MR': (430, 'sine', 0.22)}
 
 def main(out):
     T = load_timeline()
