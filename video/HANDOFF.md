@@ -1,22 +1,39 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** v0.9 met **V2-stemmen** (Switch = Skye via ElevenLabs, Broadcast = Orion via ElevenLabs, Rail = Chloe, goedgekeurde
-take). Low-res preview `video/out/intusens-preview-v0.9-v2.mp4`, 50.6 s tot zwart, lichte robot-kleur.
+**Status:** v0.9c — **definitieve Broadcast-stem** (Andre / ElevenLabs / +1 semitoon / +7 % tempo) verwerkt; Switch (Skye/ElevenLabs)
+en Rail (Chloe) ongewijzigd. Low-res preview `video/out/intusens-preview-v0.9c.mp4`, 50.6 s tot zwart.
 **Bijgewerkt:** 2026-09-26.
-**Let op:** in de V2-set lijken regels **02, 04, 05, 07, 10 en 12 aan het eind afgekapt** en regel **06 aan het begin** (het bestand
-begint/eindigt midden in klank, −18 tot −34 dB t.o.v. piek; bij 02, 04 en 12 zelfs op spraakniveau). Verwerkt met alleen
-een declick-fade (5 ms in / 15 ms uit); afgekapt geluid is daarmee niet hersteld. Niet op gehoor gecontroleerd.
-**Volgende actor:** Martijn — preview beluisteren; als woordeinden hoorbaar ontbreken: die 7 regels opnieuw exporteren met
-≥ 150 ms stilte voor en na, zelfde bestandsnamen. Daarna volstaat de pipeline (`vo_prepare.py` → `build_timeline.py` →
-`audio.py --robot` → render).
+**Let op (Switch, uit V2, ongewijzigd):** regel **06** begint en **10** eindigt midden in klank (mogelijk afgekapt). Broadcast V3
+heeft geen afgekapte woorden; alleen "Succes." (14) begint direct met de S-klank (hooguit enkele ms van de sis).
+**Volgende actor:** Martijn — preview beluisteren. Eventueel Switch 06 en 10 opnieuw exporteren met ≥ 150 ms stilte voor/na.
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
 - Higgsfield-karakters zijn de vaste visuele identiteit; geen redesign, geen mensen/armen/benen; gezichtjes subtiel.
 - Lengte: doel 45–50 s met echte stemmen; mag iets langer als de stemmen daardoor natuurlijker klinken.
-- Stemmen definitief: Switch = Skye, DALI-2 Broadcast = Orion, Rail = Chloe (higgsfield-v1).
+- Stemmen definitief: Switch = Skye (ElevenLabs), DALI-2 Broadcast = **Andre (ElevenLabs, +1 semitoon, +7 % tempo)**, Rail = Chloe.
 - Rail-cameo, displayanimatie, echte website, productrace en slot zijn definitief voor de animatic (v0.6).
 - Geen betaalde externe video-generaties; geen definitieve high-res export voordat v0.3 beoordeeld is.
+
+## v0.9c — definitieve Broadcast-stem (update)
+- Alleen de 8 BC-bestanden in `video/vo/` vervangen door Broadcast V3 (Andre / ElevenLabs / +1 semitoon / +7 % tempo; README uit de
+  ZIP als `README-v3-broadcast.txt`). Switch- en Rail-bestanden gecontroleerd onaangetast (checksum).
+- Randcontrole: geen afgekapte woorden. Regel 12 en 16 hebben een los klikje in de laatste 10–20 ms na volledige stilte; de trim
+  verwijdert dat (verwerkte bestanden eindigen op stilte). Regel 14 begint direct met de S-klank.
+- Robotbewerking Broadcast: geen chorus meer, alleen een zeer subtiel elektronisch randje (ring 0,015 boven 1,8 kHz). Switch/Rail
+  ongewijzigd (lichte v0.9b-instelling).
+- Tijdlijn opnieuw gesynchroniseerd: 50.63 s tot zwart, pauzefactor 0.90; tempo nergens aangepast.
+
+| Broadcast-regel | Ruw (s) | Actief (s) |
+|---|---|---|
+| 02-BC-al-best-lang | 1.56 | 1.43 |
+| 04-BC-neem-ons-mee | 1.87 | 1.86 |
+| 05-BC-zo-moeilijk | 1.65 | 1.65 |
+| 07-BC-even-checken | 1.94 | 1.84 |
+| 08-BC-code-op-display | 3.21 | 3.04 |
+| 12-BC-wie-eerste-vijftig | 2.99 | 2.93 |
+| 14-BC-succes | 0.98 | 0.86 |
+| 16-BC-alsjeblieft | 1.71 | 0.75 |
 
 ## v0.9 V2 — ElevenLabs-stemmen verwerkt (update)
 - Alle oude WAV's in `video/vo/` vervangen door de V2-set (16 bestanden, mono 48 kHz; README uit de ZIP als `README-v2.txt`).
@@ -350,7 +367,7 @@ tellers 35.04; kaart A 36.59; kaart B 38.59–46.99; zwart 50.54):
 ## Bestanden
 `video/README.md`, `video/HANDOFF.md`, `video/animatic/{index.html,timeline.js,render.js,audio.py,encode.sh}`,
 `video/animatic/assets/*` (o.a. nieuwe `black-plate.png`), `video/reference/higgsfield/*`.
-Renders in `video/out/` (niet in git): `intusens-preview-v0.9-v2.mp4` (V2) en `intusens-preview-v0.9.mp4` (V1).
+Renders in `video/out/` (niet in git): `intusens-preview-v0.9c.mp4` (actueel).
 
 ## Open vragen
 Geen blokkerende. Vraag 1 (kleur), 2 (MiniR) en 3 (URL) uit v0.1/v0.2 zijn beantwoord en verwerkt.

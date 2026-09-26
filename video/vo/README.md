@@ -1,6 +1,7 @@
 # Voice-over — V2-set
 
-Stemmen: **Switch = Skye via ElevenLabs**, **DALI-2 Broadcast = Orion via ElevenLabs**, **Rail = Chloe** (goedgekeurde take).
+Stemmen: **Switch = Skye via ElevenLabs**, **DALI-2 Broadcast = Andre via ElevenLabs (+1 semitoon, +7 % tempo; V3, definitief)**,
+**Rail = Chloe** (goedgekeurde take). Broadcast-bestanden: zie `README-v3-broadcast.txt`.
 Bron: V2-ZIP (zie `README-v2.txt`), 16 bestanden mono 48 kHz. `higgsfield-v1-manifest.json` wordt alleen nog gebruikt voor
 bestandsnamen en ondertitelteksten (de tekst is ongewijzigd). Regel 08 heeft in V2 geen FAST-variant.
 

@@ -70,7 +70,8 @@ def robotize(x, who):
     Geen vocoder, geen pitch-effect, geen piepjes."""
     # v0.9b (Martijn): verstaanbaarheid gaat voor effect → robot-kleur verder verlaagd (was mix .20–.24 / ring .05–.08)
     P = {'SW': dict(d=6.0, mix=.10, ring=.025, rf=95, bright=.04, body=0.0),
-         'BC': dict(d=8.5, mix=.11, ring=.02, rf=60, bright=0.0, body=.05),
+         # v0.9c: definitieve Broadcast (Andre, +1 st, +7 %): geen chorus, alleen een zeer subtiel elektronisch randje
+         'BC': dict(d=8.5, mix=0.0, ring=.015, rf=60, bright=0.0, body=0.0),
          'RL': dict(d=4.5, mix=.10, ring=.03, rf=120, bright=.06, body=0.0)}[who]
     n = len(x); tt = np.arange(n) / SR
     d = int(P['d'] * SR / 1000); mod = (0.5 * SR / 1000 * np.sin(2 * math.pi * 0.6 * tt)).astype(int)
