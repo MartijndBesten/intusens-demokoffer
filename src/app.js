@@ -358,18 +358,19 @@
     }
     function term(x, y, s, side) { return '<circle cx="' + x + '" cy="' + y + '" r="3" fill="#fff" stroke="' + INK + '" stroke-width="1.4"/>' + tx(x + (side === 'l' ? 7 : -7), y + 4, s, { s: 10, c: GR, a: side === 'l' ? 'start' : 'end' }); }
     function lamp(cx, cy, lbl) { return '<circle cx="' + cx + '" cy="' + cy + '" r="14" fill="#fff" stroke="' + INK + '" stroke-width="1.6"/>' + pl('M' + (cx - 9) + ' ' + (cy - 9) + ' L' + (cx + 9) + ' ' + (cy + 9) + ' M' + (cx + 9) + ' ' + (cy - 9) + ' L' + (cx - 9) + ' ' + (cy + 9)) + (lbl ? tx(cx, cy + 30, lbl, { a: 'middle', c: GR, s: 10 }) : ''); }
-    function button(x, y) { // maakcontact, horizontaal, links en rechts een aansluiting
-      return dot(x, y) + dot(x + 34, y) + pl('M' + (x + 4) + ' ' + y + ' L' + (x + 26) + ' ' + (y - 9)) + pl('M' + (x + 15) + ' ' + (y - 16) + ' L' + (x + 15) + ' ' + (y - 9), INK, 1.2) + '<rect x="' + (x + 10) + '" y="' + (y - 22) + '" width="10" height="5" rx="1" fill="' + INK + '"/>';
+    function button(x, y) { // pulsdrukknop (momentcontact, maakcontact): open contact met drukstift en knop, pijl = indrukken
+      return dot(x, y) + dot(x + 34, y) + pl('M' + (x + 4) + ' ' + y + ' L' + (x + 26) + ' ' + (y - 9)) + pl('M' + (x + 15) + ' ' + (y - 18) + ' L' + (x + 15) + ' ' + (y - 8), INK, 1.2) +
+        '<rect x="' + (x + 8) + '" y="' + (y - 25) + '" width="14" height="6" rx="2" fill="' + INK + '"/>' + pl('M' + (x + 15) + ' ' + (y - 36) + ' L' + (x + 15) + ' ' + (y - 28) + ' M' + (x + 11) + ' ' + (y - 32) + ' L' + (x + 15) + ' ' + (y - 28) + ' L' + (x + 19) + ' ' + (y - 32), GR, 1.2);
     }
     function mains(x, y) { return tx(x, y - 10, '230 V', { b: 1, s: 11 }) + term(x + 22, y, 'L', 'r') + term(x + 22, y + 22, 'N', 'r') + term(x + 22, y + 44, 'PE', 'r'); }
     var s = '';
     if (kind === 'switch') {
-      s = '<svg class="wire" viewBox="0 0 520 250" role="img" aria-label="' + t('Aansluitschema IntuSens Switch') + '">';
+      s = '<svg class="wire" viewBox="0 0 520 266" role="img" aria-label="' + t('Aansluitschema IntuSens Switch') + '">';
       s += mains(30, 70) + ln(55, 70, 200, 70) + ln(55, 92, 200, 92) + ln(55, 114, 200, 114);
       s += sensorBox(200, 40, 150, 140, 'IntuSens Switch', 'L · N · PE · L’ · T');
       s += ln(350, 70, 430, 70, BL, 2) + tx(360, 62, 'L’', { b: 1, c: BL }) + lamp(450, 70, t('Geschakeld armatuur'));
       s += ln(230, 180, 230, 218) + tx(236, 200, 'T', { b: 1 }) + button(140, 218) + ln(174, 218, 230, 218);
-      s += ln(140, 218, 100, 218) + ln(100, 218, 100, 70) + dot(100, 70) + tx(120, 240, t('Drukknop (maakcontact) tussen L en T'), { c: GR, s: 10 });
+      s += ln(140, 218, 100, 218) + ln(100, 218, 100, 70) + dot(100, 70) + tx(30, 244, t('Externe pulsdrukknop (maakcontact) tussen L en T'), { c: INK, s: 10, b: 1 }) + tx(30, 258, t('Pulsdrukknop = momentcontact, geen blijvende schakelaar.'), { c: GR, s: 10 });
       s += '</svg>';
     } else if (kind === 'ext') {
       s = '<svg class="wire" viewBox="0 0 560 250" role="img" aria-label="' + t('Twee IntuSens Switch-sensoren, één in Extension mode') + '">';
@@ -379,20 +380,23 @@
       s += mains(380, 60) + ln(405, 60, 420, 60) + ln(405, 82, 420, 82) + ln(405, 104, 420, 104);
       s += sensorBox(420, 34, 130, 116, 'IntuSens Switch', 'Extension mode · E');
       s += ln(190, 150, 190, 200) + ln(190, 200, 485, 200) + ln(485, 200, 485, 150) + tx(196, 168, 'T', { b: 1 }) + tx(479, 168, 'T', { b: 1, a: 'end' });
-      s += tx(337, 194, t('Koppeling via het T-/drukknopcontact'), { a: 'middle', c: GR, s: 10 });
+      s += tx(337, 194, t('Koppeling via de T-aansluiting'), { a: 'middle', c: GR, s: 10 });
       s += tx(280, 236, t('De extra sensor meldt beweging door en vergroot het detectiebereik'), { a: 'middle', c: GR, s: 10 });
       s += '</svg>';
     } else {
-      s = '<svg class="wire" viewBox="0 0 520 290" role="img" aria-label="' + t('IntuSens DALI-2 Broadcast met DALI-armaturen en een IntuSens DALI-2 Input Device op één DALI-bus') + '">';
+      s = '<svg class="wire" viewBox="0 0 520 336" role="img" aria-label="' + t('IntuSens DALI-2 Broadcast met DALI-armaturen en een IntuSens DALI-2 Input Device op één DALI-bus') + '">';
       s += mains(20, 60) + ln(45, 60, 100, 60) + ln(45, 82, 100, 82) + ln(45, 104, 100, 104);
       s += sensorBox(100, 30, 170, 116, 'IntuSens DALI-2 Broadcast', t('Regelt · application controller'), true);
       s += ln(270, 74, 480, 74, BL, 2) + ln(270, 92, 480, 92, BL, 2) + tx(285, 66, 'DA+', { b: 1, c: BL, s: 10 }) + tx(285, 106, 'DA−', { b: 1, c: BL, s: 10 });
       s += ln(340, 74, 340, 200, BL, 2) + ln(358, 92, 358, 200, BL, 2) + dot(340, 74) + dot(358, 92);
-      s += box(290, 200, 120, 56, t('DALI-armaturen'), t('Op dezelfde bus'));
-      s += ln(440, 74, 440, 198, BL, 2) + ln(458, 92, 458, 198, BL, 2) + dot(440, 74) + dot(458, 92);
+      s += box(270, 200, 120, 56, t('DALI-armaturen'), t('Op dezelfde bus'));
+      s += ln(410, 74, 410, 198, BL, 2) + ln(428, 92, 428, 198, BL, 2) + dot(410, 74) + dot(428, 92);
       // extra sensor: rond sensorlichaam met lens, zoals de plafondsensor
-      s += glyph(449, 226, 27, true);
-      s += tx(449, 268, t('Extra DALI-2 sensor'), { a: 'middle', b: 1, s: 11 }) + tx(449, 281, 'Input Device \u00b7 ' + t('gevoed via DALI'), { a: 'middle', c: GR, s: 10 });
+      s += glyph(419, 226, 27, true);
+      s += tx(419, 268, t('Extra DALI-2 sensor'), { a: 'middle', b: 1, s: 11 }) + tx(419, 281, 'Input Device \u00b7 ' + t('gevoed via DALI'), { a: 'middle', c: GR, s: 10 });
+      // externe pulsdrukknop tussen L en T (momentcontact), geen dimbediening
+      s += dot(70, 60) + ln(70, 60, 70, 214) + button(70, 214) + ln(104, 214, 130, 214) + ln(130, 146, 130, 214) + tx(136, 186, 'T', { b: 1 });
+      s += tx(20, 300, t('Externe pulsdrukknop (maakcontact) tussen L en T'), { c: INK, s: 10, b: 1 }) + tx(20, 314, t('Pulsdrukknop = momentcontact, geen blijvende schakelaar.'), { c: GR, s: 10 }) + tx(20, 328, t('Geen handmatige dimfunctie via deze L–T-drukknop.'), { c: GR, s: 10 });
       s += '</svg>';
     }
     return s;
