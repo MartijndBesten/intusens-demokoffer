@@ -1,15 +1,49 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** animatic v0.6 gereed — **laatste animatic-iteratie** (low-res, 45,3 s tot zwart, placeholder-audio). Animatic-fase afgesloten.
+**Status:** v0.7 gereed — timing- en audio-polishpreview op v0.6 (low-res, 47,5 s tot zwart). Inhoud/tekst/opbouw ongewijzigd t.o.v. v0.6. Dit is de versie om te versturen.
 **Bijgewerkt:** 2026-09-26.
-**Volgende actor:** Martijn — start polish-fase: scherpe Broadcast-still, stemmen, sound design, typografie, eventueel twee Higgsfield-videoshots (zie "Polish-fase" hieronder).
+**Volgende actor:** Martijn — v0.7 beoordelen/versturen; daarna polish-fase: scherpe Broadcast-still, echte stemmen, definitief sound design, typografie, eventueel twee Higgsfield-videoshots.
 
 ## Vaste besluiten (door Martijn bevestigd)
 - Switch = wit, DALI-2 Broadcast = zwart; koffer, `src/data.js` en echte foto's zijn leidend. Niet meer wijzigen.
 - Higgsfield-karakters zijn de vaste visuele identiteit; geen redesign, geen mensen/armen/benen; gezichtjes subtiel.
-- Lengte: circa 44–46 s is acceptabel (v0.6: 45,3 s); geen harde maximumduur; leesbaarheid gaat vóór snelheid.
+- Lengte: v0.7 47,5 s tot zwart (v0.6 45,3 s + landingspauzes); geen harde maximumduur; leesbaarheid gaat vóór snelheid.
 - Rail-cameo, displayanimatie, echte website, productrace en slot zijn definitief voor de animatic (v0.6).
 - Geen betaalde externe video-generaties; geen definitieve high-res export voordat v0.3 beoordeeld is.
+
+## Gewijzigd in v0.7 t.o.v. v0.6 (timing + audio, geen inhoud)
+
+### Timing (exact)
+- **Opening:** SW 0,6–1,4 · BC 1,9–3,2 (was 1,8) · SW 3,7–4,4 (was 3,5) · BC 4,9–6,6 (was 4,6); reactiebeats van
+  0,5 s; blikken/tilts meegeschoven. Cut naar S2a 6,9 (was 6,5). Alles daarna +0,4 s verschoven tot en met de Rail-cameo.
+- **Race:** SW 26,6–27,9 → 0,35 s rust → BC 28,25–30,05 → 0,3 s → SW "Ik." 30,35–30,75 → 0,75 s reactietijd →
+  BC "Succes." 31,5–32,0 (kort) → 0,6 s volledige visuele rust (Broadcast kijkt eerst Switch, dan droog de kijker aan) →
+  tellers verschijnen 32,6, stappen 33,3 / 33,7 / 34,1. Tellers starten dus niet meer tijdens "Succes.".
+- **Eindkaarten:** A 34,5–36,8; B 36,8–45,2 (7,0 s volledig opgebouwd). Slot: SW 45,4–46,3, BC 46,5–47,0,
+  droge blik 47,1, klik 47,25, zwart 47,5. Totaal 45,3 → 47,5 s.
+- Website (2,5 s hold), display-reeks en Rail-cameo: ongewijzigd in lengte.
+
+### Audio (exact, alles gesynthetiseerd in `audio.py`, geen samples)
+- **Karakterstem-klanken i.p.v. blips:** per regel 2–4 vloeiende glides (S-curve in semitonen) met lichte vibrato,
+  sinus + zachte 2e/3e harmonische, laagdoorlaat (≤ 1,9–2,6 kHz), zacht 'technisch' ruisje. Intonatie per regel via
+  `contour` in `timeline.js`: *vraag* loopt omhoog, *droog* kort en vlak/omlaag, *stelling* licht dalend, *roep* kort helder.
+  Switch 305 Hz, sneller, lichte ritme-AM; Broadcast 196 Hz, rustiger, ronder; Rail 415 Hz, kort en helder.
+  Niveau ≈ -10 dBFS rms per regel (cues ≈ -20, soundbed ≈ -28); energie boven 3 kHz ≈ 0 %.
+- **Soundbed:** warme pad (55 / 82 / 110 / 165 Hz) met ademhaling van ~22 s en zachte 'lucht', ≈ -32 dBFS; fade-in 1,8 s,
+  fade-out bij zwart. Geen melodie, geen beat.
+- **Fysieke cues:** koffer-open 0,15 s; kunststof-klik bij eerste reactie Switch (0,6) en Broadcast (1,9); echte
+  drukknop-klik 8,6; zachte UI-click per displaystap (9,4 / 10,0 / 10,6 / 11,2 / 12,4) + zeer subtiele bevestiging bij 080;
+  telefoon-swipe 16,4; Rail-klik 23,3; low thumps bij 8,5 / 14,3 / 26,3 / 34,5 / 36,8; droge tellerklikken 32,6 / 33,3 /
+  33,7 / 34,1; slot-klik 47,25; koffer-dicht 47,5. Geen geluid tijdens het lezen van eindkaart B.
+- Mix: zachte tanh-limiter, piek ≈ -1,4 dBFS.
+
+### Pas definitief te timen bij echte voice-over
+- Alle regelduren (t0/t1) en de pauzes ertussen: nu geschat op leestempo; echte stemmen bepalen de werkelijke lengte,
+  vooral de lange Broadcast-regels (vraag in de race, "Code op het display …").
+- Mondopening/knipperen zijn aan de regelvensters gekoppeld en volgen automatisch mee.
+- Reactietijd "Ik." → "Succes." en de rust erna: afhankelijk van de droogheid van de echte Broadcast-stem.
+- Rail-interrupt: de kanteling start 0,1 s vóór de stem; bij echte stem evt. iets eerder/later.
+- Soundbed- en cue-niveaus opnieuw balanceren onder echte stemmen (ducking).
 
 ## Gewijzigd in v0.6 t.o.v. v0.5 (laatste animatic-correctie)
 1. **Saleschallenge vereenvoudigd.** "Verdeeld over meerdere installateurs telt ook" volledig verwijderd (onjuist).
@@ -129,7 +163,7 @@
 ## Bestanden
 `video/README.md`, `video/HANDOFF.md`, `video/animatic/{index.html,timeline.js,render.js,audio.py,encode.sh}`,
 `video/animatic/assets/*` (o.a. nieuwe `black-plate.png`), `video/reference/higgsfield/*`.
-Renders in `video/out/` (niet in git): `intusens-animatic-v0.6.mp4`.
+Renders in `video/out/` (niet in git): `intusens-animatic-v0.7.mp4`.
 
 ## Open vragen
 Geen blokkerende. Vraag 1 (kleur), 2 (MiniR) en 3 (URL) uit v0.1/v0.2 zijn beantwoord en verwerkt.
