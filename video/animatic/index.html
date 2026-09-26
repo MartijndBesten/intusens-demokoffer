@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8">
-<title>IntuSens promofilm — animatic v0.3</title>
+<title>IntuSens promofilm — animatic v0.4</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
   :root { --navy: #050a16; --navy2: #0b1730; --blue: #4fb3ff; --blue2: #7fc8ff; --white: #f3f7fb; }
@@ -28,6 +28,10 @@
   .photo .blur { position: absolute; inset: -60px; background-size: cover; background-position: center; filter: blur(40px) brightness(.45); }
   .photo .img { position: absolute; left: 50%; top: 50%; width: 1000px; height: 1000px; margin: -500px 0 0 -500px; background-size: cover; background-position: center; transform-origin: 50% 50%; box-shadow: 0 40px 120px rgba(0,0,0,.6); }
   .chip { position: absolute; left: 120px; bottom: 150px; padding: 14px 24px; border-radius: 12px; background: rgba(5,10,22,.82); border: 1px solid rgba(127,200,255,.35); font: 600 34px "DejaVu Sans Mono", monospace; letter-spacing: .04em; color: #dff1ff; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+  .photo .img img { display: block; width: 100%; height: 100%; }
+  .photo .img svg, .dispzoom svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .dispzoom { position: absolute; left: 0; top: 0; width: 1000px; height: 1000px; transform-origin: 0 0; }
+  .dispzoom img { display: block; width: 100%; height: 100%; }
   .kicker { position: absolute; left: 120px; top: 90px; font: 700 30px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .28em; text-transform: uppercase; color: #9fc6ea; opacity: .9; }
   /* scène 3 */
   .card { position: absolute; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.65), 0 0 0 1px rgba(127,200,255,.25); background: #111; }
@@ -86,15 +90,16 @@
 
   <!-- S2b: echte bedieningsfoto's -->
   <div class="scene" id="s2b">
+    <!-- echte sensorfoto (drukknop ingedrukt, display leeg) + grafisch gereconstrueerd 7-segment-display -->
+    <div class="photo" style="opacity:1"><div class="blur" id="s2bblur"></div><div class="img" id="s2bimg"><img id="s2bphoto" alt=""><svg id="s2bdisp" viewBox="0 0 850 850"></svg></div><div class="chip" id="s2bchip"></div></div>
     <div class="kicker">IntuSens DALI-2 Broadcast · bediening</div>
-    <div id="photos"></div>
   </div>
 
   <!-- S3: code op display → uitleg op telefoon -->
   <div class="scene" id="s3">
     <div class="cam" id="s3cam">
       <div class="world"><div class="glow"></div><div class="floor"></div><div class="lightbar"></div></div>
-      <div class="card" id="s3card" style="left:150px;top:210px;width:640px;height:420px"><img src="assets/display-080-crop.jpg" alt=""></div>
+      <div class="card" id="s3card" style="left:150px;top:210px;width:640px;height:420px"><div class="dispzoom" id="s3zoom"><img id="s3photo" alt=""><svg id="s3disp" viewBox="0 0 850 850"></svg></div></div>
       <svg class="link" id="s3link" viewBox="0 0 1920 1080"></svg>
       <div class="phone" id="s3phone" style="left:1180px;top:80px"><div class="screen"><img src="assets/site-phone-080.png" alt=""></div><div class="notch"></div></div>
       <div class="char" id="s3sw" style="width:430px;left:30px;top:800px"><img src="assets/white-plate.png" alt=""><svg viewBox="0 0 655 420" id="s3swface"></svg></div>
@@ -129,7 +134,7 @@
   <div id="hud"></div>
 </div>
 </div>
-<div id="ctl"><input type="range" id="scrub" min="0" max="34.2" step="0.02" value="0"> <span id="tc">0.00</span> <button id="play">play</button></div>
+<div id="ctl"><input type="range" id="scrub" min="0" max="40.1" step="0.02" value="0"> <span id="tc">0.00</span> <button id="play">play</button></div>
 
 <script src="timeline.js"></script>
 <script>
@@ -233,13 +238,52 @@
   var s5sw = makeFace(document.getElementById('s5face'), 'sw', [(1344 - 1047) * K, 444 * K], [(1344 - 922) * K, 447 * K], [(1344 - 975) * K, 470 * K], 1.0);
   var s5bc = makeFace(document.getElementById('s5face'), 'bc', [(1344 - 439) * K, 446 * K], [(1344 - 322) * K, 446 * K], [(1344 - 400) * K, 468 * K], 1.0);
 
-  // foto's
-  var photosEl = document.getElementById('photos'), photoEls = [];
-  T.photos.forEach(function (p) {
-    var d = document.createElement('div'); d.className = 'photo';
-    d.innerHTML = '<div class="blur" style="background-image:url(' + p.src + ')"></div><div class="img" style="background-image:url(' + p.src + ')"></div><div class="chip">' + p.cap + '</div>';
-    photosEl.appendChild(d); photoEls.push(d);
-  });
+  /* ---------- 7-segment-display op de echte foto (bediening-broadcast-03.jpg) ----------
+   * Alleen het displaygebied wordt grafisch gereconstrueerd; de sensor is de onbewerkte foto.
+   * Segmentvorm/kleur/gloed naar referentiefoto's 01 (2), 04 (ULC), 05 (080 + LED licht).
+   * Posities in fotocoördinaten (850x850): display boven de lens over het TRILUX-logo, LED "licht" onder de lens. */
+  var SEG = { '0': 'abcdef', '1': 'bc', '2': 'abged', '3': 'abgcd', '8': 'abcdefg', 'U': 'bcdef', 'L': 'fed', 'C': 'afed' };
+  function makeDisplay(svg) {
+    var cx = 490, cy = 313, w = 40, h = 74, gap = 60, th = 8.5;
+    var fid = 'dg' + Math.random().toString(36).slice(2, 7);
+    var defs = el('defs', {}), f = el('filter', { id: fid, x: '-60%', y: '-60%', width: '220%', height: '220%' });
+    f.appendChild(el('feGaussianBlur', { stdDeviation: 5 })); defs.appendChild(f); svg.appendChild(defs);
+    var glow = el('g', { filter: 'url(#' + fid + ')', opacity: .75 }), core = el('g', {});
+    svg.appendChild(glow); svg.appendChild(core);
+    // LED "licht" (zon-icoon onder de lens): gloeiende stip, alleen aan bij 080
+    var ledG = el('circle', { cx: 500, cy: 646, r: 22, fill: '#9cc6ff', opacity: 0, filter: 'url(#' + fid + ')' });
+    var led = el('circle', { cx: 500, cy: 646, r: 7, fill: '#eaf3ff', opacity: 0 });
+    svg.appendChild(ledG); svg.appendChild(led);
+    function segLines(x0) {
+      var x1 = x0 - w / 2, x2 = x0 + w / 2, y1 = cy - h / 2, y2 = cy, y3 = cy + h / 2, i = th * .9;
+      return { a: [x1 + i, y1, x2 - i, y1], b: [x2, y1 + i, x2, y2 - i], c: [x2, y2 + i, x2, y3 - i], d: [x1 + i, y3, x2 - i, y3], e: [x1, y2 + i, x1, y3 - i], f: [x1, y1 + i, x1, y2 - i], g: [x1 + i, y2, x2 - i, y2] };
+    }
+    var cur = null;
+    function set(txt, pulse) {
+      if (txt !== cur) {
+        cur = txt; while (glow.firstChild) glow.removeChild(glow.firstChild); while (core.firstChild) core.removeChild(core.firstChild);
+        var n = txt.length, start = cx - (n - 1) * gap / 2;
+        for (var k = 0; k < n; k++) {
+          var L = segLines(start + k * gap), segs = SEG[txt[k]] || '';
+          for (var q = 0; q < segs.length; q++) {
+            var c = L[segs[q]];
+            glow.appendChild(el('line', { x1: c[0], y1: c[1], x2: c[2], y2: c[3], stroke: '#7fb4ff', 'stroke-width': th * 1.7, 'stroke-linecap': 'round' }));
+            core.appendChild(el('line', { x1: c[0], y1: c[1], x2: c[2], y2: c[3], stroke: '#eef4ff', 'stroke-width': th, 'stroke-linecap': 'round' }));
+          }
+        }
+      }
+      glow.setAttribute('opacity', .75 + (pulse || 0) * .35);
+    }
+    function setLed(on) { ledG.setAttribute('opacity', on ? .8 : 0); led.setAttribute('opacity', on ? 1 : 0); }
+    return { set: set, setLed: setLed };
+  }
+  var D = T.display;
+  document.getElementById('s2bphoto').src = D.base; document.getElementById('s3photo').src = D.base;
+  document.getElementById('s2bblur').style.backgroundImage = 'url(' + D.base + ')';
+  var disp2 = makeDisplay(document.getElementById('s2bdisp')), disp3 = makeDisplay(document.getElementById('s3disp'));
+  disp3.set('080', 0); disp3.setLed(true);
+  // S3-kaart: uitsnede rond het display (fotopunt 490,313 → containerpunt 576,368), 2.2x
+  document.getElementById('s3zoom').style.transform = 'translate(' + (320 - 576 * 2.2) + 'px,' + (210 - 368 * 2.2) + 'px) scale(2.2)';
 
   // link-lijn (display → telefoon)
   var linkSvg = document.getElementById('s3link');
@@ -274,27 +318,27 @@
         fadeA = 1 - span(t, 0, .8);
         restG.setAttribute('opacity', 0);
         // Switch: kijkt bij "Hé collega?" naar Broadcast, houdt die blik; bij "Veel te lang" kort naar de kijker, tilt + mini-bounce
-        var swLX = t < .4 ? 0 : (t < 3.1 ? 1 : (t < 3.6 ? 0 : (t < 4.4 ? 1 : 0)));
-        var swLY = t < 3.1 ? .1 : (t < 3.6 ? -.5 : (t < 4.4 ? .1 : -.4));
-        var swTilt = inR(t, .5, 1.5) ? -2.5 * easeOut(span(t, .5, .8)) : (inR(t, 3.3, 4.1) ? 2.5 * easeOut(span(t, 3.3, 3.5)) : 0);
-        var swBounce = inR(t, 3.3, 3.55) ? -Math.sin(span(t, 3.3, 3.55) * Math.PI) * 6 : 0;
-        s1sw.set({ open: talkSW, blink: blink(t, [1.5, 2.6, 4.7, 5.6]), lookX: swLX, lookY: swLY, mood: t < 3.3 ? -.15 : -.6, squint: inR(t, 3.3, 4.1) ? .5 : 0, tilt: swTilt, dy: swBounce });
+        var swLX = t < .5 ? 0 : (t < 3.2 ? 1 : (t < 3.7 ? 0 : (t < 4.6 ? 1 : 0)));
+        var swLY = t < 3.2 ? .1 : (t < 3.7 ? -.5 : (t < 4.6 ? .1 : -.4));
+        var swTilt = inR(t, .6, 1.6) ? -2.5 * easeOut(span(t, .6, .9)) : (inR(t, 3.4, 4.2) ? 2.5 * easeOut(span(t, 3.4, 3.6)) : 0);
+        var swBounce = inR(t, 3.4, 3.65) ? -Math.sin(span(t, 3.4, 3.65) * Math.PI) * 6 : 0;
+        s1sw.set({ open: talkSW, blink: blink(t, [1.5, 2.7, 4.9, 5.8]), lookX: swLX, lookY: swLY, mood: t < 3.4 ? -.15 : -.6, squint: inR(t, 3.4, 4.2) ? .5 : 0, tilt: swTilt, dy: swBounce });
         // Broadcast: reageert vertraagd, draait blik traag naar Switch; pas bij de vraag recht naar de kijker
-        var bcLX = t < 1.0 ? 0 : (t < 4.1 ? -.8 * ease(span(t, 1.0, 1.6)) : -lerp(.8, 0, ease(span(t, 4.1, 4.6))));
-        var bcLY = t < 4.1 ? .1 : lerp(.1, -.5, ease(span(t, 4.1, 4.6)));
-        var bcTilt = inR(t, 1.6, 3.0) ? 1.5 * easeOut(span(t, 1.6, 1.9)) : (t >= 4.2 ? -1.5 * easeOut(span(t, 4.2, 4.6)) : 0);
-        s1bc.set({ open: talkBC, blink: blink(t, [.9, 3.1, 5.2]), lookX: bcLX, lookY: bcLY, mood: t < 4.2 ? .15 : .3, tilt: bcTilt, dy: 0 });
+        var bcLX = t < 1.1 ? 0 : (t < 4.3 ? -.8 * ease(span(t, 1.1, 1.7)) : -lerp(.8, 0, ease(span(t, 4.3, 4.8))));
+        var bcLY = t < 4.3 ? .1 : lerp(.1, -.5, ease(span(t, 4.3, 4.8)));
+        var bcTilt = inR(t, 1.7, 3.2) ? 1.5 * easeOut(span(t, 1.7, 2.0)) : (t >= 4.4 ? -1.5 * easeOut(span(t, 4.4, 4.8)) : 0);
+        s1bc.set({ open: talkBC, blink: blink(t, [1.0, 3.2, 5.4]), lookX: bcLX, lookY: bcLY, mood: t < 4.4 ? .15 : .3, tilt: bcTilt, dy: 0 });
       } else {
         var u4 = span(t, C.s4, C.s5);
         // koffer trilt kort wanneer MiniR roept
-        var sh = inR(t, 19.9, 20.45) ? Math.sin((t - 19.9) * 60) * 6 * (1 - span(t, 19.9, 20.45)) : 0;
+        var sh = inR(t, 21.6, 22.15) ? Math.sin((t - 21.6) * 60) * 6 * (1 - span(t, 21.6, 22.15)) : 0;
         cam(document.getElementById('s1cam'), lerp(1.06, 1.02, u4), sh, sh * .5 + lerp(-20, 0, u4), sh * .08);
-        var ro = span(t, 19.95, 20.3);
+        var ro = span(t, 21.65, 22.0);
         restG.setAttribute('opacity', ro);
-        mr.set({ open: talkMR, blink: blink(t, [20.75]), lookX: -.3, lookY: .8, mood: -.2, tilt: 0, dy: 0 });
+        mr.set({ open: talkMR, blink: blink(t, [22.45]), lookX: -.3, lookY: .8, mood: -.2, tilt: 0, dy: 0 });
         // Switch en Broadcast kijken omhoog naar het deksel; Switch antwoordt droog
-        s1sw.set({ open: talkSW, blink: blink(t, [20.5]), lookX: .6, lookY: -1, mood: t > 20.9 ? -.6 : -.2, squint: t > 20.9 ? .4 : 0, tilt: t > 20.9 ? 1.5 : 0, dy: 0 });
-        s1bc.set({ open: 0, blink: blink(t, [20.2, 21.7]), lookX: .3, lookY: -1, mood: .1, tilt: 0, dy: 0 });
+        s1sw.set({ open: talkSW, blink: blink(t, [22.2]), lookX: .6, lookY: -1, mood: t > 22.7 ? -.6 : -.2, squint: t > 22.7 ? .4 : 0, tilt: t > 22.7 ? 1.5 : 0, dy: 0 });
+        s1bc.set({ open: 0, blink: blink(t, [21.9, 23.5]), lookX: .3, lookY: -1, mood: .1, tilt: 0, dy: 0 });
       }
     } else if (t < C.s2b) {
       /* ---- S2a: Broadcast naar voren ---- */
@@ -302,26 +346,24 @@
       var u2 = easeOut(span(t, C.s2a, C.s2b - .2));
       cam(document.getElementById('s2cam'), 1, 0, 0, 0);
       charT(document.getElementById('s2bc'), lerp(.72, 1.0, u2), lerp(60, 0, u2), lerp(80, 0, u2) + wob(t, 1.3, 3), lerp(4, -1.5, u2) + wob(t, .8, .6));
-      s2bc.set({ open: talkBC, blink: blink(t, [6.25, 7.4]), lookX: 0, lookY: -.2, mood: .35 });
+      s2bc.set({ open: talkBC, blink: blink(t, [6.55, 7.7]), lookX: 0, lookY: -.2, mood: .35 });
       charT(document.getElementById('s2sw'), 1, lerp(-40, 0, span(t, C.s2a, C.s2a + .7)), 0, -2);
-      s2sw.set({ open: 0, blink: blink(t, [7.0]), lookX: 1, lookY: -.3, mood: -.5, squint: .3 });
+      s2sw.set({ open: 0, blink: blink(t, [7.3]), lookX: 1, lookY: -.3, mood: -.5, squint: .3 });
       fadeA = 0;
     } else if (t < C.s3) {
-      /* ---- S2b: echte bedieningsfoto's ---- */
+      /* ---- S2b: bedieningsreeks als display-animatie op de echte foto ---- */
       show('s2b');
-      T.photos.forEach(function (p, i) {
-        var e = photoEls[i], on = inR(t, p.t0 - .12, p.t1);
-        var a = on ? Math.min(1, span(t, p.t0 - .12, p.t0 + .05)) : 0;
-        e.style.opacity = a; e.style.zIndex = on ? 2 : 1;
-        if (on) {
-          var u = span(t, p.t0, p.t1);
-          var img = e.querySelector('.img');
-          var sc = lerp(1.02, 1.12, u), px = lerp(-8, 8, u) * (i % 2 ? -1 : 1), py = lerp(6, -6, u);
-          img.style.transform = 'translate(' + px + 'px,' + py + 'px) scale(' + sc + ')';
-          var chip = e.querySelector('.chip'); var cu = easeOutBack(span(t, p.t0 + .05, p.t0 + .35));
-          chip.style.opacity = cu; chip.style.transform = 'translateY(' + (1 - cu) * 24 + 'px)';
-        }
-      });
+      var ub = ease(span(t, C.s2b, C.s3));
+      // camera: van hele sensor (met vinger op de drukknop) rustig naar het display
+      var sc = lerp(1.05, 1.42, ub), tx = (500 - 576) * sc, ty = (500 - 545) * sc;   // doel: display (y≈313) én LED (y≈646) in beeld
+      document.getElementById('s2bimg').style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+      var txt = '', pulse = 0;
+      D.steps.forEach(function (st) { if (t >= st[0]) txt = st[1]; if (inR(t, st[0], st[0] + .25)) pulse = 1 - span(t, st[0], st[0] + .25); });
+      disp2.set(txt, pulse); disp2.setLed(t >= D.ledOn);
+      var chipTxt = '', chipT0 = C.s2b;
+      D.chips.forEach(function (c) { if (t >= c[0]) { chipTxt = c[1]; chipT0 = c[0]; } });
+      var chip = document.getElementById('s2bchip'), cu = easeOutBack(span(t, chipT0 + .05, chipT0 + .35));
+      chip.textContent = chipTxt; chip.style.opacity = cu; chip.style.transform = 'translateY(' + (1 - cu) * 24 + 'px)';
     } else if (t < C.s4) {
       /* ---- S3: code op display → uitleg op telefoon ---- */
       show('s3');
@@ -344,10 +386,10 @@
       linkDot.setAttribute('cx', pt.x); linkDot.setAttribute('cy', pt.y); linkDot.setAttribute('opacity', lo);
       // karakters: gluren van onderen
       var swin = easeOut(span(t, C.s3, C.s3 + .5)), bcin = easeOut(span(t, C.s3 + .7, C.s3 + 1.2));
-      charT(document.getElementById('s3sw'), 1, 0, (1 - swin) * 260 + wob(t, 2.1, 2), -3 + (inR(t, 12.5, 13.2) ? -3 : 0));
+      charT(document.getElementById('s3sw'), 1, 0, (1 - swin) * 260 + wob(t, 2.1, 2), -3 + (inR(t, 13.7, 14.5) ? -3 : 0));
       charT(document.getElementById('s3bc'), 1, 0, (1 - bcin) * 260 + wob(t, 1.6, 2), 2);
-      s3sw.set({ open: talkSW, blink: blink(t, [13.8, 16.6, 18.7]), lookX: t < 14.3 ? .4 : 1, lookY: -1, mood: t < 13.4 ? -.1 : -.5, squint: inR(t, 12.5, 13.3) ? .6 : 0 });
-      s3bc.set({ open: talkBC, blink: blink(t, [14.4, 17.2]), lookX: t < 14.0 ? -.4 : (t < 15.6 ? 1 : .3), lookY: -.8, mood: .3 });
+      s3sw.set({ open: talkSW, blink: blink(t, [15.0, 18.3, 20.4]), lookX: t < 15.9 ? .4 : 1, lookY: -1, mood: t < 14.9 ? -.1 : -.5, squint: inR(t, 13.7, 14.6) ? .6 : 0 });
+      s3bc.set({ open: talkBC, blink: blink(t, [16.0, 18.9]), lookX: t < 15.6 ? -.4 : (t < 17.3 ? 1 : .3), lookY: -.8, mood: .3 });
     } else {
       /* ---- S5: face-off + race + titelkaart + slot ---- */
       show('s5');
@@ -355,11 +397,11 @@
       var pushBack = t >= T.cardB.t1 ? span(t, T.cardB.t1, T.cardB.t1 + .8) : 0;
       cam(document.getElementById('s5cam'), lerp(1.0, 1.08, u5) + pushBack * .04, wob(t, .6, 3), lerp(0, -20, u5), 0);
       // Switch (links, wit): brutaal; Broadcast (rechts, zwart): droog
-      var slot = T.cardB.t1, swMood = t < 25.4 ? -.4 : -.9, swSq = inR(t, 25.4, 26.4) ? .55 : .15;
-      s5sw.set({ open: talkSW, blink: blink(t, [22.6, 24.3, 27.0, slot + .2]), lookX: t > slot ? 0 : 1, lookY: t > slot ? -.6 : 0, mood: t > slot ? -.6 : swMood, squint: t > slot ? .3 : swSq, tilt: inR(t, 25.4, 25.9) ? -2 : 0 });
+      var slot = T.cardB.t1, swMood = t < 27.7 ? -.4 : -.9, swSq = inR(t, 27.7, 28.8) ? .55 : .15;
+      s5sw.set({ open: talkSW, blink: blink(t, [24.6, 26.4, 29.3, slot + .2]), lookX: t > slot ? 0 : 1, lookY: t > slot ? -.6 : 0, mood: t > slot ? -.6 : swMood, squint: t > slot ? .3 : swSq, tilt: inR(t, 27.7, 28.2) ? -2 : 0 });
       // Broadcast: bij "Alsjeblieft" naar de kijker, daarna nog één droge blik terug naar Switch (endLook) tot de cut
       var bcEnd = t >= T.endLook, bcCam = t > slot + 1.1 && !bcEnd;
-      s5bc.set({ open: talkBC, blink: blink(t, [23.1, 24.6, 27.4, slot + 1.4]), lookX: bcCam ? 0 : -1, lookY: bcCam ? -.6 : 0, mood: inR(t, 25.9, 26.5) ? .7 : (bcEnd ? .05 : .25), tilt: bcEnd ? -2 * easeOut(span(t, T.endLook, T.endLook + .2)) : 0, squint: bcEnd ? .25 : 0 });
+      s5bc.set({ open: talkBC, blink: blink(t, [25.2, 27.0, 30.1, slot + 1.4]), lookX: bcCam ? 0 : -1, lookY: bcCam ? -.6 : 0, mood: inR(t, 28.3, 28.9) ? .7 : (bcEnd ? .05 : .25), tilt: bcEnd ? -2 * easeOut(span(t, T.endLook, T.endLook + .2)) : 0, squint: bcEnd ? .25 : 0 });
       // tellers
       var cs = T.counter, cin5 = easeOutBack(span(t, cs.show, cs.show + .45));
       var a = 0, b = 0; cs.steps.forEach(function (s) { if (t >= s[0]) { a = s[1]; b = s[2]; } });
@@ -395,7 +437,7 @@
 
     fade.style.opacity = fadeA;
     var sc = T.scenes.filter(function (s) { return inR(t, s.t0, s.t1); })[0];
-    hud.textContent = 'ANIMATIC v0.3  ' + t.toFixed(2).padStart(5, '0') + 's  ' + (sc ? sc.id + ' · ' + sc.naam : '');
+    hud.textContent = 'ANIMATIC v0.4  ' + t.toFixed(2).padStart(5, '0') + 's  ' + (sc ? sc.id + ' · ' + sc.naam : '');
     window.__t = t;
   }
   window.seek = seek;

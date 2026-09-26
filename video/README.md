@@ -4,7 +4,7 @@ Korte film (± 30 s) waarin de **IntuSens Switch** en de **IntuSens DALI-2 Broad
 demokoffer met elkaar praten. Toon: intern grapje dat toevallig ook echte productuitleg geeft.
 Stijl: premium TRILUX corporate animation, donkerblauw / zwart / wit / koelblauw, 2.5D/3D, droog.
 
-Status: **animatic v0.3** (low-res polish-preview: timing, dialoog, mond-/oog-/kantelbewegingen, MiniR-cameo).
+Status: **animatic v0.4** (low-res polish-preview: rustiger tempo, display-animatie voor de bedieningsreeks).
 Nog géén high-res, geen stemmen, geen externe video-generaties.
 
 Vaste besluiten (niet meer wijzigen):
@@ -13,7 +13,7 @@ Vaste besluiten (niet meer wijzigen):
 - Higgsfield-karakters zijn de vaste visuele identiteit: geen redesign, geen mensen/armen/benen, gezichtjes subtiel.
 - Bediening, telefoon, website, teksten en tellers blijven gecontroleerde montage. Alleen twee karaktershots zijn
   later eventueel door hoogwaardige Higgsfield-video te vervangen: **S1 opening in de koffer (0,0–6,1 s)** en
-  **S5 face-off vlak vóór de race (22,0–27,2 s)**. Beide zijn in `index.html` losse scènes met één achtergrondplaat
+  **S5 face-off vlak vóór de race (23,9–29,7 s)**. Beide zijn in `index.html` losse scènes met één achtergrondplaat
   (`assets/koffer-plate.png`, `assets/race-plate.png`) plus de gezichts-rig eroverheen.
 
 ## Mappen
@@ -34,24 +34,31 @@ Technische waarheid komt uit de repo zelf: `assets/processed/*` (echte foto's) e
 (`#/bediening/broadcast`, stap 2 Lichtdrempel) — dezelfde code die op
 [intusens-demokoffer.nl](https://intusens-demokoffer.nl) draait.
 
-## Script en timing (v0.3, 33,9 s tot zwart)
+## Script en timing (v0.4, 39,8 s tot zwart)
 
 | t (s) | Scène | Beeld | Dialoog |
 |---|---|---|---|
-| 0,0–6,1 | S1 Koffer | Koffer-styleframe, rustige push-in; Switch kijkt naar Broadcast, Broadcast reageert vertraagd; beat vóór "Veel te lang" met tilt + mini-bounce; bij de vraag kijken beide naar de kijker | SW *Hé collega?* · BC *We zitten hier al best lang.* · SW *Veel te lang.* · BC *Neem ons eens mee naar een installateur.* |
-| 6,1–7,6 | S2a | Broadcast (zwart) komt naar voren, Switch (wit) gluurt links | BC *Kijk. Zo moeilijk ben ik niet.* |
-| 7,6–12,4 | S2b | Echte bedieningsfoto's 03 → 01 → 04 → 05: vasthouden · 3→2→1 · ULC · 080 (1,1 / 1,0 / 1,2 / 1,5 s) | — |
-| 12,4–19,7 | S3 Website | Display-crop "080" links, echte site op telefoon rechts (14,0), verbindingslijn (15,0), camera-push naar de telefoon (17,8–19,7, schaal 1,6 = ± 13 % groter dan v0.2) | SW *080?* · BC *Even checken? Pak de site erbij.* · BC *Code op het display, uitleg op je telefoon. Klaar.* |
-| 19,7–22,0 | S4 MiniR-cameo | Terug in de koffer, koffer trilt, MiniR-gezichtje gluurt uit het dekselvak | MR *En ik dan?* · SW *Jij staat ook op de site.* |
-| 22,0–27,2 | S5 Face-off | Race-styleframe, tellers 00/00 → 12/18 → 27/31 → 43/46 (26,2 / 26,5 / 26,8) | SW *Maar goed. Belangrijkere vraag…* · BC *Wie van ons is als eerste vijftig keer verkocht?* · SW *Ik.* · BC *Succes.* |
-| 27,2–29,1 | Eindkaart A | **Switch vs Broadcast — RACE NAAR 50 — Welk product is als eerste vijftig keer verkocht?** (de grap) | — |
-| 29,1–31,8 | Eindkaart B | **En voor jou — VERKOOP 50 LOSSE SENSOREN — voor de grijpvoorraad van installateurs. Verdeeld over meerdere installateurs telt ook. Dan ligt er voor jou ook iets te grijpen.** + kader **PROJECTORDERS TELLEN NIET MEE** + klein `intusens-demokoffer.nl` | — |
-| 31,8–33,9 | Slot | Face-off; Broadcast kijkt bij "Alsjeblieft" naar de kijker en geeft daarna nog één droge blik naar Switch | SW *Dus… pak die koffer.* · BC *Alsjeblieft.* |
-| 33,9 | | Cut naar zwart | |
+| 0,0–6,3 | S1 Koffer | Koffer-styleframe, rustige push-in; blikken, beat vóór "Veel te lang", tilt + mini-bounce | SW *Hé collega?* · BC *We zitten hier al best lang.* · SW *Veel te lang.* · BC *Neem ons eens mee naar een installateur.* |
+| 6,3–7,9 | S2a | Broadcast (zwart) komt naar voren, Switch (wit) gluurt links | BC *Kijk. Zo moeilijk ben ik niet.* |
+| 7,9–13,5 | S2b Bediening | Echte foto `bediening-broadcast-03.jpg` (drukknop ingedrukt) met grafisch gereconstrueerd 7-segment-display: leeg (0,8 s) → 3 → 2 → 1 (1,7 s) → ULC (1,2 s) → 080 + LED licht (1,9 s); camera duwt rustig naar display + LED | — (chips: *Drukknop 3 s vasthouden* · *ULC · ontgrendeld* · *080 · lichtdrempel (fabrieksinstelling 80 %)*) |
+| 13,5–21,3 | S3 Website | Match-cut: zelfde display-uitsnede met 080 links; echte site op telefoon rechts (15,6), verbindingslijn 080 → 080 (16,7); camera-push naar de telefoon (19,6–21,3) | SW *080?* · BC *Even checken? Pak de site erbij.* · BC *Code op het display, uitleg op je telefoon. Klaar.* |
+| 21,3–23,9 | S4 MiniR-cameo | Koffer trilt, MiniR-gezichtje in het dekselvak | MR *En ik dan?* · SW *Jij staat ook op de site.* |
+| 23,9–29,7 | S5 Face-off | Race-styleframe, tellers 00/00 → 12/18 → 27/31 → 43/46 (28,6 / 29,0 / 29,4) | SW *Maar goed. Belangrijkere vraag…* · BC *Wie van ons is als eerste vijftig keer verkocht?* · SW *Ik.* · BC *Succes.* |
+| 29,7–31,8 | Eindkaart A | **Switch vs Broadcast — RACE NAAR 50 — Welk product is als eerste vijftig keer verkocht?** | — |
+| 31,8–37,6 | Eindkaart B | **En voor jou — VERKOOP 50 LOSSE SENSOREN — voor de grijpvoorraad van installateurs. Verdeeld over meerdere installateurs telt ook. Dan ligt er voor jou ook iets te grijpen.** + kader **PROJECTORDERS TELLEN NIET MEE** + `intusens-demokoffer.nl`; volledig opgebouwd vanaf ± 33,2 s → 4,4 s stil leesbaar | — |
+| 37,6–39,8 | Slot | Face-off; Broadcast kijkt naar de kijker en geeft nog één droge blik naar Switch | SW *Dus… pak die koffer.* · BC *Alsjeblieft.* |
+| 39,8 | | Cut naar zwart | |
 
-Bedieningsteksten in beeld (chips) zijn letterlijk uit `src/data.js` (`bediening.sales.broadcast.flow`):
-3 s vasthouden · 3 → 2 → 1 → ULC · ULC = ontgrendeld · 080 = lichtdrempel, fabrieksinstelling 80 %.
-Er is geen bedieningsstap toegevoegd die niet op de foto's of in de site staat.
+### Display-animatie (S2b) — hoe en waarom
+- Basis is de echte foto `assets/processed/bediening-broadcast-03.jpg` (vinger op de drukknop, display nog leeg), als
+  `video/animatic/assets/display-base.jpg` met uitsluitend de specular reflectiestreep in het displaygebied
+  weggeretoucheerd. De sensor zelf is niet opnieuw gegenereerd of ontworpen.
+- Alleen het displaygebied (boven de lens, over het TRILUX-logo) krijgt een grafisch 7-segment-display in SVG:
+  segmentvorm, wit-blauwe kern en zachte blauwe gloed naar de referentiefoto's 01 (2), 04 (ULC) en 05 (080).
+- Reeks en teksten volgen letterlijk `src/data.js` → `bediening.sales.broadcast.flow`: 3 → 2 → 1 → ULC, daarna 080
+  met de LED "licht" aan (fabrieksinstelling 80 %). Geen extra codes of stappen.
+- De echte foto's 01, 04 en 05 blijven technische referentie (`assets/processed/`) en staan niet meer als harde
+  beeldwissels in de film.
 
 ## Productkleur (definitief)
 
@@ -76,7 +83,7 @@ cd video/animatic
 node render.js --stills 1.0,7.6,12.4 --out ../out/stills     # compositiecheck
 node render.js --out ../out/frames --scale 0.5                # 960x540, 24 fps
 python3 audio.py ../out/animatic-audio.wav
-./encode.sh ../out/frames ../out/animatic-audio.wav ../out/intusens-animatic-v0.3.mp4
+./encode.sh ../out/frames ../out/animatic-audio.wav ../out/intusens-animatic-v0.4.mp4
 ```
 
 Vereist: Playwright (Chromium), Python 3 met Pillow/numpy (alleen voor assets), ffmpeg

@@ -64,6 +64,8 @@ def main(out):
     thump(buf, T['cuts']['s2b'], 0.35)  # cut naar bedieningsfoto's
     for s in T['counter']['steps']:
         tick(buf, s[0])
+    for st in T.get('display', {}).get('steps', []):   # zachte klik per displaystap
+        tick(buf, st[0], 0.18)
     tick(buf, T['counter']['show'], 0.25)
     thump(buf, T['cardA']['t0'], 0.6)
     thump(buf, T['cardB']['t0'], 0.45)
