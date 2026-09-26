@@ -388,8 +388,8 @@
       s += mains(20, 60) + ln(45, 60, 100, 60) + ln(45, 82, 100, 82) + ln(45, 104, 100, 104);
       s += sensorBox(100, 30, 170, 116, 'IntuSens DALI-2 Broadcast', t('Regelt · application controller'), true);
       s += ln(270, 74, 480, 74, BL, 2) + ln(270, 92, 480, 92, BL, 2) + tx(285, 66, 'DA+', { b: 1, c: BL, s: 10 }) + tx(285, 106, 'DA−', { b: 1, c: BL, s: 10 });
-      s += ln(340, 74, 340, 200, BL, 2) + ln(358, 92, 358, 200, BL, 2) + dot(340, 74) + dot(358, 92);
-      s += box(270, 200, 120, 56, t('DALI-armaturen'), t('Op dezelfde bus'));
+      s += ln(318, 74, 318, 200, BL, 2) + ln(336, 92, 336, 200, BL, 2) + dot(318, 74) + dot(336, 92);
+      s += box(250, 200, 120, 56, t('DALI-armaturen'), t('Op dezelfde bus'));
       s += ln(410, 74, 410, 198, BL, 2) + ln(428, 92, 428, 198, BL, 2) + dot(410, 74) + dot(428, 92);
       // extra sensor: rond sensorlichaam met lens, zoals de plafondsensor
       s += glyph(419, 226, 27, true);
