@@ -50,8 +50,9 @@
     } else if (variant === 'zwart') {
       s = circle(cx, cy, r, C.kFill, C.kEdge, 1.2) + circle(cx, cy, r * 0.78, '#141414', '#474747', 1) + facets(cx, cy, r * 0.78, 7, '#5a5a5a', 1) +
         '<path d="M' + f(cx - r * 0.5) + ' ' + f(cy - r * 0.35) + ' A ' + f(r * 0.62) + ' ' + f(r * 0.62) + ' 0 0 1 ' + f(cx + r * 0.25) + ' ' + f(cy - r * 0.6) + '" fill="none" stroke="#8a8a8a" stroke-width="1.4" stroke-linecap="round" opacity=".7"/>';
-    } else { // zwart met heldere lens
-      s = circle(cx, cy, r + 2, C.kFill, C.kEdge, 1.2) + circle(cx, cy, r * 0.8, '#9ea4a8', '#c9cdd0', 1) + circle(cx, cy, r * 0.62, 'none', '#dfe2e4', 0.9) + facets(cx, cy, r * 0.8, 7, '#e7e9ea', 0.9) + circle(cx, cy, r * 0.3, '#b9bec1', 'none');
+    } else { // zwart met heldere (transparante) lens: brede zwarte ring, lens donkergrijs met lichte facetten en reflectie
+      s = circle(cx, cy, r + 2, C.kFill, C.kEdge, 1.2) + circle(cx, cy, r * 0.86, '#141414', '#474747', 1) + circle(cx, cy, r * 0.62, '#4f555a', '#8a9196', 1) + circle(cx, cy, r * 0.44, 'none', '#aab0b4', 0.8) + facets(cx, cy, r * 0.62, 7, '#c3c8cb', 0.9) + circle(cx, cy, r * 0.2, '#6d7378', 'none') +
+        '<path d="M' + f(cx - r * 0.42) + ' ' + f(cy - r * 0.2) + ' A ' + f(r * 0.5) + ' ' + f(r * 0.5) + ' 0 0 1 ' + f(cx + r * 0.1) + ' ' + f(cy - r * 0.48) + '" fill="none" stroke="#e6e8e9" stroke-width="1.4" stroke-linecap="round" opacity=".8"/>';
     }
     return { body: s, halo: circle(cx, cy, r + 7, 'none', C.accent, 2), lx: cx, ly: cy + r + 15 };
   }
