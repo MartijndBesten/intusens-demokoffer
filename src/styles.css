@@ -734,3 +734,6 @@ body.demo-mode .nav{display:none}
 .detect-tbl td:first-child{color:var(--grey);width:46%}
 .detect .small{margin:12px 0 0}
 @media (max-width:640px){.detect{grid-template-columns:1fr;gap:14px}.detect-tbl{max-width:none}}
+
+/* Footer-credit (Martijn, site-commit 9456f72), verplaatst naar de stylesheet */
+#foot-credit{width:100%;font-size:11px;opacity:.52;text-align:right}

@@ -99,6 +99,7 @@
     document.getElementById('fs').addEventListener('click', function (e) { e.preventDefault(); toggleFullscreen(); });
     links.querySelectorAll('.lang button').forEach(function (b) { b.addEventListener('click', function () { if (LANG.set(b.getAttribute('data-lang'))) render(); }); });
     var fl = document.getElementById('foot-l'), fr = document.getElementById('foot-r');
+    var fc = document.getElementById('foot-credit'); if (fc) fc.textContent = t('Concept & realisatie') + ' \u00b7 Martijn den Besten';
     if (fl) fl.textContent = t('TRILUX IntuSens Demokoffer');
     if (fr) fr.innerHTML = t('Deze site gebruikt geen cookies of tracking.') + ' <a href="print/intusens-demokoffer-handleiding.html">' + t('Printversie') + '</a> · <a class="ext" href="https://www.trilux.com/en/products/intusens/" target="_blank" rel="noopener">' + t('Meer op trilux.com') + '</a>';
     var bg = document.getElementById('burger'); if (bg) bg.textContent = t('Menu');
