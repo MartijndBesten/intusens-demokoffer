@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8">
-<title>IntuSens promofilm — animatic v0.1</title>
+<title>IntuSens promofilm — animatic v0.2</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
   :root { --navy: #050a16; --navy2: #0b1730; --blue: #4fb3ff; --blue2: #7fc8ff; --white: #f3f7fb; }
@@ -38,9 +38,9 @@
   .phone .notch { position: absolute; left: 50%; top: 30px; width: 150px; height: 34px; margin-left: -75px; border-radius: 20px; background: #05070a; }
   .link { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
   /* captions (animatic-dialoog) */
-  #cap { position: absolute; left: 0; right: 0; bottom: 64px; text-align: center; opacity: 0; }
-  #cap .who { font: 700 22px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .3em; text-transform: uppercase; margin-bottom: 14px; }
-  #cap .txt { display: inline-block; font: 500 54px/1.15 "Liberation Sans", Arial, sans-serif; padding: 14px 34px; border-radius: 14px; background: rgba(3,6,14,.72); color: #fff; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+  #cap { position: absolute; left: 80px; right: 80px; bottom: 56px; text-align: center; opacity: 0; }
+  #cap .who { font: 700 30px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .3em; text-transform: uppercase; margin-bottom: 14px; text-shadow: 0 2px 12px rgba(0,0,0,.9); }
+  #cap .txt { display: inline-block; max-width: 1560px; font: 700 78px/1.15 "Liberation Sans", Arial, sans-serif; padding: 16px 44px; border-radius: 18px; background: rgba(3,6,14,.84); color: #fff; box-shadow: 0 10px 40px rgba(0,0,0,.6); text-shadow: 0 2px 6px rgba(0,0,0,.6); }
   /* tellers */
   .counter { position: absolute; top: 90px; width: 520px; padding: 26px 34px; border-radius: 18px; background: rgba(5,10,22,.78); border: 1px solid rgba(127,200,255,.35); box-shadow: 0 20px 60px rgba(0,0,0,.5); opacity: 0; }
   .counter .n { font: 700 26px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .32em; text-transform: uppercase; color: #9fc6ea; }
@@ -48,12 +48,13 @@
   .counter.l { left: 110px; } .counter.r { right: 110px; text-align: right; }
   .counter.r .v { color: var(--blue2); }
   /* titelkaart */
-  #title { position: absolute; inset: 0; background: rgba(3,6,14,.92); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; }
-  #title .h { font: 800 150px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .06em; color: #fff; }
-  #title .h b { color: var(--blue); font-weight: 800; }
-  #title .s { margin-top: 34px; font: 500 46px/1.3 "Liberation Sans", Arial, sans-serif; color: #dbe8f5; }
-  #title .k { margin-top: 26px; font: 400 28px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .12em; color: #7f93ad; text-transform: uppercase; }
-  #title .u { position: absolute; bottom: 70px; font: 500 30px/1 "DejaVu Sans Mono", monospace; color: #7fc8ff; letter-spacing: .06em; }
+  .card-end { position: absolute; inset: 0; background: rgba(3,6,14,.94); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0; padding: 0 120px; }
+  .card-end .pre { font: 700 34px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .34em; text-transform: uppercase; color: #7fc8ff; margin-bottom: 30px; }
+  .card-end .h { font: 800 140px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .05em; color: #fff; }
+  .card-end .h b { color: var(--blue); font-weight: 800; }
+  .card-end .s { margin-top: 34px; font: 500 56px/1.25 "Liberation Sans", Arial, sans-serif; color: #dbe8f5; max-width: 1500px; }
+  .card-end .k { margin-top: 44px; font: 800 64px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .08em; color: #fff; text-transform: uppercase; padding: 26px 52px; border: 4px solid var(--blue); border-radius: 20px; background: rgba(79,179,255,.12); }
+  .card-end .u { position: absolute; bottom: 60px; font: 500 34px/1 "DejaVu Sans Mono", monospace; color: #7fc8ff; letter-spacing: .06em; }
   #fade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
   #hud { position: absolute; left: 24px; top: 18px; font: 500 22px/1 "DejaVu Sans Mono", monospace; color: rgba(255,255,255,.55); letter-spacing: .06em; display: none; }
   #hud.on { display: block; }
@@ -109,9 +110,15 @@
     </div>
     <div class="counter l" id="cL"><div class="n">Switch</div><div class="v">00</div></div>
     <div class="counter r" id="cR"><div class="n">Broadcast</div><div class="v">00</div></div>
-    <div id="title">
+    <div class="card-end" id="cardA">
+      <div class="pre">Switch vs Broadcast</div>
       <div class="h">RACE NAAR <b>50</b></div>
-      <div class="s">Los verkocht voor de grijpvoorraad van installateurs</div>
+      <div class="s">Wie haalt als eerste de vijftig?</div>
+    </div>
+    <div class="card-end" id="cardB">
+      <div class="pre">En voor jou</div>
+      <div class="h">VERKOOP <b>50</b> LOSSE SENSOREN</div>
+      <div class="s">voor de grijpvoorraad van installateurs.<br>Dan ligt er voor jou ook iets te grijpen.</div>
       <div class="k">Projectorders tellen niet mee</div>
       <div class="u">intusens-demokoffer.nl</div>
     </div>
@@ -122,7 +129,7 @@
   <div id="hud"></div>
 </div>
 </div>
-<div id="ctl"><input type="range" id="scrub" min="0" max="31" step="0.02" value="0"> <span id="tc">0.00</span> <button id="play">play</button></div>
+<div id="ctl"><input type="range" id="scrub" min="0" max="34" step="0.02" value="0"> <span id="tc">0.00</span> <button id="play">play</button></div>
 
 <script src="timeline.js"></script>
 <script>
@@ -242,7 +249,8 @@
   var scenes = { s1: document.getElementById('s1'), s2a: document.getElementById('s2a'), s2b: document.getElementById('s2b'), s3: document.getElementById('s3'), s5: document.getElementById('s5') };
   var cap = document.getElementById('cap'), capWho = cap.querySelector('.who'), capTxt = cap.querySelector('.txt');
   var fade = document.getElementById('fade'), hud = document.getElementById('hud');
-  var cL = document.getElementById('cL'), cR = document.getElementById('cR'), title = document.getElementById('title');
+  var cL = document.getElementById('cL'), cR = document.getElementById('cR'), cardA = document.getElementById('cardA'), cardB = document.getElementById('cardB');
+  var C = T.cuts;
 
   function show(id) { for (var k in scenes) scenes[k].classList.toggle('on', k === id); }
   function cam(elm, sc, x, y, rot) { elm.style.transform = 'translate(' + (x || 0) + 'px,' + (y || 0) + 'px) scale(' + sc + ') rotate(' + (rot || 0) + 'deg)'; }
@@ -255,44 +263,44 @@
     var talkSW = talking(t, 'SW'), talkBC = talking(t, 'BC'), talkREST = talking(t, 'REST');
     var fadeA = 0;
 
-    if (t < 6.7 || inR(t, 17.6, 20.5)) {
+    if (t < C.s2a || inR(t, C.s4, C.s5)) {
       /* ---- S1 + S4: koffer ---- */
       show('s1');
-      if (t < 6.7) {
-        var u = span(t, 0, 6.7);
+      if (t < C.s2a) {
+        var u = span(t, 0, C.s2a);
         cam(document.getElementById('s1cam'), lerp(1.0, 1.12, u), lerp(0, -40, u) + wob(t, .7, 3), lerp(0, -30, u) + wob(t, .9, 2), wob(t, .5, .15));
         fadeA = 1 - span(t, 0, .8);
         restG.setAttribute('opacity', 0);
         // Switch: kijkt eerst naar Broadcast (links), dan naar de kijker
-        var swLookX = t < 2.0 ? 1 : (t < 3.7 ? .6 : (t < 4.6 ? 1 : 0));
-        s1sw.set({ open: talkSW, blink: blink(t, [1.9, 4.55, 6.4]), lookX: swLookX, lookY: t < 4.6 ? .1 : -.4, mood: t < 3.7 ? -.2 : -.7, squint: inR(t, 3.7, 4.6) ? .5 : 0 });
+        var swLookX = t < 1.5 ? 1 : (t < 3.0 ? .6 : (t < 3.8 ? 1 : 0));
+        s1sw.set({ open: talkSW, blink: blink(t, [1.4, 3.75, 5.5]), lookX: swLookX, lookY: t < 3.8 ? .1 : -.4, mood: t < 3.0 ? -.2 : -.7, squint: inR(t, 3.0, 3.8) ? .5 : 0 });
         // Broadcast: droog, kijkt naar Switch, dan recht in de camera bij de vraag
-        var bcLookX = t < 2.0 ? -.8 : (t < 3.6 ? -.6 : (t < 4.8 ? -.8 : 0));
-        s1bc.set({ open: talkBC, blink: blink(t, [1.2, 3.55, 5.9]), lookX: bcLookX, lookY: t < 4.8 ? .1 : -.5, mood: .2 });
+        var bcLookX = t < 1.5 ? -.8 : (t < 2.9 ? -.6 : (t < 3.9 ? -.8 : 0));
+        s1bc.set({ open: talkBC, blink: blink(t, [1.0, 2.95, 5.0]), lookX: bcLookX, lookY: t < 3.9 ? .1 : -.5, mood: .2 });
       } else {
-        var u4 = span(t, 17.6, 20.5);
+        var u4 = span(t, C.s4, C.s5);
         // koffer trilt kort wanneer "de rest" roept
-        var sh = inR(t, 17.8, 18.35) ? Math.sin((t - 17.8) * 60) * 6 * (1 - span(t, 17.8, 18.35)) : 0;
+        var sh = inR(t, 19.6, 20.15) ? Math.sin((t - 19.6) * 60) * 6 * (1 - span(t, 19.6, 20.15)) : 0;
         cam(document.getElementById('s1cam'), lerp(1.06, 1.02, u4), sh, sh * .5 + lerp(-20, 0, u4), sh * .08);
-        var ro = span(t, 17.9, 18.3);
+        var ro = span(t, 19.7, 20.1);
         restG.setAttribute('opacity', ro);
-        rest1.set({ open: talkREST, blink: blink(t, [19.0]), lookX: -.3, lookY: .8, mood: -.3 });
-        rest2.set({ open: talkREST * .8, blink: blink(t, [18.7]), lookX: -.5, lookY: .8, mood: -.5 });
+        rest1.set({ open: talkREST, blink: blink(t, [20.7]), lookX: -.3, lookY: .8, mood: -.3 });
+        rest2.set({ open: talkREST * .8, blink: blink(t, [20.4]), lookX: -.5, lookY: .8, mood: -.5 });
         // Switch en Broadcast kijken omhoog naar het deksel
-        s1sw.set({ open: talkSW, blink: blink(t, [18.5]), lookX: .6, lookY: -1, mood: t > 19.3 ? -.6 : -.2, squint: t > 19.3 ? .4 : 0 });
-        s1bc.set({ open: 0, blink: blink(t, [18.2, 19.9]), lookX: .3, lookY: -1, mood: .1 });
+        s1sw.set({ open: talkSW, blink: blink(t, [20.3]), lookX: .6, lookY: -1, mood: t > 20.9 ? -.6 : -.2, squint: t > 20.9 ? .4 : 0 });
+        s1bc.set({ open: 0, blink: blink(t, [20.0, 21.5]), lookX: .3, lookY: -1, mood: .1 });
       }
-    } else if (t < 8.5) {
+    } else if (t < C.s2b) {
       /* ---- S2a: Broadcast naar voren ---- */
       show('s2a');
-      var u2 = easeOut(span(t, 6.7, 8.3));
+      var u2 = easeOut(span(t, C.s2a, C.s2b - .2));
       cam(document.getElementById('s2cam'), 1, 0, 0, 0);
       charT(document.getElementById('s2bc'), lerp(.72, 1.0, u2), lerp(60, 0, u2), lerp(80, 0, u2) + wob(t, 1.3, 3), lerp(4, -1.5, u2) + wob(t, .8, .6));
-      s2bc.set({ open: talkBC, blink: blink(t, [6.9, 8.1]), lookX: 0, lookY: -.2, mood: .35 });
-      charT(document.getElementById('s2sw'), 1, lerp(-40, 0, span(t, 6.7, 7.4)), 0, -2);
-      s2sw.set({ open: 0, blink: blink(t, [7.6]), lookX: 1, lookY: -.3, mood: -.5, squint: .3 });
+      s2bc.set({ open: talkBC, blink: blink(t, [5.95, 7.1]), lookX: 0, lookY: -.2, mood: .35 });
+      charT(document.getElementById('s2sw'), 1, lerp(-40, 0, span(t, C.s2a, C.s2a + .7)), 0, -2);
+      s2sw.set({ open: 0, blink: blink(t, [6.7]), lookX: 1, lookY: -.3, mood: -.5, squint: .3 });
       fadeA = 0;
-    } else if (t < 12.0) {
+    } else if (t < C.s3) {
       /* ---- S2b: echte bedieningsfoto's ---- */
       show('s2b');
       T.photos.forEach(function (p, i) {
@@ -308,12 +316,15 @@
           chip.style.opacity = cu; chip.style.transform = 'translateY(' + (1 - cu) * 24 + 'px)';
         }
       });
-    } else if (t < 17.6) {
+    } else if (t < C.s4) {
       /* ---- S3: code op display → uitleg op telefoon ---- */
       show('s3');
-      var u3 = span(t, 12.0, 17.6);
-      cam(document.getElementById('s3cam'), lerp(1.0, 1.04, u3), lerp(0, -20, u3), 0, 0);
-      var cin = easeOutBack(span(t, 12.0, 12.6));
+      var u3 = span(t, C.s3, T.phoneZoom.t0);
+      // na de laatste regel duwt de camera naar de telefoon: de echte site blijft langer en groter leesbaar
+      var z = ease(span(t, T.phoneZoom.t0, T.phoneZoom.t0 + 1.1)), zs = lerp(1.04, 1.42, z);
+      // doelpunt: het display + stap '2 Lichtdrempel' op de telefoon (stage-coördinaat ≈ 1400, 400)
+      cam(document.getElementById('s3cam'), z > 0 ? zs : lerp(1.0, 1.04, u3), z > 0 ? lerp(-20, -(1400 - 960) * zs, z) : lerp(0, -20, u3), z > 0 ? lerp(0, -(400 - 540) * zs, z) : 0, 0);
+      var cin = easeOutBack(span(t, C.s3, C.s3 + .6));
       var card = document.getElementById('s3card');
       card.style.transform = 'translateY(' + (1 - cin) * 40 + 'px) scale(' + lerp(.9, 1, cin) + ')'; card.style.opacity = cin;
       var pin = easeOut(span(t, T.phoneIn, T.phoneIn + .7));
@@ -326,37 +337,41 @@
       var pt = linkPath.getTotalLength ? linkPath.getPointAtLength(lu * linkPath.getTotalLength()) : { x: 0, y: 0 };
       linkDot.setAttribute('cx', pt.x); linkDot.setAttribute('cy', pt.y); linkDot.setAttribute('opacity', lo);
       // karakters: gluren van onderen
-      var swin = easeOut(span(t, 12.0, 12.5)), bcin = easeOut(span(t, 12.7, 13.2));
-      charT(document.getElementById('s3sw'), 1, 0, (1 - swin) * 260 + wob(t, 2.1, 2), -3 + (inR(t, 12.1, 12.8) ? -3 : 0));
+      var swin = easeOut(span(t, C.s3, C.s3 + .5)), bcin = easeOut(span(t, C.s3 + .7, C.s3 + 1.2));
+      charT(document.getElementById('s3sw'), 1, 0, (1 - swin) * 260 + wob(t, 2.1, 2), -3 + (inR(t, 12.2, 12.9) ? -3 : 0));
       charT(document.getElementById('s3bc'), 1, 0, (1 - bcin) * 260 + wob(t, 1.6, 2), 2);
-      s3sw.set({ open: talkSW, blink: blink(t, [13.4, 16.2]), lookX: t < 14.4 ? .4 : 1, lookY: -1, mood: t < 13 ? -.1 : -.5, squint: inR(t, 12.1, 12.9) ? .6 : 0 });
-      s3bc.set({ open: talkBC, blink: blink(t, [14.0, 16.8]), lookX: t < 14.2 ? -.4 : (t < 15.6 ? 1 : .3), lookY: -.8, mood: .3 });
+      s3sw.set({ open: talkSW, blink: blink(t, [13.5, 16.3, 18.4]), lookX: t < 14.0 ? .4 : 1, lookY: -1, mood: t < 13.1 ? -.1 : -.5, squint: inR(t, 12.2, 13.0) ? .6 : 0 });
+      s3bc.set({ open: talkBC, blink: blink(t, [14.1, 16.9]), lookX: t < 13.7 ? -.4 : (t < 15.3 ? 1 : .3), lookY: -.8, mood: .3 });
     } else {
       /* ---- S5: face-off + race + titelkaart + slot ---- */
       show('s5');
-      var u5 = span(t, 20.5, 31.0);
-      var pushBack = inR(t, 28.4, 31) ? span(t, 28.4, 29.2) : 0;
+      var u5 = span(t, C.s5, T.duration);
+      var pushBack = t >= T.cardB.t1 ? span(t, T.cardB.t1, T.cardB.t1 + .8) : 0;
       cam(document.getElementById('s5cam'), lerp(1.0, 1.08, u5) + pushBack * .04, wob(t, .6, 3), lerp(0, -20, u5), 0);
       // Switch (links, wit): brutaal; Broadcast (rechts, zwart): droog
-      var swMood = t < 23.4 ? -.4 : -.9, swSq = inR(t, 23.4, 24.4) ? .55 : .15;
-      s5sw.set({ open: talkSW, blink: blink(t, [21.2, 23.0, 25.4, 28.3]), lookX: t > 28.5 ? 0 : 1, lookY: t > 28.5 ? -.6 : 0, mood: t > 28.5 ? -.6 : swMood, squint: t > 28.5 ? .3 : swSq });
-      s5bc.set({ open: talkBC, blink: blink(t, [21.7, 24.7, 26.0, 29.7]), lookX: t > 29.6 ? 0 : -1, lookY: t > 29.6 ? -.6 : 0, mood: inR(t, 24.0, 24.6) ? .7 : .25 });
+      var slot = T.cardB.t1, swMood = t < 24.5 ? -.4 : -.9, swSq = inR(t, 24.5, 25.5) ? .55 : .15;
+      s5sw.set({ open: talkSW, blink: blink(t, [22.4, 24.1, 26.5, slot + .2]), lookX: t > slot ? 0 : 1, lookY: t > slot ? -.6 : 0, mood: t > slot ? -.6 : swMood, squint: t > slot ? .3 : swSq });
+      s5bc.set({ open: talkBC, blink: blink(t, [22.9, 25.8, 27.1, slot + 1.4]), lookX: t > slot + 1.1 ? 0 : -1, lookY: t > slot + 1.1 ? -.6 : 0, mood: inR(t, 25.0, 25.6) ? .7 : .25 });
       // tellers
       var cs = T.counter, cin5 = easeOutBack(span(t, cs.show, cs.show + .45));
       var a = 0, b = 0; cs.steps.forEach(function (s) { if (t >= s[0]) { a = s[1]; b = s[2]; } });
-      var vis = t < T.titleCard.t0 ? cin5 : 0;
+      var vis = t < T.cardA.t0 ? cin5 : 0;
       [cL, cR].forEach(function (c, i) { c.style.opacity = vis; c.style.transform = 'translateY(' + (1 - cin5) * -30 + 'px)'; });
       var bump = 0; cs.steps.forEach(function (s) { if (inR(t, s[0], s[0] + .18)) bump = 1 - span(t, s[0], s[0] + .18); });
       cL.querySelector('.v').textContent = fmt(a); cR.querySelector('.v').textContent = fmt(b);
       cL.querySelector('.v').style.transform = cR.querySelector('.v').style.transform = 'scale(' + (1 + bump * .08) + ')';
-      // titelkaart
-      var tc = T.titleCard, ta = inR(t, tc.t0, tc.t1) ? Math.min(span(t, tc.t0, tc.t0 + .3), 1 - span(t, tc.t1 - .3, tc.t1)) : 0;
-      title.style.opacity = ta;
-      var th = title.querySelector('.h'), tin = easeOutBack(span(t, tc.t0 + .05, tc.t0 + .55));
-      th.style.transform = 'scale(' + lerp(.85, 1, tin) + ')';
-      title.querySelector('.s').style.opacity = span(t, tc.t0 + .35, tc.t0 + .7);
-      title.querySelector('.k').style.opacity = span(t, tc.t0 + .7, tc.t0 + 1.0);
-      title.querySelector('.u').style.opacity = span(t, tc.t0 + .9, tc.t0 + 1.2);
+      // eindkaarten: A = grapwedstrijd, B = persoonlijke saleschallenge
+      [[cardA, T.cardA], [cardB, T.cardB]].forEach(function (pair) {
+        var elc = pair[0], tc = pair[1];
+        var ta = inR(t, tc.t0, tc.t1) ? Math.min(span(t, tc.t0, tc.t0 + .3), 1 - span(t, tc.t1 - .25, tc.t1)) : 0;
+        elc.style.opacity = ta;
+        var tin = easeOutBack(span(t, tc.t0 + .05, tc.t0 + .55));
+        elc.querySelector('.h').style.transform = 'scale(' + lerp(.85, 1, tin) + ')';
+        var sEl = elc.querySelector('.s'), kEl = elc.querySelector('.k'), uEl = elc.querySelector('.u');
+        if (sEl) sEl.style.opacity = span(t, tc.t0 + .35, tc.t0 + .7);
+        if (kEl) { var ku = easeOutBack(span(t, tc.t0 + .8, tc.t0 + 1.2)); kEl.style.opacity = ku; kEl.style.transform = 'scale(' + lerp(.9, 1, ku) + ')'; }
+        if (uEl) uEl.style.opacity = span(t, tc.t0 + 1.1, tc.t0 + 1.4);
+      });
       // cut to black
       fadeA = t >= T.blackout ? 1 : 0;
     }
@@ -372,7 +387,7 @@
 
     fade.style.opacity = fadeA;
     var sc = T.scenes.filter(function (s) { return inR(t, s.t0, s.t1); })[0];
-    hud.textContent = 'ANIMATIC v0.1  ' + t.toFixed(2).padStart(5, '0') + 's  ' + (sc ? sc.id + ' · ' + sc.naam : '');
+    hud.textContent = 'ANIMATIC v0.2  ' + t.toFixed(2).padStart(5, '0') + 's  ' + (sc ? sc.id + ' · ' + sc.naam : '');
     window.__t = t;
   }
   window.seek = seek;

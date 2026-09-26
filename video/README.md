@@ -4,7 +4,11 @@ Korte film (± 30 s) waarin de **IntuSens Switch** en de **IntuSens DALI-2 Broad
 demokoffer met elkaar praten. Toon: intern grapje dat toevallig ook echte productuitleg geeft.
 Stijl: premium TRILUX corporate animation, donkerblauw / zwart / wit / koelblauw, 2.5D/3D, droog.
 
-Status: **animatic v0.1** (low-res preview, dialoog en timing). Nog géén polish.
+Status: **animatic v0.2** (low-res bewegende preview: timing, dialoog, eenvoudige mond-/oog-/kantelbewegingen). Nog géén polish.
+
+v0.2 t.o.v. v0.1 (na akkoord op storyboard): ondertitels groter (mobiel leesbaar), meer schermtijd voor
+bediening → 080 → website incl. camera-push naar de telefoon, twee gescheiden eindkaarten (grapwedstrijd vs.
+persoonlijke saleschallenge) met groot leesbaar *Projectorders tellen niet mee*.
 
 ## Mappen
 
@@ -24,19 +28,23 @@ Technische waarheid komt uit de repo zelf: `assets/processed/*` (echte foto's) e
 (`#/bediening/broadcast`, stap 2 Lichtdrempel) — dezelfde code die op
 [intusens-demokoffer.nl](https://intusens-demokoffer.nl) draait.
 
-## Script en timing (v0.1)
+## Script en timing (v0.2, ± 33,6 s)
 
 | t (s) | Scène | Beeld | Dialoog |
 |---|---|---|---|
-| 0,0–6,7 | S1 Koffer | Higgsfield-koffer-styleframe, langzame push-in, live gezichten | SW *Hé collega?* · BC *We zitten hier al best lang.* · SW *Veel te lang.* · BC *Neem ons eens mee naar een installateur.* |
-| 6,7–8,5 | S2a | Broadcast komt naar voren, Switch gluurt links | BC *Kijk. Zo moeilijk ben ik niet.* |
-| 8,5–12,0 | S2b | Echte bedieningsfoto's 03 → 01 → 04 → 05 (vasthouden · 3→2→1 · ULC · 080) | — |
-| 12,0–17,6 | S3 Website | Display-crop "080" links, telefoon met echte site rechts, verbindingslijn | SW *080?* · BC *Even checken? Pak de site erbij.* · BC *Code op het display, uitleg op je telefoon. Klaar.* |
-| 17,6–20,5 | S4 | Terug in de koffer, koffer trilt, twee oogparen in het dekselvak | REST *Hallo? Wij zitten er óók nog in.* · SW *Jullie komen ook op de site.* |
-| 20,5–26,2 | S5 Face-off | Race-styleframe, tellers 00/00 → 12/18 → 27/31 → 43/46 | SW *Maar goed. Belangrijkere vraag…* · BC *Wie haalt als eerste de vijftig?* · SW *Ik.* · BC *Succes.* |
-| 26,2–28,4 | Titelkaart | RACE NAAR 50 · Los verkocht voor de grijpvoorraad van installateurs · Projectorders tellen niet mee | — |
-| 28,4–30,6 | Slot | Face-off | SW *Dus… pak die koffer.* · BC *Alsjeblieft.* |
-| 30,6 | | Cut naar zwart | |
+| 0,0–5,8 | S1 Koffer | Higgsfield-koffer-styleframe, langzame push-in, live gezichten | SW *Hé collega?* · BC *We zitten hier al best lang.* · SW *Veel te lang.* · BC *Neem ons eens mee naar een installateur.* |
+| 5,8–7,3 | S2a | Broadcast (zwart) komt naar voren, Switch (wit) gluurt links | BC *Kijk. Zo moeilijk ben ik niet.* |
+| 7,3–12,1 | S2b | Echte bedieningsfoto's 03 → 01 → 04 → 05 (vasthouden · 3→2→1 · ULC · 080), elk 1,0–1,5 s | — |
+| 12,1–19,4 | S3 Website | Display-crop "080" links, echte site op telefoon rechts (vanaf 13,7), verbindingslijn (14,7), camera-push naar de telefoon (17,5–19,4) | SW *080?* · BC *Even checken? Pak de site erbij.* · BC *Code op het display, uitleg op je telefoon. Klaar.* |
+| 19,4–21,8 | S4 | Terug in de koffer, koffer trilt, twee oogparen in het dekselvak | REST *Hallo? Wij zitten er óók nog in.* · SW *Jullie komen ook op de site.* |
+| 21,8–26,9 | S5 Face-off | Race-styleframe, tellers 00/00 → 12/18 → 27/31 → 43/46 | SW *Maar goed. Belangrijkere vraag…* · BC *Wie haalt als eerste de vijftig?* · SW *Ik.* · BC *Succes.* |
+| 26,9–29,0 | Eindkaart A | **Switch vs Broadcast — RACE NAAR 50 — Wie haalt als eerste de vijftig?** (de grap) | — |
+| 29,0–31,6 | Eindkaart B | **En voor jou — VERKOOP 50 LOSSE SENSOREN — voor de grijpvoorraad van installateurs. Dan ligt er voor jou ook iets te grijpen.** + groot: **PROJECTORDERS TELLEN NIET MEE** (de challenge) | — |
+| 31,6–33,6 | Slot | Face-off | SW *Dus… pak die koffer.* · BC *Alsjeblieft.* |
+| 33,6 | | Cut naar zwart | |
+
+De totale lengte is ± 3,6 s boven de richtlijn van 30 s; dat zit vrijwel volledig in de extra schermtijd voor
+bediening → 080 → website en de tweede eindkaart. Inkorten kan alleen door daar weer op in te leveren.
 
 Bedieningsteksten in beeld (chips) zijn letterlijk uit `src/data.js` (`bediening.sales.broadcast.flow`):
 3 s vasthouden · 3 → 2 → 1 → ULC · ULC = ontgrendeld · 080 = lichtdrempel, fabrieksinstelling 80 %.
@@ -65,7 +73,7 @@ cd video/animatic
 node render.js --stills 1.0,7.6,12.4 --out ../out/stills     # compositiecheck
 node render.js --out ../out/frames --scale 0.5                # 960x540, 24 fps
 python3 audio.py ../out/animatic-audio.wav
-./encode.sh                                                    # → ../out/intusens-animatic-v0.1.mp4
+./encode.sh ../out/frames ../out/animatic-audio.wav ../out/intusens-animatic-v0.2.mp4
 ```
 
 Vereist: Playwright (Chromium), Python 3 met Pillow/numpy (alleen voor assets), ffmpeg

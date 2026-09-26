@@ -1,17 +1,21 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** animatic v0.1 gereed (low-res preview met dialoog, timing en placeholder-audio).
+**Status:** animatic v0.2 gereed (low-res bewegende preview met dialoog, timing, mond-/oog-/kantelbewegingen en placeholder-audio). Storyboard en visuele richting zijn door Martijn akkoord bevonden (2026-09-26).
 **Bijgewerkt:** 2026-09-26.
-**Volgende actor:** Martijn — beoordeel dialoog, timing en de kleurkeuze (vraag 1) voordat er polish komt.
+**Volgende actor:** Martijn — beoordeel de bewegende animatic v0.2 (timing, dialoog, ondertitels op mobiel) en beantwoord vraag 1–3 voordat er polish komt.
 
 ## Gedaan
+- v0.2: ondertitels 78 px (mobiel leesbaar), bediening → 080 → website verlengd (S2b 4,8 s, S3 7,3 s incl.
+  camera-push naar de echte site op de telefoon), eindkaart gesplitst in A (grapwedstrijd Switch vs Broadcast) en
+  B (saleschallenge: verkoop 50 losse sensoren voor de grijpvoorraad; *Projectorders tellen niet mee* groot in kader).
+  Totale lengte ± 33,6 s.
 - Eerdere video-opzetten losgelaten; nieuwe versie rond pratende sensoren gebouwd in `video/`.
 - Higgsfield-pakket als vaste visuele identiteit opgenomen (`video/reference/higgsfield/`), karakters niet
   geredesignd; ogen/mond van de renders geneutraliseerd en vervangen door een live gezichts-rig
   (knipperen, kijkrichting, mondopening op dialoogritme, kantelen).
-- Vijf scènes conform script, ± 30,6 s totaal, inclusief echte bedieningsfoto's (03 → 01 → 04 → 05) en de
+- Vijf scènes conform script, inclusief echte bedieningsfoto's (03 → 01 → 04 → 05) en de
   echte website (mobiel screenshot van deze repo, `#/bediening/broadcast`, stap Lichtdrempel 080) op een telefoon.
-- Tellers 00 → 12/18 → 27/31 → 43/46 (stopt vóór 50), titelkaart RACE NAAR 50 met sub- en kleine tekst.
+- Tellers 00 → 12/18 → 27/31 → 43/46 (stopt vóór 50), daarna eindkaart A (RACE NAAR 50) en B (saleschallenge).
 - Render-pipeline: HTML-tijdlijn → Playwright-frames → ffmpeg, plus placeholder-audio uit dezelfde tijdlijn.
 
 ## Bestanden

@@ -61,11 +61,12 @@ def main(out):
             t += 0.155 + 0.04 * math.sin(k * 2.3); k += 1
     for sc in T['scenes'][1:]:
         thump(buf, sc['t0'])
-    thump(buf, 8.5, 0.35)  # cut naar bedieningsfoto's
+    thump(buf, T['cuts']['s2b'], 0.35)  # cut naar bedieningsfoto's
     for s in T['counter']['steps']:
         tick(buf, s[0])
     tick(buf, T['counter']['show'], 0.25)
-    thump(buf, T['titleCard']['t0'], 0.6)
+    thump(buf, T['cardA']['t0'], 0.6)
+    thump(buf, T['cardB']['t0'], 0.45)
     peak = max(1e-6, max(abs(v) for v in buf))
     norm = 0.5 / peak
     with wave.open(out, 'wb') as w:
