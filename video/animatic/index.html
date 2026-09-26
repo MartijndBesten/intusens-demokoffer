@@ -113,11 +113,11 @@
     <div class="card-end" id="cardA">
       <div class="pre">Switch vs Broadcast</div>
       <div class="h">RACE NAAR <b>50</b></div>
-      <div class="s">Wie haalt als eerste de vijftig?</div>
+      <div class="s">Welk product is als eerste vijftig keer verkocht?</div>
     </div>
     <div class="card-end" id="cardB">
       <div class="pre">En voor jou</div>
-      <div class="h">VERKOOP <b>50</b> SENSOREN LOS</div>
+      <div class="h">VERKOOP <b>50</b> LOSSE SENSOREN</div>
       <div class="s">voor de grijpvoorraad van installateurs.<br>Verdeeld over meerdere installateurs telt ook.<br>Dan ligt er voor jou ook iets te grijpen.</div>
       <div class="k">Projectorders tellen niet mee</div>
       <div class="u">intusens-demokoffer.nl</div>
@@ -129,7 +129,7 @@
   <div id="hud"></div>
 </div>
 </div>
-<div id="ctl"><input type="range" id="scrub" min="0" max="33.5" step="0.02" value="0"> <span id="tc">0.00</span> <button id="play">play</button></div>
+<div id="ctl"><input type="range" id="scrub" min="0" max="34.2" step="0.02" value="0"> <span id="tc">0.00</span> <button id="play">play</button></div>
 
 <script src="timeline.js"></script>
 <script>
@@ -355,11 +355,11 @@
       var pushBack = t >= T.cardB.t1 ? span(t, T.cardB.t1, T.cardB.t1 + .8) : 0;
       cam(document.getElementById('s5cam'), lerp(1.0, 1.08, u5) + pushBack * .04, wob(t, .6, 3), lerp(0, -20, u5), 0);
       // Switch (links, wit): brutaal; Broadcast (rechts, zwart): droog
-      var slot = T.cardB.t1, swMood = t < 24.7 ? -.4 : -.9, swSq = inR(t, 24.7, 25.7) ? .55 : .15;
-      s5sw.set({ open: talkSW, blink: blink(t, [22.6, 24.3, 26.3, slot + .2]), lookX: t > slot ? 0 : 1, lookY: t > slot ? -.6 : 0, mood: t > slot ? -.6 : swMood, squint: t > slot ? .3 : swSq, tilt: inR(t, 24.7, 25.2) ? -2 : 0 });
+      var slot = T.cardB.t1, swMood = t < 25.4 ? -.4 : -.9, swSq = inR(t, 25.4, 26.4) ? .55 : .15;
+      s5sw.set({ open: talkSW, blink: blink(t, [22.6, 24.3, 27.0, slot + .2]), lookX: t > slot ? 0 : 1, lookY: t > slot ? -.6 : 0, mood: t > slot ? -.6 : swMood, squint: t > slot ? .3 : swSq, tilt: inR(t, 25.4, 25.9) ? -2 : 0 });
       // Broadcast: bij "Alsjeblieft" naar de kijker, daarna nog één droge blik terug naar Switch (endLook) tot de cut
       var bcEnd = t >= T.endLook, bcCam = t > slot + 1.1 && !bcEnd;
-      s5bc.set({ open: talkBC, blink: blink(t, [23.1, 25.9, 26.9, slot + 1.4]), lookX: bcCam ? 0 : -1, lookY: bcCam ? -.6 : 0, mood: inR(t, 25.2, 25.8) ? .7 : (bcEnd ? .05 : .25), tilt: bcEnd ? -2 * easeOut(span(t, T.endLook, T.endLook + .2)) : 0, squint: bcEnd ? .25 : 0 });
+      s5bc.set({ open: talkBC, blink: blink(t, [23.1, 24.6, 27.4, slot + 1.4]), lookX: bcCam ? 0 : -1, lookY: bcCam ? -.6 : 0, mood: inR(t, 25.9, 26.5) ? .7 : (bcEnd ? .05 : .25), tilt: bcEnd ? -2 * easeOut(span(t, T.endLook, T.endLook + .2)) : 0, squint: bcEnd ? .25 : 0 });
       // tellers
       var cs = T.counter, cin5 = easeOutBack(span(t, cs.show, cs.show + .45));
       var a = 0, b = 0; cs.steps.forEach(function (s) { if (t >= s[0]) { a = s[1]; b = s[2]; } });

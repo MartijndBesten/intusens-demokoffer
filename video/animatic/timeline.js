@@ -9,7 +9,7 @@
 (function (root) {
   var T = {
     fps: 24,
-    duration: 33.5,
+    duration: 34.2,
     who: {
       SW: { label: 'IntuSens Switch', color: '#eaf6ff' },
       BC: { label: 'IntuSens DALI-2 Broadcast', color: '#7fc8ff' },
@@ -20,7 +20,7 @@
       { id: 'S2', t0: 6.1, t1: 12.4, naam: 'Hoe werkt Broadcast?' },
       { id: 'S3', t0: 12.4, t1: 19.7, naam: 'Code op display → uitleg op telefoon' },
       { id: 'S4', t0: 19.7, t1: 22.0, naam: 'MiniR-cameo' },
-      { id: 'S5', t0: 22.0, t1: 33.5, naam: 'Switch vs Broadcast' }
+      { id: 'S5', t0: 22.0, t1: 34.2, naam: 'Switch vs Broadcast' }
     ],
     // scènegrenzen die index.html gebruikt
     cuts: { s2a: 6.1, s2b: 7.6, s3: 12.4, s4: 19.7, s5: 22.0 },
@@ -36,11 +36,11 @@
       { t0: 19.9, t1: 20.7, who: 'MR', text: 'En ik dan?' },
       { t0: 20.9, t1: 21.9, who: 'SW', text: 'Jij staat ook op de site.' },
       { t0: 22.2, t1: 23.4, who: 'SW', text: 'Maar goed. Belangrijkere vraag…' },
-      { t0: 23.5, t1: 24.6, who: 'BC', text: 'Wie haalt als eerste de vijftig?' },
-      { t0: 24.7, t1: 25.1, who: 'SW', text: 'Ik.' },
-      { t0: 25.2, t1: 25.7, who: 'BC', text: 'Succes.' },
-      { t0: 31.2, t1: 32.1, who: 'SW', text: 'Dus… pak die koffer.' },
-      { t0: 32.3, t1: 32.8, who: 'BC', text: 'Alsjeblieft.' }
+      { t0: 23.5, t1: 25.3, who: 'BC', text: 'Wie van ons is als eerste vijftig keer verkocht?' },
+      { t0: 25.4, t1: 25.8, who: 'SW', text: 'Ik.' },
+      { t0: 25.9, t1: 26.4, who: 'BC', text: 'Succes.' },
+      { t0: 31.9, t1: 32.8, who: 'SW', text: 'Dus… pak die koffer.' },
+      { t0: 33.0, t1: 33.5, who: 'BC', text: 'Alsjeblieft.' }
     ],
     // Echte bedieningsfoto's (assets/processed) + tekst die letterlijk uit src/data.js komt
     photos: [
@@ -53,11 +53,11 @@
     linkOn: 15.0,
     phoneZoom: { t0: 17.8, t1: 19.7, scale: 1.6 },   // camera duwt naar de telefoon (v0.3: ~13 % groter dan v0.2)
     // Race-tellers: stappen (stopt vóór 50) — v0.3 sneller
-    counter: { show: 24.9, steps: [[25.5, 12, 18], [25.8, 27, 31], [26.1, 43, 46]] },
-    cardA: { t0: 26.5, t1: 28.4 },       // grapwedstrijd Switch vs Broadcast
-    cardB: { t0: 28.4, t1: 31.1 },       // persoonlijke saleschallenge + "projectorders tellen niet mee"
-    endLook: 32.9,                       // Broadcast: nog één droge blik naar Switch
-    blackout: 33.2
+    counter: { show: 25.6, steps: [[26.2, 12, 18], [26.5, 27, 31], [26.8, 43, 46]] },
+    cardA: { t0: 27.2, t1: 29.1 },       // grapwedstrijd: welk product is als eerste 50x verkocht
+    cardB: { t0: 29.1, t1: 31.8 },       // persoonlijke saleschallenge + "projectorders tellen niet mee"
+    endLook: 33.6,                       // Broadcast: nog één droge blik naar Switch
+    blackout: 33.9
   };
   root.TIMELINE = T;
   if (typeof module !== 'undefined') module.exports = T;

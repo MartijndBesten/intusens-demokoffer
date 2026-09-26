@@ -13,7 +13,7 @@ Vaste besluiten (niet meer wijzigen):
 - Higgsfield-karakters zijn de vaste visuele identiteit: geen redesign, geen mensen/armen/benen, gezichtjes subtiel.
 - Bediening, telefoon, website, teksten en tellers blijven gecontroleerde montage. Alleen twee karaktershots zijn
   later eventueel door hoogwaardige Higgsfield-video te vervangen: **S1 opening in de koffer (0,0–6,1 s)** en
-  **S5 face-off vlak vóór de race (22,0–26,5 s)**. Beide zijn in `index.html` losse scènes met één achtergrondplaat
+  **S5 face-off vlak vóór de race (22,0–27,2 s)**. Beide zijn in `index.html` losse scènes met één achtergrondplaat
   (`assets/koffer-plate.png`, `assets/race-plate.png`) plus de gezichts-rig eroverheen.
 
 ## Mappen
@@ -34,7 +34,7 @@ Technische waarheid komt uit de repo zelf: `assets/processed/*` (echte foto's) e
 (`#/bediening/broadcast`, stap 2 Lichtdrempel) — dezelfde code die op
 [intusens-demokoffer.nl](https://intusens-demokoffer.nl) draait.
 
-## Script en timing (v0.3, 33,2 s tot zwart)
+## Script en timing (v0.3, 33,9 s tot zwart)
 
 | t (s) | Scène | Beeld | Dialoog |
 |---|---|---|---|
@@ -43,11 +43,11 @@ Technische waarheid komt uit de repo zelf: `assets/processed/*` (echte foto's) e
 | 7,6–12,4 | S2b | Echte bedieningsfoto's 03 → 01 → 04 → 05: vasthouden · 3→2→1 · ULC · 080 (1,1 / 1,0 / 1,2 / 1,5 s) | — |
 | 12,4–19,7 | S3 Website | Display-crop "080" links, echte site op telefoon rechts (14,0), verbindingslijn (15,0), camera-push naar de telefoon (17,8–19,7, schaal 1,6 = ± 13 % groter dan v0.2) | SW *080?* · BC *Even checken? Pak de site erbij.* · BC *Code op het display, uitleg op je telefoon. Klaar.* |
 | 19,7–22,0 | S4 MiniR-cameo | Terug in de koffer, koffer trilt, MiniR-gezichtje gluurt uit het dekselvak | MR *En ik dan?* · SW *Jij staat ook op de site.* |
-| 22,0–26,5 | S5 Face-off | Race-styleframe, tellers 00/00 → 12/18 → 27/31 → 43/46 (25,5 / 25,8 / 26,1) | SW *Maar goed. Belangrijkere vraag…* · BC *Wie haalt als eerste de vijftig?* · SW *Ik.* · BC *Succes.* |
-| 26,5–28,4 | Eindkaart A | **Switch vs Broadcast — RACE NAAR 50 — Wie haalt als eerste de vijftig?** (de grap) | — |
-| 28,4–31,1 | Eindkaart B | **En voor jou — VERKOOP 50 SENSOREN LOS — voor de grijpvoorraad van installateurs. Verdeeld over meerdere installateurs telt ook. Dan ligt er voor jou ook iets te grijpen.** + kader **PROJECTORDERS TELLEN NIET MEE** + klein `intusens-demokoffer.nl` | — |
-| 31,1–33,2 | Slot | Face-off; Broadcast kijkt bij "Alsjeblieft" naar de kijker en geeft daarna nog één droge blik naar Switch | SW *Dus… pak die koffer.* · BC *Alsjeblieft.* |
-| 33,2 | | Cut naar zwart | |
+| 22,0–27,2 | S5 Face-off | Race-styleframe, tellers 00/00 → 12/18 → 27/31 → 43/46 (26,2 / 26,5 / 26,8) | SW *Maar goed. Belangrijkere vraag…* · BC *Wie van ons is als eerste vijftig keer verkocht?* · SW *Ik.* · BC *Succes.* |
+| 27,2–29,1 | Eindkaart A | **Switch vs Broadcast — RACE NAAR 50 — Welk product is als eerste vijftig keer verkocht?** (de grap) | — |
+| 29,1–31,8 | Eindkaart B | **En voor jou — VERKOOP 50 LOSSE SENSOREN — voor de grijpvoorraad van installateurs. Verdeeld over meerdere installateurs telt ook. Dan ligt er voor jou ook iets te grijpen.** + kader **PROJECTORDERS TELLEN NIET MEE** + klein `intusens-demokoffer.nl` | — |
+| 31,8–33,9 | Slot | Face-off; Broadcast kijkt bij "Alsjeblieft" naar de kijker en geeft daarna nog één droge blik naar Switch | SW *Dus… pak die koffer.* · BC *Alsjeblieft.* |
+| 33,9 | | Cut naar zwart | |
 
 Bedieningsteksten in beeld (chips) zijn letterlijk uit `src/data.js` (`bediening.sales.broadcast.flow`):
 3 s vasthouden · 3 → 2 → 1 → ULC · ULC = ontgrendeld · 080 = lichtdrempel, fabrieksinstelling 80 %.

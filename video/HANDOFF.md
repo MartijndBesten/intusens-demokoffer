@@ -1,6 +1,6 @@
 # HANDOFF — IntuSens promofilm
 
-**Status:** animatic v0.3 gereed (low-res polish-preview, 33,2 s tot zwart, placeholder-audio).
+**Status:** animatic v0.3 gereed (low-res polish-preview, 33,9 s tot zwart, placeholder-audio).
 **Bijgewerkt:** 2026-09-26.
 **Volgende actor:** Martijn — beoordeel v0.3 en beslis over de punten onder "Nog niet goed genoeg voor high-res".
 
@@ -22,10 +22,11 @@
 4. Telefoon-push schaal 1,42 → 1,6 (± 13 % groter), doelpunt op display + stap "2 Lichtdrempel".
 5. MiniR-cameo i.p.v. anoniem: label "IntuSens MiniR", regel *En ik dan?*, Switch: *Jij staat ook op de site.*
    Visueel: één klein gezichtje dat uit het dekselvak gluurt (er is geen MiniR-render in het pakket).
-6. Tellers sneller: stappen op 25,5 / 25,8 / 26,1 (was 0,4 s interval); eindkaart A 0,2 s korter.
-7. Eindkaart B: "VERKOOP 50 SENSOREN LOS · voor de grijpvoorraad van installateurs · Verdeeld over meerdere
+6. Racezin explicieter (Martijn): *Wie van ons is als eerste vijftig keer verkocht?* (+0,7 s); eindkaart A-subregel
+   *Welk product is als eerste vijftig keer verkocht?*. Tellers sneller: stappen op 26,2 / 26,5 / 26,8 (0,3 s interval).
+7. Eindkaart B: "VERKOOP 50 LOSSE SENSOREN · voor de grijpvoorraad van installateurs · Verdeeld over meerdere
    installateurs telt ook · Dan ligt er voor jou ook iets te grijpen" + kader PROJECTORDERS TELLEN NIET MEE + URL.
-8. Slot: Broadcast kijkt bij "Alsjeblieft" naar de kijker en geeft vanaf 32,9 s nog één droge blik naar Switch; cut 33,2.
+8. Slot: Broadcast kijkt bij "Alsjeblieft" naar de kijker en geeft vanaf 33,6 s nog één droge blik naar Switch; cut 33,9.
 9. Ondertitels 110 px van de onderrand (was 56), sprekersnaam kleiner en 75 % opaciteit; fotochips 34 px.
 10. `timeline.js` is geschikt als voice-over-cuelijst (who + t0/t1 per regel).
 
