@@ -723,3 +723,14 @@ body.demo-mode .nav{display:none}
   .demo-illu .illu{grid-template-columns:1fr;gap:6px}
   .demo-illu .illu-svg{max-height:27vh}
 }
+
+/* ---- v0.13: detectiebereik op productpagina ---- */
+.detect-intro{font-size:15px;color:var(--grey);max-width:60ch;margin:0 0 18px}
+.detect{display:grid;grid-template-columns:minmax(240px,360px) minmax(0,1fr);gap:clamp(16px,3vw,40px);align-items:start}
+.detect-svg{width:100%;height:auto;display:block;background:var(--surface);border-radius:var(--radius)}
+.detect-tbl{border-collapse:collapse;width:100%;max-width:360px;min-width:0;font-size:14px}
+.detect-tbl th{text-align:left;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);padding:0 0 8px;border-bottom:1px solid var(--line)}
+.detect-tbl td{padding:8px 0;border-bottom:1px solid var(--line)}
+.detect-tbl td:first-child{color:var(--grey);width:46%}
+.detect .small{margin:12px 0 0}
+@media (max-width:640px){.detect{grid-template-columns:1fr;gap:14px}.detect-tbl{max-width:none}}

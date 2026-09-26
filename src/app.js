@@ -421,6 +421,39 @@
   }
 
   /* ---------- PRODUCT ---------- */
+  /* ---------- detectiebereik (schematisch, officiële waarden alleen als ze er zijn) ---------- */
+  function detectSvg(o) {
+    var F = ' font-family="Segoe UI, Arial, sans-serif"', INK = '#111', GR = '#8a8a8a', BL = '#072D78';
+    var corr = o.vorm === 'langwerpig', cx = 172, cy = 152, rx = corr ? 128 : 96, ry = corr ? 12 : 26;
+    function tx(x, y, str, o2) { o2 = o2 || {}; return '<text x="' + x + '" y="' + y + '" font-size="' + (o2.s || 10) + '"' + F + (o2.b ? ' font-weight="600"' : '') + ' fill="' + (o2.c || INK) + '"' + (o2.a ? ' text-anchor="' + o2.a + '"' : '') + '>' + esc(str) + '</text>'; }
+    var s = '<svg class="detect-svg" viewBox="0 0 330 212" role="img" aria-label="' + esc(t('Detectiebereik') + ' · ' + o.naam) + '">';
+    s += '<line x1="40" y1="28" x2="318" y2="28" stroke="' + INK + '" stroke-width="1.6"/>';
+    for (var i = 48; i < 318; i += 14) s += '<line x1="' + i + '" y1="28" x2="' + (i - 7) + '" y2="20" stroke="' + INK + '" stroke-width=".8" opacity=".5"/>';
+    s += '<path d="M' + (cx - 9) + ' 28 a9 9 0 0 0 18 0 Z" fill="#fff" stroke="' + INK + '" stroke-width="1.4"/><circle cx="' + cx + '" cy="32" r="2.2" fill="' + INK + '"/>';
+    s += '<path d="M' + cx + ' 36 L' + (cx - rx) + ' ' + cy + ' A' + rx + ' ' + ry + ' 0 0 0 ' + (cx + rx) + ' ' + cy + ' Z" fill="rgba(64,151,219,.10)" stroke="none"/>';
+    s += '<line x1="' + cx + '" y1="36" x2="' + (cx - rx) + '" y2="' + cy + '" stroke="' + BL + '" stroke-width="1" stroke-dasharray="3 3"/><line x1="' + cx + '" y1="36" x2="' + (cx + rx) + '" y2="' + cy + '" stroke="' + BL + '" stroke-width="1" stroke-dasharray="3 3"/>';
+    s += '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + rx + '" ry="' + ry + '" fill="rgba(64,151,219,.22)" stroke="' + BL + '" stroke-width="1.4"/>';
+    if (corr) { s += '<line x1="' + (cx - rx - 8) + '" y1="' + (cy - ry - 10) + '" x2="' + (cx + rx + 8) + '" y2="' + (cy - ry - 10) + '" stroke="' + GR + '" stroke-width="1" stroke-dasharray="2 4"/><line x1="' + (cx - rx - 8) + '" y1="' + (cy + ry + 10) + '" x2="' + (cx + rx + 8) + '" y2="' + (cy + ry + 10) + '" stroke="' + GR + '" stroke-width="1" stroke-dasharray="2 4"/>'; }
+    // tangentieel: dwars door het veld; radiaal: naar de sensor toe / van de sensor af
+    s += '<line x1="' + (cx - rx + 10) + '" y1="' + cy + '" x2="' + (cx + rx - 10) + '" y2="' + cy + '" stroke="' + INK + '" stroke-width="1.2" marker-start="url(#dtA)" marker-end="url(#dtB)"/>';
+    s += tx(cx, cy + ry + 22, t('Tangentieel'), { a: 'middle', b: 1 });
+    var rxx = cx + (corr ? 40 : 44);
+    s += '<line x1="' + rxx + '" y1="' + (cy - ry + 3) + '" x2="' + rxx + '" y2="' + (cy + ry - 3) + '" stroke="' + INK + '" stroke-width="1.2" marker-start="url(#dtA)" marker-end="url(#dtB)"/>';
+    s += tx(rxx + 8, cy - ry - 4, t('Radiaal'), { b: 1 });
+    s += '<line x1="22" y1="28" x2="22" y2="' + cy + '" stroke="' + GR + '" stroke-width="1"/><line x1="17" y1="28" x2="27" y2="28" stroke="' + GR + '" stroke-width="1"/><line x1="17" y1="' + cy + '" x2="27" y2="' + cy + '" stroke="' + GR + '" stroke-width="1"/>';
+    s += '<text transform="translate(12 ' + ((28 + cy) / 2) + ') rotate(-90)" font-size="9"' + F + ' fill="' + GR + '" text-anchor="middle">' + esc(t('Montagehoogte') + (o.montagehoogte ? ' ' + o.montagehoogte : '')) + '</text>';
+    if (corr && o.toepassing) s += tx(cx, 205, t(o.toepassing), { a: 'middle', c: GR, s: 9 });
+    s += '<defs><marker id="dtA" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto"><path d="M6 0 L0 3 L6 6 Z" fill="' + INK + '"/></marker><marker id="dtB" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="' + INK + '"/></marker></defs></svg>';
+    return s;
+  }
+  function detectHtml(optiek) {
+    var DB = P.detectiebereik; if (!DB || !optiek) return '';
+    var o = null; DB.optieken.forEach(function (x) { if (x.naam === optiek) o = x; }); if (!o) return '';
+    var rows = [[t('Montagehoogte'), o.montagehoogte], [t('Radiaal'), o.radiaal], [t('Tangentieel'), o.tangentieel]].filter(function (r) { return r[1]; });
+    var tbl = '<table class="detect-tbl"><tr><th colspan="2">' + esc(o.naam) + '</th></tr>' + rows.map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + esc(r[1]) + '</td></tr>'; }).join('') + '</table>';
+    var more = (!o.radiaal || !o.tangentieel) && DB.link ? '<p class="small">' + ext(DB.link) + '</p>' : '';
+    return '<div class="pd-sec"><h2>' + t('Detectiebereik') + '</h2><p class="detect-intro">' + esc(DB.intro) + '</p><div class="detect">' + detectSvg(o) + '<div>' + tbl + more + '</div></div></div>';
+  }
   function viewProduct(id) {
     var p = product(id); if (!p) return section('', '<h2>' + t('Onbekend product') + '</h2><p>' + link('#/koffer', '', t('Terug naar de koffer')) + '</p>');
     var f = bouwvorm(p.family), sa = p.sales;
@@ -438,6 +471,7 @@
         '<div class="pd-sec"><h2>' + t('Toepassingen') + '</h2><div class="chips">' + sa.waar.map(function (t) { return '<span class="chip">' + esc(t) + '</span>'; }).join('') + '</div></div>' +
         '<div class="pd-sec"><details class="tech-d"><summary>' + t('Techniek') + '</summary>' + tech + '</details></div>' +
         '<div class="pd-sec"><details class="tech-d art-d"><summary>' + t('Artikelgegevens') + '</summary>' + artikel + '</details></div>' +
+        detectHtml(sa.optiek) +
         (sa.link ? '<div class="pd-sec">' + linksRow([sa.link]) + '</div>' : '') + '</div>');
   }
 
