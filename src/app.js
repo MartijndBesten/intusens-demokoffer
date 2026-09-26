@@ -277,7 +277,7 @@
       var V = P.vergelijking, ci = V.kolommen.indexOf(sel.id);
       var tech = V.rijen.filter(function (r) { return r[ci + 1] && r[ci + 1] !== '—'; }).map(function (r) { return '<dt>' + r[0] + '</dt><dd>' + esc(r[ci + 1]) + '</dd>'; }).join('');
       var prods = sel.in_koffer.map(function (id) { var p = product(id); return '<a class="mini" href="#/product/' + id + '">' + salesImg(p, 'mini-img') + '<span><b>' + esc(p.kort) + '</b>' + esc(p.sales.sub) + '</span></a>'; }).join('');
-      detail = section('grey fade', '<div class="pd-hero">' + famImg(sel, 'pd-img') + '<div class="pd-title"><div class="fam-name">' + t('Bouwvorm') + '</div><h1>' + esc(sel.naam) + '</h1><p class="sell">' + esc(sel.sales.wat) + '</p>' +
+      detail = section('grey fade anchor', '<div class="pd-hero">' + famImg(sel, 'pd-img') + '<div class="pd-title"><div class="fam-name">' + t('Bouwvorm') + '</div><h1>' + esc(sel.naam) + '</h1><p class="sell">' + esc(sel.sales.wat) + '</p>' +
         '<div class="lvl"><h4>' + t('Toepassing') + '</h4><p>' + esc(sel.sales.toepassing) + '</p></div>' +
         '<details class="tech-d"><summary>' + t('Techniek') + '</summary><dl class="spec">' + tech + '</dl></details>' +
         '<h4 class="in-koffer">' + t('In de koffer') + '</h4><div class="minis">' + prods + '</div>' + linksRow(sel.sales.links || [P.familie.links[1]]) + '</div></div>');
@@ -544,7 +544,9 @@
     else html = section('', '<h2>' + t('Pagina niet gevonden') + '</h2><p>' + link('#/', '', t('Naar het startscherm')) + '</p>');
     main.innerHTML = html;
     renderNav(route);
-    if (route !== 'demo') window.scrollTo(0, 0);
+    var famDetail = route === 'familie' && q.bouwvorm ? main.querySelector('.section.anchor') : null;
+    if (famDetail) famDetail.scrollIntoView({ behavior: 'smooth', block: 'start' }); // gekozen bouwvorm in beeld brengen (op mobiel staat het detail onder de kaarten)
+    else if (route !== 'demo') window.scrollTo(0, 0);
     document.title = t('IntuSens demokoffer · TRILUX');
   }
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
