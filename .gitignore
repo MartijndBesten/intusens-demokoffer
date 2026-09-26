@@ -1,0 +1,14 @@
+video/out/
+__pycache__/
+video/vo/proc/
+# gegenereerde voice-over/audio: nooit in de publieke repo (lokaal of extern bewaren)
+video/vo/*.wav
+video/vo/*.mp3
+video/vo/*.flac
+video/vo/*.ogg
+video/vo/*.m4a
+video/vo/*.aac
+video/vo/*.aif
+video/vo/*.aiff
+video/vo/*.opus
+video/vo/*.zip

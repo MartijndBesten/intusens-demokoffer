@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>IntuSens promofilm — preview v0.9</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root { --navy: #050a16; --navy2: #0b1730; --blue: #4fb3ff; --blue2: #7fc8ff; --white: #f3f7fb; }
+  html, body { margin: 0; background: #000; height: 100%; overflow: hidden; }
+  body { font-family: "Liberation Sans", Arial, Helvetica, sans-serif; color: var(--white); }
+  #wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--navy); transform-origin: top left; }
+  .scene { position: absolute; inset: 0; display: none; }
+  .scene.on { display: block; }
+  .cam { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+  .bg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; }
+  .face { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
+  .char { position: absolute; transform-origin: 50% 90%; will-change: transform; }
+  .char img { display: block; width: 100%; height: auto; }
+  .char svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+  /* v0.9: losse karakterlagen */
+  .lay { position: absolute; transform-origin: 50% 82%; will-change: transform; }
+  .lay img { display: block; width: 100%; height: auto; }
+  .lay svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; }
+  .shadow { position: absolute; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.62), rgba(0,0,0,.28) 60%, rgba(0,0,0,0)); transform-origin: 50% 50%; will-change: transform, opacity; }
+  .inset { position: absolute; right: 0; bottom: 0; width: 900px; height: 420px; background: radial-gradient(70% 90% at 78% 100%, rgba(3,6,14,.92), rgba(3,6,14,.55) 55%, rgba(3,6,14,0) 80%); pointer-events: none; }
+  .world { position: absolute; inset: 0; background:
+      radial-gradient(1200px 700px at 50% 20%, #142a52 0%, #0a1530 45%, #040812 100%); }
+  .world .floor { position: absolute; left: 0; right: 0; top: 700px; bottom: 0; background: linear-gradient(#0a1633, #040812); }
+  .world .lightbar { position: absolute; height: 6px; left: 0; right: 0; top: 698px; background: linear-gradient(90deg, transparent, var(--blue) 30%, #9fdcff 50%, var(--blue) 70%, transparent); filter: blur(1px); opacity: .85; }
+  .world .glow { position: absolute; left: 0; right: 0; top: 640px; height: 120px; background: radial-gradient(60% 100% at 50% 50%, rgba(79,179,255,.35), transparent 70%); }
+  /* foto's */
+  .photo { position: absolute; inset: 0; opacity: 0; }
+  .photo .blur { position: absolute; inset: -60px; background-size: cover; background-position: center; filter: blur(40px) brightness(.45); }
+  .photo .img { position: absolute; left: 50%; top: 50%; width: 1000px; height: 1000px; margin: -500px 0 0 -500px; background-size: cover; background-position: center; transform-origin: 50% 50%; box-shadow: 0 40px 120px rgba(0,0,0,.6); }
+  .chip { position: absolute; left: 120px; bottom: 150px; padding: 14px 24px; border-radius: 12px; background: rgba(5,10,22,.82); border: 1px solid rgba(127,200,255,.35); font: 600 34px "DejaVu Sans Mono", monospace; letter-spacing: .04em; color: #dff1ff; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+  .photo .img img { display: block; width: 100%; height: 100%; }
+  .photo .img svg, .dispzoom svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .dispzoom { position: absolute; left: 0; top: 0; width: 1000px; height: 1000px; transform-origin: 0 0; }
+  .dispzoom img { display: block; width: 100%; height: 100%; }
+  .kicker { position: absolute; left: 120px; top: 90px; font: 700 30px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .28em; text-transform: uppercase; color: #9fc6ea; opacity: .9; }
+  /* scène 3 */
+  .card { position: absolute; border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.65), 0 0 0 1px rgba(127,200,255,.25); background: #111; }
+  .card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .phone { position: absolute; width: 470px; height: 1016px; border-radius: 64px; background: #0c0f14; box-shadow: 0 60px 140px rgba(0,0,0,.7), inset 0 0 0 3px #2a2f38, 0 0 0 2px #05070a; will-change: transform; }
+  .phone .screen { position: absolute; left: 18px; top: 18px; right: 18px; bottom: 18px; border-radius: 48px; overflow: hidden; background: #fff; }
+  .phone .screen img { display: block; width: 100%; height: auto; }
+  .phone .notch { position: absolute; left: 50%; top: 30px; width: 150px; height: 34px; margin-left: -75px; border-radius: 20px; background: #05070a; }
+  .link { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
+  /* captions (animatic-dialoog) */
+  #cap { position: absolute; left: 80px; right: 80px; bottom: 110px; text-align: center; opacity: 0; }
+  #cap .who { font: 700 26px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .3em; text-transform: uppercase; margin-bottom: 12px; opacity: .75; text-shadow: 0 2px 12px rgba(0,0,0,.9); }
+  #cap .txt { display: inline-block; max-width: 1560px; font: 700 78px/1.15 "Liberation Sans", Arial, sans-serif; padding: 16px 44px; border-radius: 18px; background: rgba(3,6,14,.84); color: #fff; box-shadow: 0 10px 40px rgba(0,0,0,.6); text-shadow: 0 2px 6px rgba(0,0,0,.6); }
+  /* tellers */
+  .counter { position: absolute; top: 90px; width: 520px; padding: 26px 34px; border-radius: 18px; background: rgba(5,10,22,.78); border: 1px solid rgba(127,200,255,.35); box-shadow: 0 20px 60px rgba(0,0,0,.5); opacity: 0; }
+  .counter .n { font: 700 26px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .32em; text-transform: uppercase; color: #9fc6ea; }
+  .counter .v { font: 700 130px/1 "DejaVu Sans Mono", monospace; color: #fff; margin-top: 8px; letter-spacing: .04em; }
+  .counter.l { left: 110px; } .counter.r { right: 110px; text-align: right; }
+  .counter.r .v { color: var(--blue2); }
+  /* final: aankondiging 'RACE NAAR 50' nét vóór de eerste tellerstand (tussen de twee tellers, zelfde typografie als kaart A) */
+  #raceHead { position: absolute; left: 0; right: 0; top: 118px; text-align: center; opacity: 0; font: 800 66px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .05em; color: #fff; text-shadow: 0 6px 30px rgba(0,0,0,.7); }
+  #raceHead b { color: var(--blue); font-weight: 800; }
+  /* titelkaart */
+  .card-end { position: absolute; inset: 0; background: rgba(3,6,14,.94); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0; padding: 0 120px; }
+  .card-end .pre { font: 700 34px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .34em; text-transform: uppercase; color: #7fc8ff; margin-bottom: 30px; }
+  .card-end .h { font: 800 128px/1.02 "Liberation Sans", Arial, sans-serif; letter-spacing: .05em; color: #fff; }
+  .card-end .s .s-small { display: inline-block; font-size: 44px; color: #9fc6ea; letter-spacing: .04em; margin-bottom: 10px; }
+  .card-end .credit { margin-top: 10px; font: 400 22px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .12em; color: #6f7f96; }
+  .card-end .h b { color: var(--blue); font-weight: 800; }
+  .card-end .s { margin-top: 34px; font: 500 56px/1.25 "Liberation Sans", Arial, sans-serif; color: #dbe8f5; max-width: 1500px; }
+  .card-end .k { margin-top: 44px; font: 800 64px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .08em; color: #fff; text-transform: uppercase; padding: 26px 52px; border: 4px solid var(--blue); border-radius: 20px; background: rgba(79,179,255,.12); }
+  .card-end .u { position: absolute; bottom: 44px; font: 500 30px/1 "DejaVu Sans Mono", monospace; color: #7fc8ff; letter-spacing: .06em; text-align: center; }
+  #fade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+  #hud { position: absolute; left: 24px; top: 18px; font: 500 22px/1 "DejaVu Sans Mono", monospace; color: rgba(255,255,255,.55); letter-spacing: .06em; display: none; }
+  #hud.on { display: block; }
+  #ctl { position: fixed; left: 12px; bottom: 12px; z-index: 9; font: 13px monospace; color: #fff; background: rgba(0,0,0,.6); padding: 8px 10px; border-radius: 6px; }
+  #ctl input { width: 420px; vertical-align: middle; }
+  body.render #ctl { display: none; }
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="stage">
+
+  <!-- S1 / S4: koffer-wereld. v0.9: schone kofferplaat + losse lagen (Switch, Broadcast, Rail) uit dezelfde Higgsfield-render -->
+  <div class="scene" id="s1">
+    <div class="cam" id="s1cam">
+      <img class="bg" id="s1bg" src="assets/koffer-clean-ext.png" alt="" style="top:-428.6px;height:1502.9px">
+      <div class="shadow" id="k-sw-sh"></div><div class="shadow" id="k-bc-sh"></div>
+      <div class="lay" id="k-rail"><img src="assets/k-rail.png" alt=""><svg id="k-rail-face"></svg></div>
+      <div class="lay" id="k-sw"><img src="assets/k-switch.png" alt=""><svg id="k-sw-face"></svg></div>
+      <div class="lay" id="k-bc"><img src="assets/k-broadcast.png" alt=""><svg id="k-bc-face"></svg></div>
+      <svg class="face" id="s1face" viewBox="0 -428.6 1920 1502.9" style="top:-428.6px;height:1502.9px"></svg>
+    </div>
+  </div>
+
+  <!-- S2a: Broadcast komt naar voren -->
+  <div class="scene" id="s2a">
+    <div class="cam" id="s2cam">
+      <div class="world"><div class="glow"></div><div class="floor"></div><div class="lightbar"></div></div>
+      <div class="char" id="s2sw" style="width:520px;left:-120px;top:600px"><img src="assets/white-plate.png" alt=""><svg viewBox="0 0 655 420" id="s2swface"></svg></div>
+      <div class="char" id="s2bc" style="width:780px;left:570px;top:350px"><img src="assets/black-plate.png" alt=""><svg viewBox="0 0 679 471" id="s2bcface"></svg></div>
+    </div>
+  </div>
+
+  <!-- S2b: echte bedieningsfoto's -->
+  <div class="scene" id="s2b">
+    <!-- echte sensorfoto (drukknop ingedrukt, display leeg) + grafisch gereconstrueerd 7-segment-display -->
+    <div class="photo" style="opacity:1"><div class="blur" id="s2bblur"></div><div class="img" id="s2bimg"><img id="s2bphoto" alt=""><svg id="s2bdisp" viewBox="0 0 850 850"></svg></div><div class="chip" id="s2bchip"></div></div>
+    <div class="kicker">IntuSens DALI-2 Broadcast · bediening</div>
+    <div class="inset"></div>
+    <div class="char" id="s2bsw" style="width:250px;right:400px;bottom:-40px"><img src="assets/white-plate.png" alt=""><svg viewBox="0 0 655 420" id="s2bswface"></svg></div>
+    <div class="char" id="s2bbc" style="width:330px;right:40px;bottom:-60px"><img src="assets/black-plate.png" alt=""><svg viewBox="0 0 679 471" id="s2bbcface"></svg></div>
+  </div>
+
+  <!-- S3: code op display → uitleg op telefoon -->
+  <div class="scene" id="s3">
+    <div class="cam" id="s3cam">
+      <div class="world"><div class="glow"></div><div class="floor"></div><div class="lightbar"></div></div>
+      <div class="card" id="s3card" style="left:150px;top:210px;width:640px;height:420px"><div class="dispzoom" id="s3zoom"><img id="s3photo" alt=""><svg id="s3disp" viewBox="0 0 850 850"></svg></div></div>
+      <svg class="link" id="s3link" viewBox="0 0 1920 1080"></svg>
+      <div class="phone" id="s3phone" style="left:1180px;top:80px"><div class="screen"><img src="assets/site-phone-080.png" alt=""></div><div class="notch"></div></div>
+      <div class="char" id="s3sw" style="width:430px;left:30px;top:800px"><img src="assets/white-plate.png" alt=""><svg viewBox="0 0 655 420" id="s3swface"></svg></div>
+      <div class="char" id="s3bc" style="width:470px;left:410px;top:770px"><img src="assets/black-plate.png" alt=""><svg viewBox="0 0 679 471" id="s3bcface"></svg></div>
+    </div>
+  </div>
+
+  <!-- S5: face-off + race -->
+  <div class="scene" id="s5">
+    <div class="cam" id="s5cam">
+      <!-- v0.9: schone raceplaat (licht onscherp) + Switch en Broadcast als losse lagen uit dezelfde render -->
+      <img class="bg" id="s5bg" src="assets/race-clean.png" alt="">
+      <div class="shadow" id="r-sw-sh"></div><div class="shadow" id="r-bc-sh"></div>
+      <div class="lay" id="r-sw"><img src="assets/r-switch.png" alt=""><svg id="r-sw-face"></svg></div>
+      <div class="lay" id="r-bc"><img src="assets/r-broadcast.png" alt=""><svg id="r-bc-face"></svg></div>
+    </div>
+    <div class="counter l" id="cL"><div class="n">Switch</div><div class="v">00</div></div>
+    <div class="counter r" id="cR"><div class="n">Broadcast</div><div class="v">00</div></div>
+    <div id="raceHead">RACE NAAR <b>50</b></div>
+    <div class="card-end" id="cardA">
+      <div class="pre">Switch vs Broadcast</div>
+      <div class="h">RACE NAAR <b>50</b></div>
+      <div class="s">Welk product is als eerste vijftig keer verkocht?</div>
+    </div>
+    <div class="card-end" id="cardB">
+      <div class="pre">En voor jou</div>
+      <div class="h">VERKOOP <b>MINIMAAL 50</b> LOSSE SENSOREN</div>
+      <div class="s"><span class="s-small">in één keer voor de grijpvoorraad</span><br>Dan ligt er voor jou ook iets te grijpen.</div>
+      <div class="k">Projectorders tellen niet mee</div>
+      <div class="u">intusens-demokoffer.nl<div class="credit">Concept &amp; realisatie · Martijn den Besten</div></div>
+    </div>
+  </div>
+
+  <div id="cap"><div class="who"></div><div class="txt"></div></div>
+  <div id="fade"></div>
+  <div id="hud"></div>
+</div>
+</div>
+<div id="ctl"><input type="range" id="scrub" min="0" max="60" step="0.02" value="0"> <span id="tc">0.00</span> <button id="play">play</button></div>
+
+<script src="timeline.js"></script>
+<script src="assets/layers.js"></script>
+<script>
+(function () {
+  var T = window.TIMELINE;
+  var q = new URLSearchParams(location.search);
+  // debug-overlay (tijd/scène) alleen bij handmatig scrubben met ?hud=1; nooit in de render (final zonder overlaytekst)
+  if (q.get('hud') === '1' && q.get('render') !== '1') document.getElementById('hud').classList.add('on');
+  if (q.get('render') === '1') document.body.classList.add('render');
+
+  /* ---------- helpers ---------- */
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  function lerp(a, b, u) { return a + (b - a) * u; }
+  function ease(u) { u = clamp(u, 0, 1); return u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; }
+  function easeOut(u) { u = clamp(u, 0, 1); return 1 - Math.pow(1 - u, 3); }
+  function easeOutBack(u) { u = clamp(u, 0, 1); var c = 1.4; return 1 + (c + 1) * Math.pow(u - 1, 3) + c * Math.pow(u - 1, 2); }
+  function span(t, a, b) { return clamp((t - a) / (b - a), 0, 1); }
+  function inR(t, a, b) { return t >= a && t < b; }
+  function fmt(n) { return (n < 10 ? '0' : '') + n; }
+
+  /* ---------- gezichts-rig (SVG) ---------- */
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+  // style: 'bc' = rustige cyaan ovalen; 'sw' = scherpe, schuine wedges (bijdehand)
+  function makeFace(svg, style, L, R, M, s, opts) {
+    s = s || 1; opts = opts || {};
+    var g = el('g', {});
+    var defs = el('defs', {});
+    var fid = 'g' + Math.random().toString(36).slice(2, 7);
+    var f = el('filter', { id: fid, x: '-80%', y: '-80%', width: '260%', height: '260%' });
+    var b = el('feGaussianBlur', { stdDeviation: 3 * s, result: 'b' });
+    var m = el('feMerge', {}); m.appendChild(el('feMergeNode', { in: 'b' })); m.appendChild(el('feMergeNode', { in: 'SourceGraphic' }));
+    f.appendChild(b); f.appendChild(m); defs.appendChild(f); g.appendChild(defs);
+    // Broadcast (zwart product): cyaan gloed. Switch (wit product): verzadigd koelblauw, anders geen contrast op wit.
+    var col = opts.eye || (style === 'bc' ? '#9fdcff' : '#2b8fe8');
+    function eye(cx, cy, dir) {
+      var eg = el('g', { transform: 'translate(' + cx + ' ' + cy + ')' });
+      var inner = el('g', {});
+      var shape;
+      if (style === 'bc') shape = el('ellipse', { cx: 0, cy: 0, rx: 27 * s, ry: 9 * s, fill: col, filter: 'url(#' + fid + ')' });
+      else {
+        // wedge: buitenkant hoog, binnenkant laag → "brutale" blik
+        var w = 26 * s, h = 12 * s, d = dir;
+        shape = el('path', { d: 'M ' + (-w * d) + ' ' + (-h * .1) + ' Q 0 ' + (-h) + ' ' + (w * d) + ' ' + (h * .55) + ' Q ' + (w * .1 * d) + ' ' + (h * .9) + ' ' + (-w * d) + ' ' + (h * .35) + ' Z', fill: col, filter: 'url(#' + fid + ')' });
+      }
+      inner.appendChild(shape); eg.appendChild(inner); g.appendChild(eg);
+      return { g: eg, inner: inner };
+    }
+    var eL = eye(L[0], L[1], -1), eR = eye(R[0], R[1], 1);
+    var mouth = el('path', { d: '', fill: 'none', stroke: opts.mouth || (style === 'bc' ? '#c9d6e6' : '#5a6470'), 'stroke-width': 3.2 * s, 'stroke-linecap': 'round', opacity: .9 });
+    var mouthFill = el('ellipse', { cx: M[0], cy: M[1], rx: 0, ry: 0, fill: opts.mouthFill || (style === 'bc' ? '#0a0d12' : '#2a3038'), opacity: .95 });
+    g.appendChild(mouthFill); g.appendChild(mouth);
+    svg.appendChild(g);
+    var st = { open: 0, blink: 0, lookX: 0, lookY: 0, mood: 0, squint: 0, tilt: 0, dy: 0 };
+    function set(o) {
+      for (var k in o) st[k] = o[k];
+      var bl = 1 - clamp(st.blink, 0, 1) * .92 - st.squint * .45;
+      var dx = st.lookX * 9 * s, dy = st.lookY * 5 * s;
+      eL.inner.setAttribute('transform', 'translate(' + dx + ' ' + dy + ') scale(1 ' + bl + ')');
+      eR.inner.setAttribute('transform', 'translate(' + dx + ' ' + dy + ') scale(1 ' + bl + ')');
+      // mond: mood -1 = strak/omlaag, 0 = neutraal, 1 = glimlach; open = 0..1
+      var w = 20 * s, op = st.open;
+      var curve = lerp(-4, 8, (st.mood + 1) / 2) * s;
+      var y = M[1] + op * 3 * s;
+      mouth.setAttribute('d', 'M ' + (M[0] - w) + ' ' + y + ' Q ' + M[0] + ' ' + (y + curve + op * 4 * s) + ' ' + (M[0] + w) + ' ' + y);
+      mouthFill.setAttribute('cx', M[0]); mouthFill.setAttribute('cy', y + 2 * s + op * 2 * s);
+      mouthFill.setAttribute('rx', lerp(0, 13, op) * s); mouthFill.setAttribute('ry', lerp(0, 9, op) * s);
+      // kantelen/bounce van het hele gezichtje (suggereert een 'hoofd'-beweging zonder de render te vervormen)
+      g.setAttribute('transform', 'translate(0 ' + st.dy + ') rotate(' + st.tilt + ' ' + M[0] + ' ' + M[1] + ')');
+    }
+    set({});
+    return { set: set, st: st };
+  }
+
+  /* dialoog → mondopening (deterministisch pseudo-lettergreepritme) */
+  function talk(t, line) {
+    if (!inR(t, line.t0, line.t1)) return 0;
+    if (line.env) { var fi = Math.floor((t - line.t0) * 24), v = line.env[Math.min(fi, line.env.length - 1)] || 0; return clamp(v * 1.15, 0, 1); }
+    var u = t - line.t0, len = line.t1 - line.t0;
+    var env = Math.min(1, u / .08, (len - u) / .12);
+    var syl = Math.max(0, Math.sin(u * 2 * Math.PI * 6.2) * .6 + Math.sin(u * 2 * Math.PI * 9.7 + 1.3) * .4 + .15);
+    return clamp(env * syl * 1.3, 0, 1);
+  }
+  function talking(t, who) { var s = 0; T.lines.forEach(function (l) { if (l.who === who) s = Math.max(s, talk(t, l)); }); return s; }
+  function blink(t, times) { var b = 0; times.forEach(function (bt) { var u = t - bt; if (u > 0 && u < .18) b = Math.max(b, u < .07 ? u / .07 : 1 - (u - .07) / .11); }); return b; }
+
+  /* ---------- scènes opbouwen (v0.9: losse lagen) ---------- */
+  var K = 1920 / 1344;        // plaatpixels → stage
+  var LY = window.LAYERS, KE = LY.koffer.ext * K;   // dekselverlenging (428,6 px) boven de kofferplaat
+  // Plaats een laag (plaatpixels) op de stage en hang er een gezichtje aan dat met de laag meebeweegt.
+  function mountLayer(id, info, oy, style, s, opts) {
+    var b = info.bbox, el0 = document.getElementById(id), w = b[2] - b[0], h = b[3] - b[1];
+    el0.style.left = (b[0] * K) + 'px'; el0.style.top = (b[1] * K - oy) + 'px'; el0.style.width = (w * K) + 'px';
+    var svg = document.getElementById(id + '-face'); svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    var face = makeFace(svg, style, info.eyes[0], info.eyes[1], info.mouth, s, opts);
+    return { el: el0, face: face, box: { x: b[0] * K, y: b[1] * K - oy, w: w * K, h: h * K } };
+  }
+  function mountShadow(id, L, dx, dy, sw, sh) {
+    var e = document.getElementById(id), b = L.box;
+    e.style.left = (b.x + b.w * (0.5 - sw / 2) + dx) + 'px'; e.style.top = (b.y + b.h * (0.86 - sh / 2) + dy) + 'px';
+    e.style.width = (b.w * sw) + 'px'; e.style.height = (b.h * sh) + 'px'; return e;
+  }
+  // Technische waarheid (assets/processed, src/data.js): Switch = wit (K01), DALI-2 Broadcast = zwart (K02), Rail wit (K03) in het deksel.
+  var kSW = mountLayer('k-sw', LY.koffer.switch, KE, 'sw', 1.05 / K);
+  var kBC = mountLayer('k-bc', LY.koffer.broadcast, KE, 'bc', 1.0 / K);
+  var kRL = mountLayer('k-rail', LY.koffer.rail, KE, 'bc', .72 / K, { eye: '#2b8fe8', mouth: '#5a6470', mouthFill: '#2a3038' });
+  var kSWsh = mountShadow('k-sw-sh', kSW, 6, 10, .92, .42), kBCsh = mountShadow('k-bc-sh', kBC, 6, 10, .92, .42);
+  var s1sw = kSW.face, s1bc = kBC.face, rail = kRL.face;
+  // Rail: blauw lichtaccent + kort label (stage-coördinaten, zelfde plek als v0.5–v0.8)
+  var railG = el('g', {}); document.getElementById('s1face').appendChild(railG);
+  var rfid = 'rg' + Math.random().toString(36).slice(2, 6), rdefs = el('defs', {}), rf = el('filter', { id: rfid, x: '-30%', y: '-80%', width: '160%', height: '260%' });
+  rf.appendChild(el('feGaussianBlur', { stdDeviation: 28 })); rdefs.appendChild(rf); railG.appendChild(rdefs);
+  var railGlow = el('ellipse', { cx: 1060, cy: -88, rx: 500, ry: 62, fill: '#4fb3ff', opacity: 0, filter: 'url(#' + rfid + ')' }); railG.appendChild(railGlow);
+  var railLabel = el('g', { opacity: 0 }); railG.appendChild(railLabel);
+  railLabel.appendChild(el('line', { x1: 570, y1: -90, x2: 606, y2: -90, stroke: '#7fc8ff', 'stroke-width': 2, opacity: .8 }));
+  var railTxt = el('text', { x: 556, y: -96, 'text-anchor': 'end', fill: '#dff1ff', 'font-family': 'Liberation Sans, Arial, sans-serif', 'font-size': 30, 'font-weight': 700, 'letter-spacing': 9 }); railTxt.textContent = 'INTUSENS RAIL'; railLabel.appendChild(railTxt);
+  var railSub = el('text', { x: 556, y: -64, 'text-anchor': 'end', fill: '#7f93ad', 'font-family': 'Liberation Sans, Arial, sans-serif', 'font-size': 22, 'letter-spacing': 3 }); railSub.textContent = 'in het deksel van de koffer'; railLabel.appendChild(railSub);
+  // koffer-achtergrond is 1344 plaatpx breed → 1920 stage; hoogte incl. verlenging
+  function camTo(elm, sc, px, py, rot) { cam(elm, sc, -(px - 960) * sc, -(py - 540) * sc, rot); }
+
+  var WH = { L: [192, 155], R: [452, 155], M: [322, 189] };   // wit cut-out (655x420)
+  var BK = { L: [194, 204], R: [469, 204], M: [334, 254] };   // zwart cut-out (679x471)
+  var s2bc = makeFace(document.getElementById('s2bcface'), 'bc', BK.L, BK.R, BK.M, 1.0);
+  var s2sw = makeFace(document.getElementById('s2swface'), 'sw', WH.L, WH.R, WH.M, 1.0);
+  var s2bbc = makeFace(document.getElementById('s2bbcface'), 'bc', BK.L, BK.R, BK.M, 1.0);
+  var s2bsw = makeFace(document.getElementById('s2bswface'), 'sw', WH.L, WH.R, WH.M, 1.0);
+  var s3bc = makeFace(document.getElementById('s3bcface'), 'bc', BK.L, BK.R, BK.M, 1.0);
+  var s3sw = makeFace(document.getElementById('s3swface'), 'sw', WH.L, WH.R, WH.M, 1.0);
+  // race: gespiegelde schone plaat + lagen (Switch wit links, Broadcast zwart rechts)
+  var rSW = mountLayer('r-sw', LY.race.switch, 0, 'sw', 1.0 / K), rBC = mountLayer('r-bc', LY.race.broadcast, 0, 'bc', 1.0 / K);
+  var rSWsh = mountShadow('r-sw-sh', rSW, 0, 18, .86, .34), rBCsh = mountShadow('r-bc-sh', rBC, 0, 18, .86, .34);
+  var s5sw = rSW.face, s5bc = rBC.face;
+
+  /* laag-transform: x/y in px, r in graden, s schaal; schaduw volgt x en wordt kleiner/lichter als de laag 'optilt' (y < 0) */
+  function lay(L, sh, o) {
+    L.el.style.transform = 'translate(' + (o.x || 0) + 'px,' + (o.y || 0) + 'px) rotate(' + (o.r || 0) + 'deg) scale(' + (o.s || 1) + ')';
+    if (sh) { var lift = Math.max(0, -(o.y || 0)); sh.style.transform = 'translate(' + (o.x || 0) * 1.05 + 'px,0) scale(' + ((o.s || 1) * (1 - lift * .004)) + ')'; sh.style.opacity = 1 - lift * .012; }
+  }
+  /* korte 'puls' (0 → 1 → 0) rond een moment, voor micro-acting */
+  function pulse(t, t0, up, down) { if (t < t0 || t > t0 + up + down) return 0; return t < t0 + up ? easeOut((t - t0) / up) : 1 - ease((t - t0 - up) / down); }
+  function hold(t, t0, t1, a, b) { return Math.min(ease(span(t, t0, t0 + (a || .25))), 1 - ease(span(t, t1, t1 + (b || .3)))); }
+  var Ln = T.lines; function Ls(i) { return Ln[i]; }
+
+  /* ---------- 7-segment-display op de echte foto (bediening-broadcast-03.jpg) ----------
+   * Alleen het displaygebied wordt grafisch gereconstrueerd; de sensor is de onbewerkte foto.
+   * Segmentvorm/kleur/gloed naar referentiefoto's 01 (2), 04 (ULC), 05 (080 + LED licht).
+   * Posities in fotocoördinaten (850x850): display boven de lens over het TRILUX-logo, LED "licht" onder de lens. */
+  var SEG = { '0': 'abcdef', '1': 'bc', '2': 'abged', '3': 'abgcd', '8': 'abcdefg', 'U': 'bcdef', 'L': 'fed', 'C': 'afed' };
+  function makeDisplay(svg) {
+    var cx = 490, cy = 313, w = 40, h = 74, gap = 60, th = 8.5;
+    var fid = 'dg' + Math.random().toString(36).slice(2, 7);
+    var defs = el('defs', {}), f = el('filter', { id: fid, x: '-60%', y: '-60%', width: '220%', height: '220%' });
+    f.appendChild(el('feGaussianBlur', { stdDeviation: 5 })); defs.appendChild(f); svg.appendChild(defs);
+    var glow = el('g', { filter: 'url(#' + fid + ')', opacity: .75 }), core = el('g', {});
+    svg.appendChild(glow); svg.appendChild(core);
+    // LED "licht" (zon-icoon onder de lens): gloeiende stip, alleen aan bij 080
+    var ledG = el('circle', { cx: 500, cy: 646, r: 22, fill: '#9cc6ff', opacity: 0, filter: 'url(#' + fid + ')' });
+    var led = el('circle', { cx: 500, cy: 646, r: 7, fill: '#eaf3ff', opacity: 0 });
+    svg.appendChild(ledG); svg.appendChild(led);
+    function segLines(x0) {
+      var x1 = x0 - w / 2, x2 = x0 + w / 2, y1 = cy - h / 2, y2 = cy, y3 = cy + h / 2, i = th * .9;
+      return { a: [x1 + i, y1, x2 - i, y1], b: [x2, y1 + i, x2, y2 - i], c: [x2, y2 + i, x2, y3 - i], d: [x1 + i, y3, x2 - i, y3], e: [x1, y2 + i, x1, y3 - i], f: [x1, y1 + i, x1, y2 - i], g: [x1 + i, y2, x2 - i, y2] };
+    }
+    var cur = null;
+    function set(txt, pulse) {
+      if (txt !== cur) {
+        cur = txt; while (glow.firstChild) glow.removeChild(glow.firstChild); while (core.firstChild) core.removeChild(core.firstChild);
+        var n = txt.length, start = cx - (n - 1) * gap / 2;
+        for (var k = 0; k < n; k++) {
+          var L = segLines(start + k * gap), segs = SEG[txt[k]] || '';
+          for (var q = 0; q < segs.length; q++) {
+            var c = L[segs[q]];
+            glow.appendChild(el('line', { x1: c[0], y1: c[1], x2: c[2], y2: c[3], stroke: '#7fb4ff', 'stroke-width': th * 1.7, 'stroke-linecap': 'round' }));
+            core.appendChild(el('line', { x1: c[0], y1: c[1], x2: c[2], y2: c[3], stroke: '#eef4ff', 'stroke-width': th, 'stroke-linecap': 'round' }));
+          }
+        }
+      }
+      glow.setAttribute('opacity', .75 + (pulse || 0) * .35);
+    }
+    function setLed(on) { ledG.setAttribute('opacity', on ? .8 : 0); led.setAttribute('opacity', on ? 1 : 0); }
+    return { set: set, setLed: setLed };
+  }
+  var D = T.display;
+  document.getElementById('s2bphoto').src = D.base; document.getElementById('s3photo').src = D.base;
+  document.getElementById('s2bblur').style.backgroundImage = 'url(' + D.base + ')';
+  var disp2 = makeDisplay(document.getElementById('s2bdisp')), disp3 = makeDisplay(document.getElementById('s3disp'));
+  disp3.set('080', 0); disp3.setLed(true);
+  // S3-kaart: uitsnede rond het display (fotopunt 490,313 → containerpunt 576,368), 2.2x
+  document.getElementById('s3zoom').style.transform = 'translate(' + (320 - 576 * 2.2) + 'px,' + (210 - 368 * 2.2) + 'px) scale(2.2)';
+
+  // link-lijn (display → telefoon)
+  var linkSvg = document.getElementById('s3link');
+  var linkPath = el('path', { d: 'M 790 420 C 950 420, 1000 560, 1180 560', fill: 'none', stroke: '#7fc8ff', 'stroke-width': 5, 'stroke-dasharray': '14 18', 'stroke-linecap': 'round', opacity: 0 });
+  var linkDot = el('circle', { r: 12, fill: '#bfe6ff', opacity: 0 });
+  linkSvg.appendChild(linkPath); linkSvg.appendChild(linkDot);
+
+  var scenes = { s1: document.getElementById('s1'), s2a: document.getElementById('s2a'), s2b: document.getElementById('s2b'), s3: document.getElementById('s3'), s5: document.getElementById('s5') };
+  var cap = document.getElementById('cap'), capWho = cap.querySelector('.who'), capTxt = cap.querySelector('.txt');
+  var fade = document.getElementById('fade'), hud = document.getElementById('hud');
+  var cL = document.getElementById('cL'), cR = document.getElementById('cR'), cardA = document.getElementById('cardA'), cardB = document.getElementById('cardB');
+  var C = T.cuts;
+
+  function show(id) { for (var k in scenes) scenes[k].classList.toggle('on', k === id); }
+  function cam(elm, sc, x, y, rot) { elm.style.transform = 'translate(' + (x || 0) + 'px,' + (y || 0) + 'px) scale(' + sc + ') rotate(' + (rot || 0) + 'deg)'; }
+  function charT(elm, sc, x, y, rot) { elm.style.transform = 'translate(' + (x || 0) + 'px,' + (y || 0) + 'px) rotate(' + (rot || 0) + 'deg) scale(' + sc + ')'; }
+  var wob = function (t, f, a) { return Math.sin(t * f) * a; };
+
+  /* ---------- de tijdlijn (v0.9: alle acting relatief aan dialoogregels) ---------- */
+  function seek(t) {
+    t = clamp(t, 0, T.duration);
+    var talkSW = talking(t, 'SW'), talkBC = talking(t, 'BC'), talkRL = talking(t, 'RL');
+    var fadeA = 0;
+    var l1 = Ls(0), l2 = Ls(1), l3 = Ls(2), l4 = Ls(3), l5 = Ls(4), l6 = Ls(5), l7 = Ls(6), l8 = Ls(7), l9 = Ls(8), l10 = Ls(9),
+        l11 = Ls(10), l12 = Ls(11), l13 = Ls(12), l14 = Ls(13), l15 = Ls(14), l16 = Ls(15);
+
+    if (t < C.s2a || inR(t, C.s4, C.s5)) {
+      /* ---- S1 + S4: koffer met losse lagen ---- */
+      show('s1');
+      if (t < C.s2a) {
+        var u = span(t, 0, C.s2a);
+        // camera: langzaam dichterbij met lichte horizontale pan; lagen bewegen iets meer mee (parallax)
+        // v0.9d: zachte herkadrering naar wie spreekt (Switch links → camera naar rechts schuiven = +x; Broadcast rechts = −x),
+        // lichte 'handheld'-ademing en bij de laatste regel een fractie verder in. Geen snelle bewegingen.
+        var focus = 14 * hold(t, l1.t0 - .25, l1.t1 + .1, .4, .5) - 14 * hold(t, l2.t0 - .2, l2.t1, .45, .5)
+                  + 10 * hold(t, l3.t0 - .15, l3.t1, .3, .4) - 8 * hold(t, l4.t0 - .2, C.s2a, .5, .3);
+        var pan = lerp(26, -26, ease(u)) + focus;
+        var breath = Math.sin(t * 1.9) * 1.2 + Math.sin(t * .7 + 1) * 1.6;
+        var push = .012 * ease(span(t, l4.t0 - .2, C.s2a));
+        cam(document.getElementById('s1cam'), lerp(1.035, 1.09, ease(u)) + push, pan, lerp(0, -22, u) + breath * .6, Math.sin(t * .5) * .12);
+        var px = pan * .22;
+        // idle-ademing per sensor (eigen tempo/fase) + kleine oog-saccades tijdens luisteren
+        var swIdle = Math.sin(t * 2.3), bcIdle = Math.sin(t * 1.6 + 1.3);
+        var swSac = (Math.floor(t * 1.7) % 2 ? .12 : -.08), bcSac = (Math.floor(t * 1.1 + .5) % 2 ? .1 : -.06);
+        fadeA = 1 - span(t, 0, .6);
+        railGlow.setAttribute('opacity', 0); railLabel.setAttribute('opacity', 0);
+        lay(kRL, null, { x: pan * .06 }); rail.set({ open: 0, blink: 0, lookX: 0, lookY: .6, mood: 0, tilt: 0, dy: 0 });
+        // --- Switch: "Hé collega?" kort naar voren + snelle kanteling, ogen naar kijker; "Veel te lang." droog en sneller
+        var swFwd = pulse(t, l1.t0 - .12, .18, .55);                   // korte stap naar voren
+        var swNod = pulse(t, l3.t0 - .06, .10, .30);                   // droge knik
+        var swOut = hold(t, l4.t0 + .2, C.s2a + 1, .5);                // "de koffer uit"
+        var swAnt = pulse(t, l1.t0 - .3, .12, .1);                     // aanloop vóór "Hé collega?"
+        var swAgree = pulse(t, l2.t0 + .6 * (l2.t1 - l2.t0), .1, .28);   // instemmend knikje tijdens Broadcast
+        var swEager = pulse(t, l4.t0 + .45, .1, .18) + pulse(t, l4.t0 + .8, .1, .18);  // ongeduldige mini-hupjes
+        lay(kSW, kSWsh, { x: px - 2 * swFwd + 5 * swOut, y: 9 * swFwd + 4 * swNod + 2 * swAnt + 2.5 * swAgree - 3 * swEager + .7 * swIdle,
+                          r: -3.2 * swFwd + 2 * swNod + 1.4 * swOut + 1 * swAgree, s: 1 + .03 * swFwd + .003 * swIdle });
+        var swLookViewer = inR(t, l1.t0 - .1, l1.t1 + .15) || inR(t, l3.t0 - .05, l3.t1 + .2);
+        var swLookBC = inR(t, l1.t1 + .15, l3.t0 - .05) || inR(t, l3.t1 + .2, l4.t0 + .2);
+        s1sw.set({ open: talkSW, blink: blink(t, [.35, l1.t1 + .25, l2.t1 + .1, l4.t0 + .7]), lookX: (swOut > .3 ? .8 : (swLookBC ? 1 : 0)) + (swLookViewer ? 0 : swSac), lookY: swOut > .3 ? -.6 : (swLookViewer ? -.45 : .1),
+                   mood: t < l3.t0 ? -.15 : -.6, squint: inR(t, l3.t0, l3.t1 + .3) ? .55 : 0, tilt: -2 * swFwd + 2 * swNod + 1 * swAgree, dy: -3 * swNod + 1.5 * swAgree });
+        // --- Broadcast: rustiger; bij "We zitten hier al best lang." kleine draai naar Switch, daarna naar de kijker
+        var bcTurn = hold(t, l2.t0 - .15, l2.t0 + .55 * (l2.t1 - l2.t0), .45, .5);
+        var bcOut = hold(t, l4.t0 + .05, C.s2a + 1, .6);
+        var bcAnt = pulse(t, l2.t0 - .28, .1, .12);                    // kleine aanloop vóór zijn regel
+        var bcGlance = hold(t, l3.t1 + .05, l4.t0 - .1, .2, .25);      // droge zijblik naar Switch na "Veel te lang."
+        lay(kBC, kBCsh, { x: px - 4 * bcTurn + 5 * bcOut - 1.5 * bcGlance, y: 2 * bcTurn + 1.5 * bcAnt + .5 * bcIdle, r: -2.2 * bcTurn + 1.2 * bcOut - .8 * bcGlance, s: 1 + .012 * bcTurn + .002 * bcIdle });
+        var bcLX = bcOut > .3 ? .7 : (bcTurn > .4 || bcGlance > .4 ? -.85 : bcSac), bcLY = bcOut > .3 ? -.6 : (inR(t, l2.t0 + .55 * (l2.t1 - l2.t0), l3.t0) ? -.45 : .1);
+        s1bc.set({ open: talkBC, blink: blink(t, [l1.t0 + .3, l3.t1 + .15, l4.t1 - .2]), lookX: bcLX, lookY: bcLY, mood: t < l4.t0 ? .15 : .3, tilt: -1.4 * bcTurn - .8 * bcGlance, dy: 0, squint: .25 * bcGlance });
+      } else {
+        var R = T.rail;
+        // camera: bij "En ik dan?" duidelijk omhoog naar de Rail; bij het antwoord zakt hij iets terug
+        var tu = ease(span(t, R.tiltT0, R.tiltT1)), tb = ease(span(t, R.back[0], R.back[1]));
+        var sh = inR(t, l9.t0 - .05, l9.t0 + .3) ? Math.sin((t - l9.t0) * 60) * 4 * (1 - span(t, l9.t0 - .05, l9.t0 + .3)) : 0;
+        camTo(document.getElementById('s1cam'), lerp(1.04, 1.07, tu), 960 + sh, lerp(lerp(540, 205, tu), 300, tb) + sh * .5, sh * .06);
+        railGlow.setAttribute('opacity', .2 * Math.min(span(t, R.tiltT0, R.tiltT0 + .5), 1 - span(t, C.s5 - .4, C.s5)));
+        railLabel.setAttribute('opacity', inR(t, R.label[0], R.label[1]) ? Math.min(span(t, R.label[0], R.label[0] + .2), 1 - span(t, R.label[1] - .2, R.label[1])) : 0);
+        // Rail: komt een paar procent naar voren, kleine kanteling bij "En ik dan?", daarna droog tevreden
+        var rFwd = ease(span(t, R.bounce, R.bounce + .25)), rTilt = pulse(t, l9.t0, .15, .6), rSat = pulse(t, R.react, .2, .5);
+        lay(kRL, null, { y: 5 * rFwd - 3 * rSat, r: -2.2 * rTilt + .8 * rSat, s: 1 + .035 * rFwd });
+        rail.set({ open: talkRL, blink: blink(t, [l9.t1 + .3, R.react + .6]), lookX: t < l10.t0 ? 0 : -.6, lookY: t < l10.t0 ? .4 : .9, mood: t >= R.react ? .7 : .1, tilt: -1.5 * rTilt + 1.5 * rSat, dy: -2 * rSat });
+        // Switch en Broadcast kijken omhoog; Switch antwoordt met een kleine lean
+        var swUp = hold(t, l10.t0 - .1, C.s5, .2);
+        lay(kSW, kSWsh, { y: -3 * swUp, r: 1.5 * swUp }); lay(kBC, kBCsh, {});
+        s1sw.set({ open: talkSW, blink: blink(t, [l9.t0 + .4, l10.t1 + .3]), lookX: .6, lookY: t < l9.t0 ? -.3 : -1, mood: t > l10.t0 ? -.6 : -.2, squint: t > l10.t0 ? .4 : 0, tilt: 1.5 * swUp, dy: 0 });
+        s1bc.set({ open: 0, blink: blink(t, [l9.t0 + .15, l10.t0 + .5]), lookX: .3, lookY: t < l9.t0 + .1 ? -.2 : -1, mood: .1, tilt: 0, dy: 0 });
+      }
+    } else if (t < C.s2b) {
+      /* ---- S2a: Broadcast naar voren ---- */
+      show('s2a');
+      var u2 = easeOut(span(t, C.s2a, C.s2b - .2));
+      cam(document.getElementById('s2cam'), lerp(1.0, 1.03, span(t, C.s2a, C.s2b)), 0, 0, 0);
+      var bcKijk = pulse(t, l5.t0 + .05, .15, .35);                       // "Kijk." — kleine knik
+      charT(document.getElementById('s2bc'), lerp(.74, 1.0, u2), lerp(60, 0, u2), lerp(70, 0, u2) + 5 * bcKijk, lerp(4, -1.5, u2) - 1.5 * bcKijk);
+      s2bc.set({ open: talkBC, blink: blink(t, [l5.t0 - .1, l5.t1 - .15]), lookX: 0, lookY: -.3, mood: .35, tilt: -1 * bcKijk });
+      charT(document.getElementById('s2sw'), 1, lerp(-60, 0, easeOut(span(t, C.s2a, C.s2a + .5))), 0, -2);
+      s2sw.set({ open: 0, blink: blink(t, [l5.t0 + .6]), lookX: 1, lookY: -.3, mood: -.5, squint: .3 });
+    } else if (t < C.s3) {
+      /* ---- S2b: bedieningsreeks als display-animatie op de echte foto (technisch exact) ---- */
+      show('s2b');
+      var ub = ease(span(t, C.s2b, C.s3));
+      var sc = lerp(1.05, 1.42, ub), tx = (500 - 576) * sc, ty = (500 - 545) * sc;
+      document.getElementById('s2bimg').style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+      var txt = '', pl = 0;
+      D.steps.forEach(function (st) { if (t >= st[0]) txt = st[1]; if (inR(t, st[0], st[0] + .25)) pl = 1 - span(t, st[0], st[0] + .25); });
+      disp2.set(txt, pl); disp2.setLed(t >= D.ledOn);
+      var chipTxt = '', chipT0 = 0, chipT1 = 0;
+      D.chips.forEach(function (c) { if (inR(t, c[0], c[1])) { chipT0 = c[0]; chipT1 = c[1]; chipTxt = c[2]; } });
+      var chip = document.getElementById('s2bchip'), cu = chipTxt ? Math.min(easeOutBack(span(t, chipT0 + .05, chipT0 + .35)), 1 - span(t, chipT1 - .2, chipT1)) : 0;
+      chip.textContent = chipTxt; chip.style.opacity = cu; chip.style.transform = 'translateY(' + (1 - cu) * 24 + 'px)';
+      // Broadcast blijft levend in de hoek: mini-reactie bij de knopdruk, blik naar het display
+      var press = pulse(t, D.pressAt, .08, .3), bin = easeOut(span(t, C.s2b, C.s2b + .4));
+      charT(document.getElementById('s2bbc'), 1, (1 - bin) * 120, (1 - bin) * 80 + 6 * press, -2 + 2 * press);
+      s2bbc.set({ open: 0, blink: blink(t, [D.pressAt + .2, D.steps[3][0] + .3]), lookX: t < D.pressAt + .2 ? 0 : -1, lookY: t < D.pressAt + .2 ? -.3 : -1, mood: t >= D.ledOn ? .45 : .2, squint: 0 });
+      // bij 080 kijkt Switch kort nieuwsgierig mee
+      var swPeek = hold(t, D.ledOn - .15, C.s3, .3), swPop = pulse(t, D.ledOn + .05, .12, .35);
+      charT(document.getElementById('s2bsw'), 1, 0, (1 - swPeek) * 240 - 8 * swPop, -4 - 3 * swPop);
+      s2bsw.set({ open: 0, blink: blink(t, [D.ledOn + .7]), lookX: -.9, lookY: -1, mood: .2, squint: 0, tilt: -2 * swPop });
+    } else if (t < C.s4) {
+      /* ---- S3: code op display → uitleg op telefoon ---- */
+      show('s3');
+      var u3 = span(t, C.s3, T.phoneZoom.t0);
+      var pin = easeOut(span(t, T.phoneIn - .05, T.phoneIn + .75));
+      var z = ease(span(t, T.phoneZoom.t0, T.phoneZoom.t0 + 1.1)), zs = lerp(1.04, T.phoneZoom.scale, z);
+      // camera volgt de telefoon al een beetje bij binnenkomst (kleine echte diepte-beweging)
+      var follow = ease(span(t, T.phoneIn, T.phoneIn + 1.2));
+      var baseX = lerp(0, -20, u3) - 30 * follow, baseS = lerp(1.0, 1.04, u3) + .02 * follow;
+      cam(document.getElementById('s3cam'), z > 0 ? lerp(baseS, zs, z) : baseS, z > 0 ? lerp(baseX, -(1400 - 960) * zs, z) : baseX, z > 0 ? lerp(0, -(400 - 540) * zs, z) : 0, 0);
+      var cin = easeOutBack(span(t, C.s3, C.s3 + .5));
+      var card = document.getElementById('s3card');
+      card.style.transform = 'translateY(' + (1 - cin) * 40 + 'px) scale(' + lerp(.9, 1, cin) + ')'; card.style.opacity = cin;
+      var ph = document.getElementById('s3phone');
+      ph.style.transform = 'translate(' + (1 - pin) * 560 + 'px,' + (1 - pin) * 60 + 'px) rotate(' + lerp(-10, -4, pin) + 'deg) scale(' + lerp(.9, 1, pin) + ')';
+      ph.style.opacity = t >= T.phoneIn - .05 ? 1 : 0;
+      var lo = span(t, T.linkOn, T.linkOn + .5);
+      linkPath.setAttribute('opacity', lo * .9); linkPath.setAttribute('stroke-dashoffset', -(t - T.linkOn) * 90);
+      var lu = (t - T.linkOn) * .8 % 1; if (lu < 0) lu = 0;
+      var pt = linkPath.getTotalLength ? linkPath.getPointAtLength(lu * linkPath.getTotalLength()) : { x: 0, y: 0 };
+      linkDot.setAttribute('cx', pt.x); linkDot.setAttribute('cy', pt.y); linkDot.setAttribute('opacity', lo);
+      var swin = easeOut(span(t, C.s3, C.s3 + .4)), bcin = easeOut(span(t, C.s3 + .5, C.s3 + .9));
+      var swQ = pulse(t, l6.t0 - .05, .12, .4);
+      charT(document.getElementById('s3sw'), 1, 0, (1 - swin) * 260 + wob(t, 2.1, 2) - 8 * swQ, -3 - 3 * swQ);
+      charT(document.getElementById('s3bc'), 1, 0, (1 - bcin) * 260 + wob(t, 1.6, 2), 2);
+      s3sw.set({ open: talkSW, blink: blink(t, [l6.t1 + .3, l8.t0 + .4, T.phoneZoom.t0 + .8]), lookX: t < T.phoneIn ? .4 : 1, lookY: -1, mood: t < l7.t0 ? -.1 : -.5, squint: inR(t, l6.t0, l6.t1 + .1) ? .6 : 0, tilt: -2 * swQ });
+      s3bc.set({ open: talkBC, blink: blink(t, [l7.t0 + .3, l8.t1 - .3]), lookX: t < T.phoneIn - .2 ? -.4 : (t < l8.t0 ? 1 : .3), lookY: -.8, mood: .3 });
+    } else {
+      /* ---- S5: race met losse lagen + tellers + eindkaarten + slot ---- */
+      show('s5');
+      var u5 = span(t, C.s5, T.cardA.t0);
+      var pushBack = t >= T.cardB.t1 ? span(t, T.cardB.t1, T.cardB.t1 + .8) : 0;
+      var rr = T.race.restAfterSucces, slot = T.cardB.t1;
+      // v0.9d: camera herkadreert licht naar de spreker, korte punch-in bij "Ik.", trage push tijdens de droge blik,
+      // klein tikje per tellerstap. Switch links (+x = naar Switch), Broadcast rechts (−x).
+      var rFocus = 12 * hold(t, l11.t0 - .2, l11.t1, .4, .4) - 12 * hold(t, l12.t0 - .2, l12.t1, .4, .35) + 8 * hold(t, l13.t0 - .05, l14.t0 - .1, .12, .3) - 8 * hold(t, l14.t0 - .1, T.counter.show, .3, .4);
+      var ikPunch = pulse(t, l13.t0 - .04, .08, .55), dryPush = .012 * hold(t, rr[0], T.counter.show + .3, .5, .3);
+      var kick = 0; T.counter.steps.forEach(function (st) { kick = Math.max(kick, pulse(t, st[0], .04, .2)); });
+      var rBreath = Math.sin(t * 1.7) * 1.4 + Math.sin(t * .6 + 2) * 1.2;
+      cam(document.getElementById('s5cam'), lerp(1.02, 1.08, ease(u5)) + pushBack * .03 + .018 * ikPunch + dryPush + .006 * kick, lerp(10, -10, u5) + rFocus, lerp(0, -16, u5) + rBreath * .5, Math.sin(t * .45) * .15);
+      var rSwIdle = Math.sin(t * 2.2 + .4), rBcIdle = Math.sin(t * 1.5 + 2.1);
+      var swEagerQ = pulse(t, l12.t1 - .55, .1, .18) + pulse(t, l12.t1 - .25, .1, .18);   // ongeduldig tijdens de vraag
+      var swHop = 0, bcTick = 0; T.counter.steps.forEach(function (st) { swHop = Math.max(swHop, pulse(t, st[0], .08, .25)); bcTick = Math.max(bcTick, pulse(t, st[0] + .05, .1, .3)); });
+      // Switch (links, wit): kijkt eerst de kijker aan, dan naar Broadcast; bij "Ik." directe korte stap naar voren
+      var swIk = ease(span(t, l13.t0 - .06, l13.t0 + .12)) * (1 - .35 * ease(span(t, l13.t1 + .1, l13.t1 + .6)));
+      var swTalk11 = pulse(t, l11.t0 - .1, .2, .5);
+      var swEnd = hold(t, l15.t0 - .1, T.duration, .2);
+      lay(rSW, rSWsh, { x: 14 * swIk + 3 * swTalk11 + 4 * swEnd, y: 12 * swIk - 3 * swEnd - 3 * swEagerQ - 5 * swHop + .8 * rSwIdle,
+                        r: -3.5 * swIk - 1.5 * swTalk11 + 1.2 * swEnd - .8 * swHop, s: 1.08 + .05 * swIk + .003 * rSwIdle });
+      var swAtBC = inR(t, l11.t0 + .5 * (l11.t1 - l11.t0), slot);
+      s5sw.set({ open: talkSW, blink: blink(t, [l11.t0 + .2, l12.t1 + .1, rr[1] + .3, slot + .2]), lookX: t > slot ? 0 : (swAtBC ? 1 : 0), lookY: t > slot ? -.6 : (swAtBC ? 0 : -.45),
+                 mood: t < l13.t0 ? -.4 : -.9, squint: inR(t, l13.t0, T.counter.show + .4) ? .55 : .15, tilt: -2.5 * swIk });
+      // Broadcast (rechts, zwart): bij de vraag naar Switch; bij "Succes." nauwelijks reactie, daarna heel langzaam een paar graden naar Switch, dan droge blik naar de kijker
+      var bcQ = hold(t, l12.t0 - .1, l13.t0, .35), bcSlow = ease(span(t, l14.t1, rr[1] + .35)), bcCamL = inR(t, rr[0] + .2, T.cardA.t0);
+      var bcEnd = t >= T.endLook, bcSlot = inR(t, l16.t0 - .1, T.endLook);
+      lay(rBC, rBCsh, { x: -4 * bcQ - 5 * bcSlow, y: 2 * bcQ + .6 * rBcIdle, r: -1.5 * bcQ - 3 * bcSlow + (bcEnd ? -1.5 : 0) - .5 * bcTick, s: 1.08 + .002 * rBcIdle });
+      s5bc.set({ open: talkBC, blink: blink(t, [l11.t1, l12.t1 + .4, rr[0] + .15, T.counter.steps[2][0] + .2, slot + 1.2]),
+                 lookX: bcEnd ? -1 : ((bcCamL || bcSlot) ? 0 : -1), lookY: (bcCamL || bcSlot) && !bcEnd ? -.6 : 0,
+                 mood: inR(t, l14.t0 - .05, l14.t1) ? .55 : (inR(t, l13.t0, l14.t0) ? -.1 : (bcCamL ? .4 : (bcEnd ? .05 : .25))),
+                 tilt: bcEnd ? -2 * easeOut(span(t, T.endLook, T.endLook + .2)) : -1 * bcSlow, squint: bcEnd ? .25 : (bcCamL ? .2 : 0) });
+      // tellers: pas ná de droge blik; sneller en energieker (cijfers rollen door, stopt vóór 50)
+      var cs = T.counter, cin5 = easeOutBack(span(t, cs.show, cs.show + .3));
+      var a = 0, b = 0, pa = 0, pb = 0, bump = 0, shake = 0;
+      cs.steps.forEach(function (s) {
+        if (t >= s[0]) { var ru = easeOut(span(t, s[0], s[0] + .22)); a = Math.round(lerp(pa, s[1], ru)); b = Math.round(lerp(pb, s[2], ru)); }
+        if (inR(t, s[0], s[0] + .2)) { bump = 1 - span(t, s[0], s[0] + .2); shake = Math.sin((t - s[0]) * 90) * (1 - span(t, s[0], s[0] + .2)); }
+        if (t >= s[0] + .22) { pa = s[1]; pb = s[2]; }
+      });
+      var vis = t < T.cardA.t0 ? cin5 : 0;
+      // final: 'RACE NAAR 50' verschijnt 0,15 s vóór de tellers (0,6 s vóór de eerste score) en verdwijnt onder kaart A; geen andere timing gewijzigd
+      var rh = document.getElementById('raceHead'), rhu = easeOutBack(span(t, cs.show - .15, cs.show + .15));
+      rh.style.opacity = t < T.cardA.t0 ? span(t, cs.show - .15, cs.show + .05) : 0; rh.style.transform = 'scale(' + lerp(.9, 1, rhu) + ')';
+      [cL, cR].forEach(function (c, i) { c.style.opacity = vis; c.style.transform = 'translateY(' + (1 - cin5) * -30 + 'px) rotate(' + (i ? -1 : 1) * shake * 1.2 + 'deg)'; });
+      cL.querySelector('.v').textContent = fmt(a); cR.querySelector('.v').textContent = fmt(b);
+      cL.querySelector('.v').style.transform = cR.querySelector('.v').style.transform = 'scale(' + (1 + bump * .14) + ')';
+      [[cardA, T.cardA], [cardB, T.cardB]].forEach(function (pair) {
+        var elc = pair[0], tc = pair[1];
+        var ta = inR(t, tc.t0, tc.t1) ? Math.min(span(t, tc.t0, tc.t0 + .25), 1 - span(t, tc.t1 - .25, tc.t1)) : 0;
+        elc.style.opacity = ta;
+        var tin = easeOutBack(span(t, tc.t0 + .05, tc.t0 + .5));
+        elc.querySelector('.h').style.transform = 'scale(' + lerp(.85, 1, tin) + ')';
+        var sEl = elc.querySelector('.s'), kEl = elc.querySelector('.k'), uEl = elc.querySelector('.u');
+        if (sEl) sEl.style.opacity = span(t, tc.t0 + .35, tc.t0 + .7);
+        if (kEl) { var ku = easeOutBack(span(t, tc.t0 + .8, tc.t0 + 1.2)); kEl.style.opacity = ku; kEl.style.transform = 'scale(' + lerp(.9, 1, ku) + ')'; }
+        if (uEl) uEl.style.opacity = span(t, tc.t0 + 1.1, tc.t0 + 1.4);
+      });
+      fadeA = t >= T.blackout ? 1 : 0;
+    }
+
+    // captions (dialoog-proxy voor de animatic)
+    var cur = null; T.lines.forEach(function (l) { if (inR(t, l.t0 - .05, l.t1 + .25)) cur = l; });
+    if (cur && t < T.blackout) {
+      var ci = easeOutBack(span(t, cur.t0 - .05, cur.t0 + .18)), co = 1 - span(t, cur.t1 + .1, cur.t1 + .25);
+      cap.style.opacity = Math.min(ci, co);
+      cap.style.transform = 'translateY(' + (1 - ci) * 18 + 'px)';
+      capWho.textContent = T.who[cur.who].label; capWho.style.color = T.who[cur.who].color; capTxt.textContent = cur.text;
+    } else cap.style.opacity = 0;
+
+    fade.style.opacity = fadeA;
+    var sc = T.scenes.filter(function (s) { return inR(t, s.t0, s.t1); })[0];
+    hud.textContent = 'v0.9d  ' + t.toFixed(2).padStart(5, '0') + 's  ' + (sc ? sc.id + ' · ' + sc.naam : '');
+    window.__t = t;
+  }
+  window.seek = seek;
+
+  /* ---------- schaal naar venster + scrub/play ---------- */
+  function fit() { var s = Math.min(innerWidth / 1920, innerHeight / 1080); var st = document.getElementById('stage'); st.style.transform = 'scale(' + s + ')'; st.style.marginLeft = ((innerWidth - 1920 * s) / 2) + 'px'; st.style.marginTop = ((innerHeight - 1080 * s) / 2) + 'px'; st.style.position = 'absolute'; st.style.left = 0; st.style.top = 0; }
+  addEventListener('resize', fit); fit();
+  var scrub = document.getElementById('scrub'), tcEl = document.getElementById('tc'), playing = false, t0 = 0, p0 = 0;
+  scrub.addEventListener('input', function () { playing = false; seek(+scrub.value); tcEl.textContent = (+scrub.value).toFixed(2); });
+  document.getElementById('play').addEventListener('click', function () { playing = !playing; t0 = performance.now(); p0 = +scrub.value >= T.duration - .05 ? 0 : +scrub.value; });
+  function loop() { if (playing) { var t = p0 + (performance.now() - t0) / 1000; if (t >= T.duration) { playing = false; t = T.duration; } scrub.value = t; tcEl.textContent = t.toFixed(2); seek(t); } requestAnimationFrame(loop); }
+  seek(0); if (!document.body.classList.contains('render')) loop();
+  window.__ready = true;
+})();
+</script>
+</body>
+</html>
