@@ -1,0 +1,29 @@
+{
+  "version": "higgsfield-v1",
+  "sample_rate": 48000,
+  "format": "wav",
+  "voices": {
+    "SW": "Skye",
+    "BC": "Orion",
+    "RL": "Chloe"
+  },
+  "notes": "Dry TTS masters. Trim leading/trailing silence before judging duration. Do not force-fit with extreme time-stretch; retime the animation around the real voices where needed.",
+  "files": [
+    {"index":1,"filename":"01-SW-he-collega.wav","character":"SW","start":0.50,"slot_max":0.80,"text":"Hé collega?","duration":2.08625,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114520_015e3212-951d-4b1e-a2f0-c01510964708.wav"},
+    {"index":2,"filename":"02-BC-al-best-lang.wav","character":"BC","start":1.60,"slot_max":1.30,"text":"We zitten hier al best lang.","duration":2.0578541667,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114520_b9b93d56-ba57-40f3-be4e-fed8b3e59777.wav"},
+    {"index":3,"filename":"03-SW-veel-te-lang.wav","character":"SW","start":3.20,"slot_max":0.70,"text":"Veel te lang.","duration":1.8671041667,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114558_f46b5d3b-9d51-4d71-8266-b7bc4a2da85c.wav"},
+    {"index":4,"filename":"04-BC-neem-ons-mee.wav","character":"BC","start":4.20,"slot_max":1.70,"text":"Neem ons eens mee naar een installateur.","duration":2.55675,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114520_f9390581-3464-4c1e-a595-e01c1c16cd60.wav"},
+    {"index":5,"filename":"05-BC-zo-moeilijk.wav","character":"BC","start":6.60,"slot_max":1.30,"text":"Kijk. Zo moeilijk ben ik niet.","duration":4.1220416667,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114558_0c46c310-619b-4bca-8b52-741825c40a90.wav"},
+    {"index":6,"filename":"06-SW-080.wav","character":"SW","start":13.90,"slot_max":0.80,"text":"080?","spoken_text":"Nul tachtig?","duration":2.08625,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114520_f184a9b8-7268-4ee0-891d-f6aced0af8dd.wav"},
+    {"index":7,"filename":"07-BC-even-checken.wav","character":"BC","start":15.00,"slot_max":1.50,"text":"Even checken? Pak de site erbij.","duration":2.6985833333,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114635_7ca1fb29-0868-4f1b-9507-328fd5630333.wav"},
+    {"index":8,"filename":"08-BC-code-op-display.wav","character":"BC","start":17.30,"slot_max":2.40,"text":"Code op het display, uitleg op je telefoon. Klaar.","duration":5.0067083333,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114635_2f0c88e3-6824-4f1f-a648-322a68c107b1.wav","faster_variant":{"speech_rate":35,"duration":3.2482083333,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_115159_12968b7f-7b73-406b-a317-44f5a4f51934.wav"}},
+    {"index":9,"filename":"09-RL-en-ik-dan.wav","character":"RL","start":22.40,"slot_max":0.80,"text":"En ik dan?","duration":2.354875,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114659_ed673716-8425-4255-bb3b-c07867cea1fd.wav"},
+    {"index":10,"filename":"10-SW-jij-ook-op-site.wav","character":"SW","start":23.50,"slot_max":1.00,"text":"Jij staat ook op de site.","duration":1.713125,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114659_3a55fcd5-4759-4957-9533-bea49e3dca64.wav"},
+    {"index":11,"filename":"11-SW-belangrijkere-vraag.wav","character":"SW","start":25.50,"slot_max":1.30,"text":"Maar goed. Belangrijkere vraag…","duration":3.845375,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114731_11724a0b-11dd-42af-bc99-33777a2b9747.wav"},
+    {"index":12,"filename":"12-BC-wie-eerste-vijftig.wav","character":"BC","start":27.10,"slot_max":1.80,"text":"Wie van ons is als eerste vijftig keer verkocht?","duration":5.12875,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114730_624ed977-cf9d-4197-85bb-655b982a0cd8.wav"},
+    {"index":13,"filename":"13-SW-ik.wav","character":"SW","start":29.15,"slot_max":0.40,"text":"Ik.","duration":1.6851875,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114801_6e16c7d8-f7ef-43ce-b447-f96850bb7989.wav"},
+    {"index":14,"filename":"14-BC-succes.wav","character":"BC","start":30.15,"slot_max":0.50,"text":"Succes.","duration":1.8566041667,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114801_252872a4-004e-4b97-9221-e33a01c5e3e8.wav"},
+    {"index":15,"filename":"15-SW-pak-die-koffer.wav","character":"SW","start":43.50,"slot_max":0.90,"text":"Dus… pak die koffer.","duration":3.01225,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114842_72938ac4-dacb-4a6e-95f6-460833ec02ec.wav"},
+    {"index":16,"filename":"16-BC-alsjeblieft.wav","character":"BC","start":44.60,"slot_max":0.50,"text":"Alsjeblieft.","duration":1.883125,"url":"https://d8j0ntlcm91z4.cloudfront.net/user_3JrBFnLiPmQwT4RglgJMUbnSZYs/hf_20260926_114842_f49ef5cf-1204-4a40-98b0-775d35733a41.wav"}
+  ]
+}
