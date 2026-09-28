@@ -78,15 +78,15 @@
     s += pirFlower(x + w * 0.62, cy, 10, lensFill, det);
     return { body: s, halo: rect(x - 6, y - 6, w + 12, h + 12, 8, 'none', C.accent, 2), lx: cx, ly: cy + h / 2 + 15 };
   }
-  function rail(cx, cy, variant) {
-    var w = 340, h = variant === 'wit' ? 38 : 35, x = cx - w / 2, y = cy - h / 2;
-    var fill = variant === 'wit' ? '#efece3' : '#232323', edge = variant === 'wit' ? '#d3cfc3' : '#4c4c4c', det = variant === 'wit' ? '#bab5a7' : '#555';
+  function rail(cx, cy, variant) { // wit en zwart: één en dezelfde opbouw en richting, alleen de kleur verschilt (Martijn 28-09-2026)
+    var w = 340, h = 38, x = cx - w / 2, y = cy - h / 2, wit = variant === 'wit';
+    var fill = wit ? '#efece3' : '#232323', edge = wit ? '#d3cfc3' : '#4c4c4c', det = wit ? '#bab5a7' : '#5a5a5a';
     var s = rect(x, y, w, h, 3, fill, edge, 1.2);
     s += '<path d="M' + f(x + 5) + ' ' + f(cy - 6) + ' L' + f(x + 13) + ' ' + f(cy) + ' L' + f(x + 5) + ' ' + f(cy + 6) + ' Z" fill="' + det + '"/>';
     s += '<path d="M' + f(x + w - 5) + ' ' + f(cy - 6) + ' L' + f(x + w - 13) + ' ' + f(cy) + ' L' + f(x + w - 5) + ' ' + f(cy + 6) + ' Z" fill="' + det + '"/>';
     s += '<line x1="' + f(x + w * 0.38) + '" y1="' + f(y + 3) + '" x2="' + f(x + w * 0.38) + '" y2="' + f(y + h - 3) + '" stroke="' + det + '" stroke-width=".8"/>';
-    s += circle(393, cy, 6, variant === 'wit' ? '#4a4a4a' : '#101010', det, 1);
-    s += variant === 'wit' ? pirFlower(458, cy, 10, '#f7f5ef', det) : circle(453, cy, 10, '#2c2c2c', '#6a6a6a', 1) + circle(453, cy, 5, '#3c3c3c', 'none');
+    s += circle(x + w * 0.397, cy, 6, wit ? '#4a4a4a' : '#101010', det, 1);
+    s += pirFlower(x + w * 0.588, cy, 10, wit ? '#f7f5ef' : '#3a3a38', det);
     return { body: s, halo: rect(x - 6, y - 6, w + 12, h + 12, 7, 'none', C.accent, 2), lx: x + w + 0, ly: cy };
   }
   function plug(cx, cy) {
@@ -255,8 +255,9 @@
   }
   /* part('K11'|'K12') — losse weergave van een toonmodel op donkere ondergrond */
   /* part('K03'…'K12') — losse weergave van een toonmodel op donkere ondergrond (zelfde tekening als in het deksel) */
-  var PART_FRAME = { K03: [428, 296, 400, 300], K04: [428, 361, 400, 300], K05: [278, 204, 160, 120], K06: [425, 206, 160, 120], K07: [569, 209, 160, 120],
-    K08: [228, 104, 160, 120], K09: [374, 106, 160, 120], K10: [515, 110, 160, 120], K11: [160, 215, 160, 120], K12: [160, 361, 160, 120] }; // alle kaders 4:3, gelijk aan de kaarten
+  var PART_FRAME = { K03: [428, 296, 400, 300], K04: [428, 361, 400, 300], K05: [278, 206, 160, 120], K06: [425, 206, 160, 120], K07: [569, 206, 160, 120],
+    K08: [228, 104, 160, 120], K09: [374, 106, 160, 120], K10: [515, 110, 160, 120], K11: [160, 215, 160, 120], K12: [160, 361, 160, 120],
+    A03: [73, 152, 240, 180] }; // alle kaders 4:3, gelijk aan de kaarten
   function part(ref) {
     var entry = null, fr = PART_FRAME[ref];
     PARTS.deksel.forEach(function (p) { if (!entry && p[0] === ref) entry = p; });

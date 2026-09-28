@@ -737,3 +737,14 @@ body.demo-mode .nav{display:none}
 
 /* Footer-credit (Martijn, site-commit 9456f72), verplaatst naar de stylesheet */
 #foot-credit{width:100%;font-size:11px;opacity:.52;text-align:right}
+
+/* losse aansluitstekkers: contextblok bovenaan Snelstart (klik vanuit de koffer) */
+.stekker-box{display:grid;grid-template-columns:minmax(0,260px) 1fr;gap:28px;align-items:center;border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:#fff}
+.stekker-vis{aspect-ratio:4/3;background:#111;border-radius:var(--radius);overflow:hidden}
+.stekker-txt h2{margin:4px 0 10px}
+.stekker-txt p{margin:0 0 12px}
+.stekker-txt .btn-row{margin-top:18px}
+@media (max-width:720px){.stekker-box{grid-template-columns:1fr;gap:18px;padding:18px}.stekker-vis{max-width:320px}}
+.koffer-stage{aspect-ratio:auto}
+.koffer-stage img{height:auto;display:block} /* kaderhoogte volgt de foto: geen zwarte balken, hotspots op de foto */
+.stekker-sec{padding-bottom:0}

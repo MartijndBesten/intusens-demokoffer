@@ -116,10 +116,11 @@
   function illuInfo(ref) {
     var p = product(ref), a = acc(ref);
     if (p) return { label: p.kort, sub: p.sales.sub + (p.kofferrol === 'actief' ? ' · ' + t('werkend') : ''), cta: t('Bekijk product') };
-    if (a) return { label: a.naam, sub: t('voor latere uitbreiding'), cta: t('Snelstart') };
+    if (a) return { label: a.naam, sub: t('voor latere uitbreiding'), cta: t('Meer informatie') };
     return { label: ref };
   }
-  function illuOpen(ref) { location.hash = product(ref) ? '#/product/' + ref : '#/snelstart'; }
+  function accHash(ref) { return ref === 'A03' ? '#/snelstart?van=stekkers' : '#/snelstart'; } // losse stekkers: Snelstart met contextblok bovenaan
+  function illuOpen(ref) { location.hash = product(ref) ? '#/product/' + ref : accHash(ref); }
   function illuHtml(labels, id) {
     return '<div class="illu-wrap" id="' + id + '">' + window.KofferIllu.html({ labels: labels || TOUCH, info: illuInfo }) +
       '<div class="illu-tools"><label class="toggle"><input type="checkbox" class="illu-lbl"' + (labels || TOUCH ? ' checked' : '') + '> ' + t('Namen tonen') + '</label><span>' + t('Beweeg over een sensor of tik erop voor meer informatie.') + '</span></div></div>';
@@ -238,7 +239,7 @@
       btn.addEventListener('click', function (e) {
         if (edit) { e.stopPropagation(); document.getElementById('edsel').value = btn.getAttribute('data-stage') + ':' + btn.getAttribute('data-i'); return; }
         var h = K.stages[+btn.getAttribute('data-stage')].hotspots[+btn.getAttribute('data-i')];
-        if (product(h.ref)) location.hash = '#/product/' + h.ref; else location.hash = '#/snelstart';
+        if (product(h.ref)) location.hash = '#/product/' + h.ref; else location.hash = accHash(h.ref);
       });
     });
     if (edit) {
@@ -477,12 +478,16 @@
   }
 
   /* ---------- SNELSTART ---------- */
-  function viewSnelstart() {
-    var ss = K.snelstart_sales, I = window.KofferIllu;
+  function viewSnelstart(q) {
+    var ss = K.snelstart_sales, I = window.KofferIllu, a3 = acc('A03');
     var step = function (n, t, body) { return '<div class="qs3"><div class="qs3-h"><i>' + n + '</i><b>' + esc(t[0]) + '</b></div><p>' + esc(t[1]) + '</p>' + body + '</div>'; };
     var keuze = '<div class="qs3-choice">' + ['K01', 'K02'].map(function (r) { return '<a class="choice-sm" href="#/bediening/' + (r === 'K01' ? 'switch' : 'broadcast') + '">' + I.sensor(r) + '<b>' + (r === 'K01' ? 'Switch' : 'DALI-2 Broadcast') + '</b></a>'; }).join('') + '</div>';
     var back = K.foto_achter ? '<details class="back-d"><summary>' + t('Achterkant van de koffer bekijken') + '</summary><img src="' + esc(K.foto_achter) + '" alt="' + esc(K.foto_achter_alt) + '"><p class="small muted">' + t('Links DA2 BCast, midden netaansluiting met hoofdschakelaar, rechts Switch.') + '</p></details>' : '';
-    return section('tight', '<div class="head"><div class="eyebrow">' + t('Snelstart') + '</div><h2>' + t('Demokoffer in 30 seconden') + '</h2></div>' +
+    var stekkers = q.van === 'stekkers' && a3 ? section('tight stekker-sec', '<div class="crumbs">' + link('#/koffer', '', t('De koffer')) + ' › ' + esc(a3.naam) + '</div>' +
+      '<div class="stekker-box"><div class="stekker-vis illu-img">' + I.part('A03') + '</div><div class="stekker-txt"><div class="eyebrow">' + t('Uit de koffer') + '</div><h2>' + esc(a3.naam) + '</h2>' +
+      '<p class="lead">' + esc(a3.functie) + '</p><p>' + esc(K.uitbreiding_later) + '</p>' +
+      '<div class="btn-row">' + link('#/snelstart', 'btn', t('Verder met de snelstart')) + link('#/koffer?hl=A03', 'btn ghost', t('Terug naar de koffer')) + '</div></div></div>') : '';
+    return stekkers + section('tight', '<div class="head"><div class="eyebrow">' + t('Snelstart') + '</div><h2>' + t('Demokoffer in 30 seconden') + '</h2></div>' +
       '<div class="qs3-row">' + step(1, ss.stappen[0], '<div class="qs3-vis">' + I.icon('aansluiten') + '</div>') + step(2, ss.stappen[1], '<div class="qs3-vis">' + I.icon('inschakelen') + '</div>') + step(3, ss.stappen[2], keuze) + '</div>' +
       '<div class="qs3-foot"><a class="btn big" href="#/demo">' + t('Start demo') + '</a><p class="small muted">' + esc(ss.noot) + '<br>' + esc(ss.tip) + '</p></div>' + back);
   }
@@ -540,7 +545,7 @@
     else if (route === 'varianten') html = viewVarianten();
     else if (route.indexOf('bediening') === 0) html = viewBediening(route.split('/')[1]);
     else if (route.indexOf('product/') === 0) html = viewProduct(route.split('/')[1]);
-    else if (route === 'snelstart') html = viewSnelstart();
+    else if (route === 'snelstart') html = viewSnelstart(q);
     else if (route === 'demo') html = viewDemo(q);
     else html = section('', '<h2>' + t('Pagina niet gevonden') + '</h2><p>' + link('#/', '', t('Naar het startscherm')) + '</p>');
     main.innerHTML = html;
@@ -551,7 +556,14 @@
     document.title = t('IntuSens demokoffer · TRILUX');
   }
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').then(function (reg) { reg.update(); }).catch(function () {}); });
+    // cache-first: na een nieuwe publicatie neemt de nieuwe service worker het over; dan één keer herladen, anders blijft de vorige versie in beeld
+    var hadSW = !!navigator.serviceWorker.controller, reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (!hadSW || reloaded) return; reloaded = true;
+      if (parse().route === 'demo') window.addEventListener('hashchange', function () { location.reload(); }, { once: true }); // demo niet onderbreken
+      else location.reload();
+    });
   }
   window.addEventListener('hashchange', render);
   window.addEventListener('keydown', function (e) { if ((e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey && !/input|textarea|select/i.test(document.activeElement.tagName)) toggleFullscreen(); });
