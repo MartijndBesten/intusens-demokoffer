@@ -132,14 +132,15 @@
     var cb = wrap.querySelector('.illu-lbl'); if (cb) cb.addEventListener('change', function () { root.classList.toggle('labels', cb.checked); });
   }
 
-  function illuHighlight(id, ref) { // vaste markering van één onderdeel (Toon positie in de koffer)
+  function illuHighlight(id, ref) { // vaste markering (Toon positie in de koffer / terug vanuit de stekkers): blijft staan tot de volgende klik, hover wist hem niet
     var wrap = document.getElementById(id); if (!wrap) return;
-    var root = wrap.querySelector('.illu'), g = root && root.querySelector('.kc[data-ref="' + ref + '"]'); if (!g) return;
-    root.classList.add('hovering', 'labels'); g.classList.add('on');
+    var root = wrap.querySelector('.illu'), gs = root ? root.querySelectorAll('.kc[data-ref="' + ref + '"]') : []; if (!gs.length) return;
+    root.classList.add('pinned', 'labels'); gs.forEach(function (g) { g.classList.add('pin'); });
     var cb = wrap.querySelector('.illu-lbl'); if (cb) cb.checked = true;
-    var clear = function () { g.classList.remove('on'); root.classList.remove('hovering'); root.removeEventListener('mouseover', clear); root.removeEventListener('touchstart', clear); };
-    root.addEventListener('mouseover', clear); root.addEventListener('touchstart', clear);
-    setTimeout(function () { g.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60);
+    setTimeout(function () {
+      document.addEventListener('click', function () { gs.forEach(function (g) { g.classList.remove('pin'); }); root.classList.remove('pinned'); }, { once: true });
+      gs[0].scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }, 60);
   }
   function kofferPositie(ref) { // 'Deksel · IntuSens MiniR (wit, HB 01)'
     for (var i = 0; i < K.stages.length; i++) for (var j = 0; j < K.stages[i].hotspots.length; j++) { var h = K.stages[i].hotspots[j]; if (h.ref === ref) return K.stages[i].titel.split(':')[0] + ' · ' + h.label; }

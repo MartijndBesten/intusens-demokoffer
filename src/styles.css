@@ -748,3 +748,8 @@ body.demo-mode .nav{display:none}
 .koffer-stage{aspect-ratio:auto}
 .koffer-stage img{height:auto;display:block} /* kaderhoogte volgt de foto: geen zwarte balken, hotspots op de foto */
 .stekker-sec{padding-bottom:0}
+.illu .kc.pin .halo{opacity:1}
+.illu .kc.pin .body{filter:brightness(1.08)}
+.illu .kc.pin .lbl{opacity:1;fill:#4097DB}
+.illu.pinned .kc:not(.pin):not(.on){opacity:.42}
+.illu.hovering .kc.pin{opacity:1}
